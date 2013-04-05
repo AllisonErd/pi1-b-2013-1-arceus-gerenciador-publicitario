@@ -6,14 +6,7 @@ public class Funcionario extends Pessoa {
 	
 	Pessoa funcionario;
 	
-	public Funcionario(){
-		funcionario.getNome();
-		funcionario.getLogin();
-		funcionario.getSenha();
-		funcionario.getEndereço();
-		funcionario.getContato();
-		funcionario.getCargo();
-		funcionario.getSetor();
+	
 		
 		
 	}

@@ -1,4 +1,3 @@
-package br.com.arceus.modelo.entidades;
 
 public class Pessoa {
 

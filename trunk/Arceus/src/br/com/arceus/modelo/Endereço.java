@@ -1,4 +1,4 @@
-package br.com.arceus.modelo.entidades;
+
 
 public class Endereço {
 

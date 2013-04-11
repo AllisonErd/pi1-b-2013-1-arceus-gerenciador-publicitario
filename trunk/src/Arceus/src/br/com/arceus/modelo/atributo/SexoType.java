@@ -1,4 +1,4 @@
-package Arceus.src.br.com.arceus.modelo;
+package Arceus.src.br.com.arceus.modelo.atributo;
 
 public enum SexoType {
 

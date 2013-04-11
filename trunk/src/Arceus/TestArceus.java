@@ -1,6 +1,8 @@
 package Arceus;
 
 import Arceus.src.br.com.arceus.controll.BancoTest;
+import Arceus.src.br.com.arceus.modelo.atributo.Endereco;
+import Arceus.src.br.com.arceus.modelo.atributo.SexoType;
 import Arceus.src.br.com.arceus.modelo.entidade.ClienteFisico;
 import Arceus.src.br.com.arceus.modelo.*;
 

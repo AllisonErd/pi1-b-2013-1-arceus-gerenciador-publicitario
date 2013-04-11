@@ -1,8 +1,8 @@
 package Arceus.src.br.com.arceus.modelo.entidade;
 
-import Arceus.src.br.com.arceus.modelo.Contato;
-import Arceus.src.br.com.arceus.modelo.Endereco;
-import Arceus.src.br.com.arceus.modelo.SexoType;
+import Arceus.src.br.com.arceus.modelo.atributo.Contato;
+import Arceus.src.br.com.arceus.modelo.atributo.Endereco;
+import Arceus.src.br.com.arceus.modelo.atributo.SexoType;
 
 public class ClienteFisico extends Cliente {
 

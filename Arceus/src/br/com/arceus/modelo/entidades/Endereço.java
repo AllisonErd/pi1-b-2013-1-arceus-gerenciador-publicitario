@@ -7,7 +7,7 @@ public class Endereço {
 	private String cidade;
 	private String cep;
 
-	public Endereço(String rua, String bairro, String cidade, String cep) {
+	private Endereço(String rua, String bairro, String cidade, String cep) {
 
 		this.rua = rua;
 		this.bairro = bairro;

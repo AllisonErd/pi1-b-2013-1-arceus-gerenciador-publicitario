@@ -58,6 +58,7 @@ public class Atendimento extends Setores {
 			return false;
 		return true;
 	}
+	
 
 	@Override
 	public String toString() {

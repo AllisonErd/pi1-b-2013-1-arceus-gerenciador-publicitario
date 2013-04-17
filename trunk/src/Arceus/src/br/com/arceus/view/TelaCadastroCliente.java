@@ -54,7 +54,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 	GerenciadorDeConeccoes gc = new GerenciadorDeConeccoes();
 
-	private int cod = gc.getCodigo();
+	private int cod = gc.getCodigo("select id_pessoa from pessoa order by id_pessoa desc limit 1"
+			,"ID_PESSOA");
 	private int activate = 0;
 	private JFormattedTextField campoData;
 
@@ -108,9 +109,11 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		painelDeComponentes.add(campoCodigoCliente);
 		campoCodigoCliente.setColumns(10);
 
+		
+		
 		boxTipoCliente = new JComboBox();
 		boxTipoCliente.setModel(new DefaultComboBoxModel(new String[] {
-				"F\u00EDsico", "Jur\u00EDdico" }));
+				"---","F\u00EDsico", "Jur\u00EDdico" }));
 
 		boxTipoCliente.addItemListener(this);
 
@@ -273,7 +276,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoPesquisa.setBounds(121, 20, 293, 20);
 		panel_2.add(campoPesquisa);
 		campoPesquisa.setColumns(10);
-		final String items[] = { "Cliente","Codigo" };
+		final String items[] = { "Nome","Codigo" };
 
 		boxTipoPesquisa = new JComboBox(items);
 
@@ -283,7 +286,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		botaoPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (items[boxTipoPesquisa.getSelectedIndex()]
-						.equalsIgnoreCase("Cliente")) {
+						.equalsIgnoreCase("Nome")) {
 
 					gc.exibir("select * from pessoa where nome LIKE ?", "%"
 							+ campoPesquisa.getText().toString().trim() + "%"
@@ -355,7 +358,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 				gc.cadastrar("insert into cliente (ID_PESSOA) VALUES(?)", ""
 						+ campoCodigoCliente.getText().toString().trim() + "");
-				if (activate >= 1) {
+				if (activate == 1) {
 					gc.cadastrar(
 							"insert into clientefisico (SEXO, CPF, ID_PESSOA) VALUES (?,?,?)",
 							""

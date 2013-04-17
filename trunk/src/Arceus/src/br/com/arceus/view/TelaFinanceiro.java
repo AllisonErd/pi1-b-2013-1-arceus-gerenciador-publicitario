@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
@@ -17,15 +18,44 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import Arceus.src.br.com.arceus.controll.GerenciadorDeConeccoes;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class TelaFinanceiro extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField campoLucro;
 	private JTextField textField_2;
+	private JTable tabelaSolicitacoes;
+	GerenciadorDeConeccoes gc = new GerenciadorDeConeccoes();
+	private JTable tabelaPedidosAvaliados;
 
 	public TelaFinanceiro() {
+
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				gc.tabelaFinanceiro(
+						"SELECT * from atender where valor_pedido = ?", "0",
+						tabelaSolicitacoes);
+
+				int cont = 0;
+				if(cont == 0){
+				gc.tabelaProducao("SELECT * from producao where RETORNADO = ?", "N", tabelaPedidosAvaliados);
+				cont +=1;
+				}else{
+					gc.tabelaProducao("SELECT * from producao where AVALIADO = ?",
+							"S", tabelaPedidosAvaliados);
+				}
+			}
+		});
+
 		setResizable(false);
 		setTitle("Setor financeiro");
 
@@ -53,10 +83,6 @@ public class TelaFinanceiro extends JFrame {
 		lblSolicitaoDeOramento.setBounds(10, 68, 152, 16);
 		contentPane.add(lblSolicitaoDeOramento);
 
-		JList list = new JList();
-		list.setBounds(12, 96, 488, 132);
-		contentPane.add(list);
-
 		JSeparator separator = new JSeparator();
 		separator.setBounds(0, 240, 500, 3);
 		contentPane.add(separator);
@@ -65,11 +91,30 @@ public class TelaFinanceiro extends JFrame {
 		lblDescrioDoPedido.setBounds(10, 255, 152, 16);
 		contentPane.add(lblDescrioDoPedido);
 
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(10, 283, 490, 132);
-		contentPane.add(textArea);
+		final JTextArea campoDescricao = new JTextArea();
+		campoDescricao.setBounds(10, 283, 490, 132);
+		contentPane.add(campoDescricao);
 
 		JButton btnSolicitaCusto = new JButton("Solicita Custo");
+		btnSolicitaCusto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String codigo, data, descricao;
+				codigo = (String) tabelaSolicitacoes.getModel().getValueAt(
+						tabelaSolicitacoes.getSelectedRow(), 0);
+				data = (String) tabelaSolicitacoes.getModel().getValueAt(
+						tabelaSolicitacoes.getSelectedRow(), 1);
+				descricao = (String) tabelaSolicitacoes.getModel().getValueAt(
+						tabelaSolicitacoes.getSelectedRow(), 2);
+
+				campoDescricao.setText("Codigo do pedido: " + codigo + "\n"
+						+ descricao);
+
+				gc.cadastrar(
+						"insert into producao(VALOR_TOTAL_EQUIPAMENTOS, LISTA_PRECO_EQUIPAMENTOS, ID_PROJETO) VALUES (?,?,?)",
+						"" + "0" + "#" + descricao + "#" + codigo);
+
+			}
+		});
 		btnSolicitaCusto.setBounds(10, 433, 112, 26);
 		contentPane.add(btnSolicitaCusto);
 
@@ -84,32 +129,21 @@ public class TelaFinanceiro extends JFrame {
 
 		JLabel lblCustoDeProduo = new JLabel(
 				"Pedidos avaliado pelo setor de produ\u00E7\u00E3o");
-		lblCustoDeProduo.setBounds(526, 68, 238, 16);
+		lblCustoDeProduo.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCustoDeProduo.setBounds(776, 68, 238, 16);
 		contentPane.add(lblCustoDeProduo);
-
-		JList list_1 = new JList();
-		list_1.setBounds(526, 96, 488, 217);
-		contentPane.add(list_1);
-
-		textField = new JTextField();
-		textField.setBounds(900, 325, 114, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-
-		JLabel lblCusto = new JLabel("Custo");
-		lblCusto.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCusto.setBounds(770, 327, 112, 16);
-		contentPane.add(lblCusto);
 
 		JLabel lblLucro = new JLabel("Lucro");
 		lblLucro.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblLucro.setBounds(770, 356, 112, 16);
 		contentPane.add(lblLucro);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(900, 354, 114, 20);
-		contentPane.add(textField_1);
+		campoLucro = new JTextField();
+		campoLucro.setHorizontalAlignment(SwingConstants.CENTER);
+		campoLucro.setText("0");
+		campoLucro.setColumns(10);
+		campoLucro.setBounds(900, 354, 114, 20);
+		contentPane.add(campoLucro);
 
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
@@ -123,11 +157,75 @@ public class TelaFinanceiro extends JFrame {
 
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setOrientation(SwingConstants.VERTICAL);
-		separator_2.setBounds(512, 66, 2, 393);
+		separator_2.setBounds(512, 96, 2, 363);
 		contentPane.add(separator_2);
 
 		JButton button = new JButton("Retorna Or\u00E7.");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String valor, id;
+				double lucro = 0;
+				valor = (String) tabelaPedidosAvaliados.getModel().getValueAt(
+						tabelaPedidosAvaliados.getSelectedRow(), 2);
+				id = (String) tabelaPedidosAvaliados.getModel().getValueAt(
+						tabelaPedidosAvaliados.getSelectedRow(), 0);
+				
+				lucro = Double.parseDouble(campoLucro.getText().toString().trim());
+				lucro += Double.parseDouble(valor);
+				
+				gc.cadastrar("insert into atender (VALOR_PEDIDO) VALUES (?)", valor.toString().trim());
+				gc.cadastrar("update atender SET VALOR_PEDIDO = ? where ID_PROJETO = ?", ""+lucro+"#"+id+""); // erro! tirar duvida com o professor!!!
+				gc.cadastrar("update producao SET RETORNADO = ? where ID_PROJETO = ?", ""+"S"+"#"+id+"");
+				
+				
+				
+				//gc.excluir("delete from atender where ID_PROJETO = "+id, null);
+				
+				
+			}
+		});
 		button.setBounds(778, 433, 112, 26);
 		contentPane.add(button);
+
+		tabelaSolicitacoes = new JTable();
+		tabelaSolicitacoes.setModel(new DefaultTableModel(new Object[][] { {
+				null, null, null }, }, new String[] { "New column",
+				"New column", "New column" }));
+		tabelaSolicitacoes.setBounds(20, 96, 472, 132);
+		contentPane.add(tabelaSolicitacoes);
+
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				gc.tabelaFinanceiro(
+						"SELECT * from atender where valor_pedido = ?", "0",
+						tabelaSolicitacoes);
+				int cont = 0;
+				if(cont == 0){
+				gc.tabelaProducao("SELECT * from producao where RETORNADO = ?", "N", tabelaPedidosAvaliados);
+				cont +=1;
+				}else{
+					gc.tabelaProducao("SELECT * from producao where AVALIADO = ?",
+							"S", tabelaPedidosAvaliados);
+				}
+				
+				JOptionPane.showMessageDialog(null, "Atualizado!!");
+			}
+		});
+		btnAtualizar.setBounds(468, 65, 89, 23);
+		contentPane.add(btnAtualizar);
+
+		tabelaPedidosAvaliados = new JTable();
+		tabelaPedidosAvaliados.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column"
+			}
+		));
+		tabelaPedidosAvaliados.setBounds(536, 95, 480, 216);
+		contentPane.add(tabelaPedidosAvaliados);
 	}
 }

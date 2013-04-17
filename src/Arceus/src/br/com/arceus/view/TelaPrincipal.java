@@ -65,6 +65,11 @@ public class TelaPrincipal extends JFrame {
 		menuSetores.add(itemMenuSetoresAtendimento);
 
 		JMenuItem itemMenuSetoresCriacao = new JMenuItem("Cria\u00E7\u00E3o");
+		itemMenuSetoresCriacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaCriação().setVisible(true);
+			}
+		});
 		menuSetores.add(itemMenuSetoresCriacao);
 
 		JMenuItem itemMenuSetoresProducao = new JMenuItem("Produ\u00E7\u00E3o");
@@ -76,6 +81,11 @@ public class TelaPrincipal extends JFrame {
 		menuSetores.add(itemMenuSetoresProducao);
 
 		JMenuItem itemMenuSetoresMidia = new JMenuItem("M\u00EDdia");
+		itemMenuSetoresMidia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaMidia().setVisible(true);
+			}
+		});
 		menuSetores.add(itemMenuSetoresMidia);
 
 		JMenuItem itemMenuSetoresFinanceiro = new JMenuItem("Financeiro");

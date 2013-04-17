@@ -8,6 +8,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
@@ -17,16 +18,36 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import Arceus.src.br.com.arceus.controll.GerenciadorDeConeccoes;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 public class TelaProducao extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
-	private JTable table_1;
-	private JTable table_2;
-	private JTable table_3;
-	private JTable table_4;
+	private JTable tabelaSolicitacoesFinanceiro;
+	private JTextArea campoDescricaoPedido;
+	private JTextArea listaPrecoEquipamentos;
+	
+	GerenciadorDeConeccoes gc = new GerenciadorDeConeccoes();
+	private JTextField campoValorTotal;
 
 	public TelaProducao() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				gc.tabelaProducao(
+						"SELECT * from producao where valor_total_equipamentos = ?",
+						"0", tabelaSolicitacoesFinanceiro);
+
+			}
+		});
 		setTitle("Setor de Produ\u00E7\u00E3o");
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -51,89 +72,117 @@ public class TelaProducao extends JFrame {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager
 				.getBorder("TitledBorder.border"),
-				"Solicita\u00E7\u00F5es setor de Atendimento",
+				"Solicitações recentes do setor Financeiro",
 				TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		panel_1.setBounds(10, 67, 450, 393);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 
 		JButton btnAbrir = new JButton("Abrir");
-		btnAbrir.setBounds(351, 99, 89, 23);
+		btnAbrir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String descricao;
+				descricao = (String) tabelaSolicitacoesFinanceiro.getModel()
+						.getValueAt(
+								tabelaSolicitacoesFinanceiro.getSelectedRow(),
+								1);
+
+				campoDescricaoPedido.setText(descricao + "");
+
+			}
+		});
+		btnAbrir.setBounds(349, 171, 89, 23);
 		panel_1.add(btnAbrir);
 
-		table = new JTable();
-		table.setBounds(10, 26, 329, 168);
-		panel_1.add(table);
+		tabelaSolicitacoesFinanceiro = new JTable();
+		tabelaSolicitacoesFinanceiro.setModel(new DefaultTableModel(
+				new Object[][] { { null, null, null }, }, new String[] {
+						"New column", "New column", "New column" }));
+		tabelaSolicitacoesFinanceiro.setBounds(10, 26, 329, 168);
+		panel_1.add(tabelaSolicitacoesFinanceiro);
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 205, 430, 2);
 		panel_1.add(separator_1);
 
-		JLabel lblEnviar = new JLabel("Enviar Setor Atendimento");
+		JLabel lblEnviar = new JLabel("Descri\u00E7\u00E3o completa do pedido");
 		lblEnviar.setBounds(10, 212, 150, 14);
 		panel_1.add(lblEnviar);
 
-		table_4 = new JTable();
-		table_4.setBounds(10, 237, 329, 145);
-		panel_1.add(table_4);
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-		JButton btnEnviar = new JButton("Enviar");
-		btnEnviar.setBounds(351, 288, 89, 23);
-		panel_1.add(btnEnviar);
+				gc.tabelaProducao(
+						"SELECT * from producao where valor_total_equipamentos = ?",
+						"0", tabelaSolicitacoesFinanceiro);
+			}
+		});
+		btnAtualizar.setBounds(351, 22, 89, 23);
+		panel_1.add(btnAtualizar);
+
+		campoDescricaoPedido = new JTextArea();
+		campoDescricaoPedido.setBounds(10, 237, 428, 145);
+		panel_1.add(campoDescricaoPedido);
 
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBounds(470, 71, 1, 389);
 		contentPane.add(separator);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Lista de Materiais",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(481, 67, 703, 206);
-		contentPane.add(panel_2);
-
-		table_1 = new JTable();
-		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
-		gl_panel_2.setHorizontalGroup(gl_panel_2.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_panel_2
-						.createSequentialGroup()
-						.addGap(4)
-						.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 683,
-								GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)));
-		gl_panel_2.setVerticalGroup(gl_panel_2.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				Alignment.TRAILING,
-				gl_panel_2
-						.createSequentialGroup()
-						.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 179,
-								GroupLayout.PREFERRED_SIZE).addGap(4)));
-		panel_2.setLayout(gl_panel_2);
-
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(UIManager
-				.getBorder("TitledBorder.border"), "Setor Financeiro",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_3.setBounds(481, 284, 703, 176);
+				.getBorder("TitledBorder.border"),
+				"Retorna dados ao Setor Financeiro", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
+		panel_3.setBounds(481, 67, 642, 393);
 		contentPane.add(panel_3);
 
-		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new TitledBorder(null,
-				"Solicitar ao setor Financeiro", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
+		campoValorTotal = new JTextField();
+		campoValorTotal.setFont(new Font("Tahoma", Font.BOLD, 20));
+		campoValorTotal.setColumns(10);
 
-		JPanel panel_5 = new JPanel();
-		panel_5.setBorder(new TitledBorder(null, "Receber setor Financeiro",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		JButton button = new JButton("Enviar");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String codigo;
+				codigo = (String) tabelaSolicitacoesFinanceiro.getModel()
+						.getValueAt(
+								tabelaSolicitacoesFinanceiro.getSelectedRow(),
+								0);
+				gc.excluir("delete from producao where ID_PROJETO = ?",
+						tabelaSolicitacoesFinanceiro);
 
-		JSeparator separator_2 = new JSeparator();
-		separator_2.setOrientation(SwingConstants.VERTICAL);
+				gc.cadastrar(
+						"insert into producao(VALOR_TOTAL_EQUIPAMENTOS, LISTA_PRECO_EQUIPAMENTOS, ID_PROJETO, AVALIADO, RETORNADO) VALUES (?,?,?,?,?)",
+						""
+								+ (Float.parseFloat((campoValorTotal.getText()
+										.toString().trim())))
+								+ "#"
+								+ listaPrecoEquipamentos.getText().toString()
+										.trim() + "#" + codigo+"#"+"S"+"#"+"N");
 
-		JButton btnEnviar_1 = new JButton("Enviar");
+				listaPrecoEquipamentos.setText("");
+				campoDescricaoPedido.setText("");
+				campoValorTotal.setText("");
+				
+				
+				gc.tabelaProducao(
+						"SELECT * from producao where valor_total_equipamentos = ?",
+						"0", tabelaSolicitacoesFinanceiro);
+				
+				JOptionPane.showMessageDialog(null, "Valores repassados ao Financeiro");
+			}
+		});
 
-		JButton btnAddALista = new JButton("Add a Lista");
+		JLabel label = new JLabel("Total gasto");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Tahoma", Font.BOLD, 20));
+
+	listaPrecoEquipamentos = new JTextArea();
+
+		JLabel lblNewLabel_1 = new JLabel(
+				"Relatorio do valor que ser\u00E1 gasto em equipamentos e servis\u00E7os para esse projeto");
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3
 				.setHorizontalGroup(gl_panel_3
@@ -141,123 +190,91 @@ public class TelaProducao extends JFrame {
 						.addGroup(
 								gl_panel_3
 										.createSequentialGroup()
+										.addContainerGap()
 										.addGroup(
 												gl_panel_3
 														.createParallelGroup(
 																Alignment.LEADING)
-														.addComponent(
-																panel_4,
-																GroupLayout.PREFERRED_SIZE,
-																360,
-																GroupLayout.PREFERRED_SIZE)
-														.addGroup(
-																gl_panel_3
-																		.createSequentialGroup()
-																		.addGap(134)
-																		.addComponent(
-																				btnEnviar_1)))
-										.addPreferredGap(
-												ComponentPlacement.UNRELATED)
-										.addComponent(separator_2,
-												GroupLayout.PREFERRED_SIZE, 7,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addGroup(
-												gl_panel_3
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addComponent(
-																panel_5,
-																GroupLayout.DEFAULT_SIZE,
-																GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE)
 														.addGroup(
 																Alignment.TRAILING,
 																gl_panel_3
 																		.createSequentialGroup()
 																		.addComponent(
-																				btnAddALista)
-																		.addGap(123)))));
-		gl_panel_3
-				.setVerticalGroup(gl_panel_3
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panel_3
-										.createSequentialGroup()
-										.addGroup(
-												gl_panel_3
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_panel_3
-																		.createSequentialGroup()
-																		.addGroup(
-																				gl_panel_3
-																						.createParallelGroup(
-																								Alignment.TRAILING,
-																								false)
-																						.addComponent(
-																								panel_5,
-																								Alignment.LEADING,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE)
-																						.addComponent(
-																								panel_4,
-																								Alignment.LEADING,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE))
+																				listaPrecoEquipamentos,
+																				GroupLayout.DEFAULT_SIZE,
+																				412,
+																				Short.MAX_VALUE)
 																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
+																				ComponentPlacement.UNRELATED)
 																		.addGroup(
 																				gl_panel_3
 																						.createParallelGroup(
 																								Alignment.LEADING)
+																						.addGroup(
+																								gl_panel_3
+																										.createSequentialGroup()
+																										.addGap(39)
+																										.addComponent(
+																												label,
+																												GroupLayout.PREFERRED_SIZE,
+																												111,
+																												GroupLayout.PREFERRED_SIZE))
 																						.addComponent(
-																								btnEnviar_1)
-																						.addComponent(
-																								btnAddALista)))
+																								campoValorTotal,
+																								GroupLayout.PREFERRED_SIZE,
+																								188,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addGroup(
+																								gl_panel_3
+																										.createSequentialGroup()
+																										.addGap(125)
+																										.addComponent(
+																												button,
+																												GroupLayout.PREFERRED_SIZE,
+																												63,
+																												GroupLayout.PREFERRED_SIZE))))
 														.addComponent(
-																separator_2,
-																GroupLayout.PREFERRED_SIZE,
-																151,
-																GroupLayout.PREFERRED_SIZE))
-										.addContainerGap(
-												GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
-
-		table_3 = new JTable();
-		GroupLayout gl_panel_5 = new GroupLayout(panel_5);
-		gl_panel_5.setHorizontalGroup(gl_panel_5.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_panel_5
-						.createSequentialGroup()
-						.addComponent(table_3, GroupLayout.PREFERRED_SIZE, 314,
-								GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)));
-		gl_panel_5.setVerticalGroup(gl_panel_5.createParallelGroup(
-				Alignment.LEADING).addComponent(table_3,
-				GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE));
-		panel_5.setLayout(gl_panel_5);
-
-		table_2 = new JTable();
-		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
-		gl_panel_4.setHorizontalGroup(gl_panel_4.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_panel_4
-						.createSequentialGroup()
-						.addComponent(table_2, GroupLayout.PREFERRED_SIZE, 347,
-								GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)));
-		gl_panel_4.setVerticalGroup(gl_panel_4.createParallelGroup(
-				Alignment.LEADING).addComponent(table_2,
-				GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE));
-		panel_4.setLayout(gl_panel_4);
+																lblNewLabel_1))
+										.addContainerGap()));
+		gl_panel_3
+				.setVerticalGroup(gl_panel_3
+						.createParallelGroup(Alignment.TRAILING)
+						.addGroup(
+								gl_panel_3
+										.createSequentialGroup()
+										.addComponent(lblNewLabel_1)
+										.addPreferredGap(
+												ComponentPlacement.UNRELATED)
+										.addGroup(
+												gl_panel_3
+														.createParallelGroup(
+																Alignment.TRAILING)
+														.addGroup(
+																gl_panel_3
+																		.createSequentialGroup()
+																		.addComponent(
+																				label,
+																				GroupLayout.PREFERRED_SIZE,
+																				25,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGap(11)
+																		.addComponent(
+																				campoValorTotal,
+																				GroupLayout.PREFERRED_SIZE,
+																				54,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGap(18)
+																		.addComponent(
+																				button))
+														.addGroup(
+																gl_panel_3
+																		.createSequentialGroup()
+																		.addComponent(
+																				listaPrecoEquipamentos,
+																				GroupLayout.DEFAULT_SIZE,
+																				334,
+																				Short.MAX_VALUE)
+																		.addContainerGap()))));
 		panel_3.setLayout(gl_panel_3);
 	}
-
 }

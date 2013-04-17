@@ -48,10 +48,11 @@ public class TelaCadastroFuncionario extends JFrame {
 	private JTable table;
 	private JTextField campoCodigo;
 	private JComboBox boxTipoPesquisa;
-	
+
 	GerenciadorDeConeccoes gc = new GerenciadorDeConeccoes();
 
-	int cod = gc.getCodigo();
+	int cod = gc.getCodigo("select id_pessoa from pessoa order by id_pessoa desc limit 1"
+			,"ID_PESSOA");
 
 	public TelaCadastroFuncionario() {
 
@@ -269,14 +270,9 @@ public class TelaCadastroFuncionario extends JFrame {
 		panel_3.setLayout(null);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-			},
-			new String[] {
-				"CODIGO", "NOME", "EMAIL", "CARGO"
-			}
-		));
+		table.setModel(new DefaultTableModel(new Object[][] { { null, null,
+				null, null }, }, new String[] { "CODIGO", "NOME", "EMAIL",
+				"CARGO" }));
 		table.setBounds(12, 12, 484, 270);
 		panel_3.add(table);
 
@@ -285,8 +281,8 @@ public class TelaCadastroFuncionario extends JFrame {
 		panel_2.add(campoPesquisa);
 		campoPesquisa.setColumns(10);
 
-		final String modelo[] = {"Cliente","Codigo"};
-		boxTipoPesquisa = new JComboBox(modelo);		
+		final String modelo[] = { "Nome", "Codigo" };
+		boxTipoPesquisa = new JComboBox(modelo);
 		boxTipoPesquisa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				campoPesquisa.setText("");
@@ -294,35 +290,35 @@ public class TelaCadastroFuncionario extends JFrame {
 		});
 		boxTipoPesquisa.setBounds(10, 20, 101, 20);
 		panel_2.add(boxTipoPesquisa);
-		
+
 		JButton botaoPesquisar = new JButton("Pesquisar");
 		botaoPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(modelo[boxTipoPesquisa.getSelectedIndex()].equalsIgnoreCase("Cliente")){
-				
-				gc.exibir("select * from pessoa where nome LIKE ?", "%"+campoPesquisa
-						.getText().toString().trim()+"%"
-						+ "", table);// lembrar de conectar com o
-				// campo q recebe o nome a
-				// ser pesquisado!
-				}else{
+				if (modelo[boxTipoPesquisa.getSelectedIndex()]
+						.equalsIgnoreCase("Nome")) {
+
+					gc.exibir("select * from pessoa where nome LIKE ?", "%"
+							+ campoPesquisa.getText().toString().trim() + "%"
+							+ "", table);// lembrar de conectar com o
+					// campo q recebe o nome a
+					// ser pesquisado!
+				} else {
 					try {
-						int aux = Integer.parseInt(campoPesquisa.getText().toString().trim());
-					}catch(NumberFormatException ex){
-						JOptionPane.showMessageDialog(null, "Informar apenas numero");
+						int aux = Integer.parseInt(campoPesquisa.getText()
+								.toString().trim());
+					} catch (NumberFormatException ex) {
+						JOptionPane.showMessageDialog(null,
+								"Informar apenas numero");
 					}
-					gc.exibir("select * from pessoa where ID_PESSOA = ?", campoPesquisa
-							.getText().toString().trim()
-							+ "", table);
+					gc.exibir("select * from pessoa where ID_PESSOA = ?",
+							campoPesquisa.getText().toString().trim() + "",
+							table);
 				}
 
 			}
 		});
 		botaoPesquisar.setBounds(424, 17, 94, 23);
 		panel_2.add(botaoPesquisar);
-		
-		
-	
 
 		JButton botaoNovoCadastro = new JButton("Novo");
 		botaoNovoCadastro.setBounds(10, 67, 89, 23);

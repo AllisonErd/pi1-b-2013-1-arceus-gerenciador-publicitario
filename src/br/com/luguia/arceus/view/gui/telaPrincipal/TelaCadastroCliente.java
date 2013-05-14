@@ -473,16 +473,22 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 				String numero = (String) table.getModel().getValueAt(table.getSelectedRow(), 0);
 				
 				manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO.listeTodos();
-												
+				manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO.listeTodos();
+				
+				try{								
 				pessoaJuridicaDAO.altere(anulaPessoaJuridica(manipulaPessoaJuridica.get(Integer.parseInt(numero)-1)));
 				
+				}catch(IndexOutOfBoundsException e1){
+					pessoaFisicaDAO.altere(anulaPessoaFisica(manipulaPessoaFisicas.get(Integer.parseInt(numero)-1)));
+				}finally{
+					limpaTabela();
+				}
 				
 				
-				manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO.listeTodos();
 					
-				pessoaFisicaDAO.altere(anulaPessoaFisica(manipulaPessoaFisicas.get(Integer.parseInt(numero)-1)));
 				
-				limpaTabela();
+				
+				
 				
 			}
 		});

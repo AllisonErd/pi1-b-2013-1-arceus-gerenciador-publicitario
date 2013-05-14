@@ -31,6 +31,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import br.com.luguia.arceus.control.MySqlController;
 import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
 
@@ -50,6 +51,8 @@ public class TelaCadastroFuncionario extends JFrame {
 	Funcionario funcionario = new Funcionario();
 	private int chaveDeControle = 0;
 
+	
+	
 	public TelaCadastroFuncionario() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -179,7 +182,7 @@ public class TelaCadastroFuncionario extends JFrame {
 					} else {
 						funcionarioDAO.insira(funcionario);
 					}
-
+					
 					limpaCampo();
 
 					funcionario = new Funcionario();
@@ -303,10 +306,18 @@ public class TelaCadastroFuncionario extends JFrame {
 				
 				manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO.listeTodos();
 				
+				for(int i = 0; i<manipulaFuncionario.size(); i++){
+					funcionario = manipulaFuncionario.get(i);
+					if(funcionario.getId() == Integer.parseInt(numero)){
+						funcionarioDAO.exclua(funcionario);
+					}
+					funcionario = new Funcionario();
+				}
+				
+				//funcionarioDAO.altere(anulaFuncionario(manipulaFuncionario.get(Integer.parseInt(numero)-1)));
 				
 				
-				funcionarioDAO.altere(anulaFuncionario(manipulaFuncionario.get(Integer.parseInt(numero)-1)));
-				//funcionarioDAO.exclua(manipulaFuncionario.get(Integer.parseInt(numero)-1));
+				//funcionarioDAO.exclua(manipulaFuncionario.indexOf();//get(Integer.parseInt(numero)-1));
 				limpaTabela();
 			}
 		});

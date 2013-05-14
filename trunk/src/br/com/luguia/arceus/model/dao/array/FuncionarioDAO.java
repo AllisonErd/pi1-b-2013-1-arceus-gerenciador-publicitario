@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import br.com.luguia.arceus.control.MySqlController;
 import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.dao.InterfaceFuncionarioDAO;
 
 public class FuncionarioDAO implements InterfaceFuncionarioDAO {
+	
+	MySqlController bd = new MySqlController();
 	
 	private List<Funcionario> banco;
 
@@ -46,15 +49,27 @@ public class FuncionarioDAO implements InterfaceFuncionarioDAO {
 	public void insira(Funcionario funcionario) {
 		// TODO Verificar o ultimo codigo a acrecentar!
 		this.banco.add(funcionario);
+		
+		bd.cadastrar("INSERT into FUNCIONARIO (SENHA, NOME, TIPO, LOGIN, ID) VALUES(?,?,?,?,?)", "" + funcionario.getSenha()+"#"
+				+ funcionario.getNome() + "#"
+				+ funcionario.getTipo() + "#"
+				+ funcionario.getLogin() + "#"
+				+ funcionario.getId() + "");
+		
 
 	}
 
 	@Override
 	public void exclua(Funcionario funcionario) {
+		
+		
 		Funcionario f = this.traga(funcionario);
-		if (f != null)
+		
+		if (f != null){
+			bd.excluir("DELETE FROM `arceus1.1`.`funcionario` WHERE `id`= "+funcionario.getId());
 			this.banco.remove(funcionario);
-
+		}
+	
 	}
 
 	@Override

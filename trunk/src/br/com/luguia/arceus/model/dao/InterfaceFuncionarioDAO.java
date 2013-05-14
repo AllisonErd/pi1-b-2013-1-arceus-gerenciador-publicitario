@@ -13,4 +13,6 @@ public interface InterfaceFuncionarioDAO {
 	public abstract void altere(Funcionario funcionario);
 
 	public abstract List<Funcionario> listeTodos();
+	
+	
 }

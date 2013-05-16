@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,8 +38,17 @@ public class EscolhaBanco extends JFrame {
                 JButton btnNewButton = new JButton("Array List");
                 btnNewButton.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
-                		new TipoEscolha().setVisible(true);
                 		
+                		
+                		try {
+							FileWriter out = new FileWriter("banco.txt");
+							out.write("false");
+							out.close();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+                		new TipoEscolha().setVisible(true);
                 		dispose();
                 	}
                 });
@@ -50,10 +61,22 @@ public class EscolhaBanco extends JFrame {
                 JButton btnSql = new JButton("MySQL");
                 btnSql.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
-                		new ConfigSql().setVisible(true);
+                		try {
+							FileWriter out = new FileWriter("banco.txt");
+							out.write("false");
+							out.close();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}finally{
+							new ConfigSql().setVisible(true);
 
-                		dispose();
+	                		dispose();
+	
+						}
                 		
+                		
+                		                		
                 	}
                 });
                 btnSql.setForeground(new Color(47, 79, 79));

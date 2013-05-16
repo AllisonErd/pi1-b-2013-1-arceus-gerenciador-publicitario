@@ -71,8 +71,7 @@ public class TipoEscolha extends JFrame {
                 btnNopopulado.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
                 		
-                		TelaPrincipal telaPrincipal = new TelaPrincipal();
-                		telaPrincipal.setVisible(true);
+                		
                 		
                 		
 						try {
@@ -82,11 +81,16 @@ public class TipoEscolha extends JFrame {
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
+						}finally{
+							TelaPrincipal telaPrincipal = new TelaPrincipal();
+	                		telaPrincipal.setVisible(true);
+	                		dispose();
+						
 						}
 						
                 		
                 		
-                		dispose();
+                		
                 	}
                 });
                 btnNopopulado.setFont(new Font("Calibri", Font.BOLD, 13));

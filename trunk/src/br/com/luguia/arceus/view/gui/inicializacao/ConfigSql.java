@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,14 +13,21 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.PasswordView;
+
+import br.com.luguia.arceus.model.ConectBd;
+import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
+
+import javax.swing.JPasswordField;
 
 public class ConfigSql extends JFrame {
 
         private JPanel contentPane;
         private final JPanel panel = new JPanel();
-        private JTextField textField;
-        private JTextField textField_1;
-        private JTextField textField_2;
+        private JTextField campoHost;
+        private JTextField campoUser;
+        private JTextField campo;
+        private JPasswordField campoPass;
 
         
         public ConfigSql() {
@@ -37,22 +45,19 @@ public class ConfigSql extends JFrame {
                 contentPane.add(panel);
                 panel.setLayout(null);
                 
-                textField = new JTextField();
-                textField.setForeground(new Color(0, 0, 0));
-                textField.setBackground(new Color(255, 255, 255));
-                textField.setBounds(10, 36, 274, 28);
-                panel.add(textField);
-                textField.setColumns(10);
+                campoHost = new JTextField("jdbc:mysql://localhost:3306/arceus1.1");
+                campoHost.setForeground(new Color(0, 0, 0));
+                campoHost.setBackground(new Color(255, 255, 255));
+                campoHost.setBounds(10, 36, 274, 28);
+                panel.add(campoHost);
+                campoHost.setColumns(10);
                 
-                textField_1 = new JTextField();
-                textField_1.setBounds(10, 100, 274, 28);
-                panel.add(textField_1);
-                textField_1.setColumns(10);
+                campoUser = new JTextField();
+                campoUser.setBounds(10, 100, 274, 28);
+                panel.add(campoUser);
+                campoUser.setColumns(10);
                 
-                textField_2 = new JTextField();
-                textField_2.setBounds(10, 166, 274, 28);
-                panel.add(textField_2);
-                textField_2.setColumns(10);
+                
                 
                 JLabel lblNewLabel = new JLabel("Host");
                 lblNewLabel.setForeground(new Color(25, 25, 112));
@@ -72,23 +77,37 @@ public class ConfigSql extends JFrame {
                 lblNewLabel_2.setBounds(10, 141, 46, 14);
                 panel.add(lblNewLabel_2);
                 
-                JButton btnNewButton = new JButton("Continuar");
-                btnNewButton.addActionListener(new ActionListener() {
+                JButton botaoContinua = new JButton("Continuar");
+                botaoContinua.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
-                		new TipoEscolha().setVisible(true);
+                		ConectBd cbd = new ConectBd();
                 		
-                	
-                		dispose();
-                	}
+                		if(cbd.validaConexao(campoHost.getText().toString().trim(), campoUser.getText().toString().trim(), campoPass.getText().toString().trim())){
+                		
+                			
+                			try{
+                			FileWriter out = new FileWriter("banco.txt");
+							out.write("true");
+							out.close();
+							
+                			}catch(Exception e1){
+                				e1.printStackTrace();
+                			}
+                			
+                			new TipoEscolha().setVisible(true);
+                	        		dispose();
+                	        		
+                		}
+                		}
                 });
-                btnNewButton.setFont(new Font("Calibri", Font.BOLD, 13));
-                btnNewButton.setForeground(new Color(0, 0, 255));
-                btnNewButton.setBackground(UIManager.getColor("CheckBox.foreground"));
-                btnNewButton.setBounds(179, 220, 105, 40);
-                panel.add(btnNewButton);
+                botaoContinua.setFont(new Font("Calibri", Font.BOLD, 13));
+                botaoContinua.setForeground(new Color(0, 0, 255));
+                botaoContinua.setBackground(UIManager.getColor("CheckBox.foreground"));
+                botaoContinua.setBounds(179, 220, 105, 40);
+                panel.add(botaoContinua);
                 
-                JButton btnVoltar = new JButton("Voltar");
-                btnVoltar.addActionListener(new ActionListener() {
+                JButton botaoVolta = new JButton("Voltar");
+                botaoVolta.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
                 		new EscolhaBanco().setVisible(true);
                 		
@@ -97,10 +116,14 @@ public class ConfigSql extends JFrame {
                 		
                 	}
                 });
-                btnVoltar.setFont(new Font("Calibri", Font.BOLD, 13));
-                btnVoltar.setBackground(UIManager.getColor("CheckBox.foreground"));
-                btnVoltar.setForeground(new Color(0, 0, 255));
-                btnVoltar.setBounds(10, 220, 105, 40);
-                panel.add(btnVoltar);
+                botaoVolta.setFont(new Font("Calibri", Font.BOLD, 13));
+                botaoVolta.setBackground(UIManager.getColor("CheckBox.foreground"));
+                botaoVolta.setForeground(new Color(0, 0, 255));
+                botaoVolta.setBounds(10, 220, 105, 40);
+                panel.add(botaoVolta);
+                
+                campoPass = new JPasswordField();
+                campoPass.setBounds(10, 167, 272, 28);
+                panel.add(campoPass);
         }
 }

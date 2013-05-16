@@ -31,7 +31,6 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.luguia.arceus.control.MySqlController;
 import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
 
@@ -51,16 +50,20 @@ public class TelaCadastroFuncionario extends JFrame {
 	Funcionario funcionario = new Funcionario();
 	private int chaveDeControle = 0;
 
-	
+	int i = 3;
+	int j = 1;
 	
 	public TelaCadastroFuncionario() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
 
+				conectBanco();
+				
 				posicaoCorreta();
 				
 				limpaList();
+				
 				
 				
 			}
@@ -180,7 +183,11 @@ public class TelaCadastroFuncionario extends JFrame {
 						funcionarioDAO.altere(funcionario);
 						chaveDeControle = 0;
 					} else {
+					
+						
+						System.out.println("entrou");
 						funcionarioDAO.insira(funcionario);
+						
 					}
 					
 					limpaCampo();
@@ -352,12 +359,40 @@ public class TelaCadastroFuncionario extends JFrame {
 	}
 
 	public void posicaoCorreta() {
+		try{
+		InputStream is = new FileInputStream("banco.txt");
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		String s = br.readLine();
+		
+		InputStream iss = new FileInputStream("chave.txt");
+		InputStreamReader isrs = new InputStreamReader(iss);
+		BufferedReader brs = new BufferedReader(isrs);
+		String ss = brs.readLine();
+		
+		if(s.equalsIgnoreCase("false")){
 		manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO
 				.listeTodos();
 		int id = manipulaFuncionario.get(manipulaFuncionario.size() - 1)
 				.getId();
 		id = id + 1;
 		campoCodigo.setText("" + id);
+		}else{
+		if(ss.equalsIgnoreCase(" ")){
+				campoCodigo.setText(""+i);
+				i++;	
+			}else{
+				campoCodigo.setText(""+j);
+				j++;
+			}
+			
+			
+		}
+		
+		
+		}catch(Exception ex){
+			
+		}
 	}
 
 	public Funcionario anulaFuncionario(Funcionario funcionario){
@@ -395,8 +430,35 @@ public class TelaCadastroFuncionario extends JFrame {
 		}
 		
 	
-		
-		
+	
 	}
+	
+	public void conectBanco() {
+		try{
+		InputStream is = new FileInputStream("banco.txt");
+		InputStreamReader isr = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(isr);
+		String s = br.readLine();
+		
+		if(s.equalsIgnoreCase("true")){
+			
+			funcionarioDAO.bancoConectado(true);
+		
+			manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO
+					.listeTodos();
+			for(int i = 0; i< manipulaFuncionario.size(); i++){
+				funcionarioDAO.insira(manipulaFuncionario.get(i));
+				
+			}
+		}else{
+			funcionarioDAO.bancoConectado(false);
+		}
+	
+		}catch (IOException e1) {
+			
+		}
+	}
+	
+	
 	
 }

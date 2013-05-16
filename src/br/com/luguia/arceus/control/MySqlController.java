@@ -5,10 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import br.com.luguia.arceus.model.ConectBd;
+
 
 
 public class MySqlController {
 
+	ConectBd cbd = new ConectBd();
 	private Connection con = null;
 	private PreparedStatement stmt = null;
 	
@@ -18,7 +21,7 @@ public class MySqlController {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			con = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/arceus1.1", "root", "1234");
+					cbd.getHost(), cbd.getUser(), cbd.getPass());
 
 			stmt = con.prepareStatement(query);
 
@@ -60,7 +63,7 @@ public class MySqlController {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			con = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/Arceus", "root", "1234");
+					cbd.getHost(), cbd.getUser(), cbd.getPass());
 
 			stmt = con.prepareStatement(query);
 

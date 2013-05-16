@@ -10,10 +10,13 @@ import br.com.luguia.arceus.model.dao.InterfaceFuncionarioDAO;
 
 public class FuncionarioDAO implements InterfaceFuncionarioDAO {
 	
+	boolean conect;
+	
 	MySqlController bd = new MySqlController();
 	
 	private List<Funcionario> banco;
 
+	
 	public FuncionarioDAO() {
 		this.banco = new ArrayList<Funcionario>();
 		this.popularBanco();
@@ -29,7 +32,7 @@ public class FuncionarioDAO implements InterfaceFuncionarioDAO {
 		funcionario.setSenha("1234");
 		funcionario.setTipo("Atendimento");
 		
-		this.insira(funcionario);
+		this.banco.add(funcionario);
 		
 		funcionario = new Funcionario();
 		funcionario.setId(this.proximo());
@@ -38,7 +41,7 @@ public class FuncionarioDAO implements InterfaceFuncionarioDAO {
 		funcionario.setSenha("4321");
 		funcionario.setTipo("Financeiro");
 		
-		this.insira(funcionario);
+		this.banco.add(funcionario);
 
 	}
 
@@ -48,7 +51,9 @@ public class FuncionarioDAO implements InterfaceFuncionarioDAO {
 	@Override
 	public void insira(Funcionario funcionario) {
 		// TODO Verificar o ultimo codigo a acrecentar!
+		if(conect == false){
 		this.banco.add(funcionario);
+		}else if(conect == true){
 		
 		bd.cadastrar("INSERT into FUNCIONARIO (SENHA, NOME, TIPO, LOGIN, ID) VALUES(?,?,?,?,?)", "" + funcionario.getSenha()+"#"
 				+ funcionario.getNome() + "#"
@@ -56,6 +61,7 @@ public class FuncionarioDAO implements InterfaceFuncionarioDAO {
 				+ funcionario.getLogin() + "#"
 				+ funcionario.getId() + "");
 		
+	}
 
 	}
 
@@ -66,10 +72,16 @@ public class FuncionarioDAO implements InterfaceFuncionarioDAO {
 		Funcionario f = this.traga(funcionario);
 		
 		if (f != null){
-			bd.excluir("DELETE FROM `arceus1.1`.`funcionario` WHERE `id`= "+funcionario.getId());
-			this.banco.remove(funcionario);
+		
+				this.banco.remove(funcionario);
+				
+				if(conect == true){
+				bd.excluir("DELETE FROM `arceus1.1`.`funcionario` WHERE `id`= "+funcionario.getId());
+				System.out.println("entrou3");
+				}
+			
 		}
-	
+		
 	}
 
 	@Override
@@ -119,4 +131,11 @@ public class FuncionarioDAO implements InterfaceFuncionarioDAO {
 		return null;
 
 	}
+	
+	public void bancoConectado(boolean conect){
+		this.conect = conect;
+	}
+	
+	
+	
 }

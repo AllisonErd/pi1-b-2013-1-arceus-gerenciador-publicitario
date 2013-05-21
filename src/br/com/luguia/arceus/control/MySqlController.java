@@ -19,6 +19,7 @@ import br.com.luguia.arceus.model.Endereco;
 import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.PessoaFisica;
 import br.com.luguia.arceus.model.PessoaJuridica;
+import br.com.luguia.arceus.model.Requisicao;
 import br.com.luguia.arceus.model.Telefone;
 
 public class MySqlController {
@@ -26,11 +27,13 @@ public class MySqlController {
 	private ArrayList<Funcionario> model;
 	private ArrayList<PessoaFisica> modelFisica;
 	private ArrayList<PessoaJuridica> modelJuridica;
-
+	private ArrayList<Requisicao> modelRequisicao;
+	
 	private Funcionario func;
 	private PessoaFisica pessoaFisica;
 	private PessoaJuridica pessoaJuridica;
-
+	private Requisicao requisicao;
+	
 	private Endereco endereco;
 	private Contato contato;
 	private Telefone telefone;
@@ -138,6 +141,8 @@ public class MySqlController {
 		model = new ArrayList<>();
 		modelFisica = new ArrayList<>();
 		modelJuridica = new ArrayList<>();
+		modelRequisicao = new ArrayList<>();
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -238,7 +243,26 @@ public class MySqlController {
 					this.modelJuridica.add(pessoaJuridica);
 				}
 				break;
+			case 4 :
+				while (rs.next()) {
 
+					requisicao	= new Requisicao();
+
+					requisicao.setCustoEquipamento(rs.getString("custo_equipamento"));
+					requisicao.setDataPedido(rs.getString("data_pedido"));
+					requisicao.setDefinicaoProjeto(rs.getString("definicao_projeto"));
+					requisicao.setIdProjeto(Integer.parseInt(rs.getString("id_projeto")));
+					requisicao.setNomeProjet(rs.getString("nome_projeto"));
+					requisicao.setPorcentagemConclusao(Integer.parseInt(rs.getString("porcentagem_conclusao")));
+					requisicao.setPrioridadeProjeto(Integer.parseInt(rs.getString("prioridade")));
+					requisicao.setTempoEntrega(rs.getString("data_entrega"));
+					requisicao.setTipoExecucao(rs.getString("tipo_execucao"));
+					requisicao.setIdPessoa(Integer.parseInt(rs.getString("id_pessoa")));				
+					
+					this.modelRequisicao.add(requisicao);
+				}
+
+				break;
 			}
 
 		} catch (SQLException e) {
@@ -309,5 +333,9 @@ public class MySqlController {
 		
 		return this.modelJuridica;
 
+	}
+	
+	public List<Requisicao> getListaRequisicao(){
+		return this.modelRequisicao;
 	}
 }

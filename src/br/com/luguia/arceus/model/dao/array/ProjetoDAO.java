@@ -16,9 +16,23 @@ public class ProjetoDAO implements InterfaceProjetoDAO{
 	}
 	
 	@Override
-	public void insira(Requisicao requisicao) {
+	public void insira(Requisicao projeto, int id_pessoa) {
 
-		
+		bd.cadastrar(
+				"INSERT into REQUISICAO (ID_PESSOA, ID_PROJETO, NOME_PROJETO, DATA_PEDIDO, DATA_ENTREGA, DEFINICAO_PROJETO, TIPO_EXECUCAO, PRIORIDADE, CUSTO_EQUIPAMENTO, PORCENTAGEM_CONCLUSAO) VALUES(?,?,?,?,?,?,?,?,?,?)",
+					 
+					 "" + id_pessoa + "#&V&#" 
+						+ projeto.getIdProjeto() + "#&V&#"
+						+ projeto.getNomeProjet() + "#&V&#" 
+						+ projeto.getDataPedido() + "#&V&#" 
+						
+						+ projeto.getTempoEntrega() + "#&V&#"
+						+ projeto.getDefinicaoProjeto() + "#&V&#" 
+						+ projeto.getTipoExecucao() + "#&V&#"
+						+ projeto.getPrioridadeProjeto() + "#&V&#"
+						+ projeto.getCustoEquipamento() + "#&V&#" 
+						
+						+ projeto.getPorcentagemConclusao() + "");
 		
 	}
 
@@ -36,8 +50,10 @@ public class ProjetoDAO implements InterfaceProjetoDAO{
 
 	@Override
 	public List<Requisicao> listeTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		bd.exibir("select * from requisicao",4);
+
+		return bd.getListaRequisicao();
 	}
 
 }

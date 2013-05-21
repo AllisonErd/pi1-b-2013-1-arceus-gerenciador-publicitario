@@ -6,7 +6,7 @@ import br.com.luguia.arceus.model.Requisicao;
 
 public interface InterfaceProjetoDAO {
 
-	public abstract void insira(Requisicao requisicao);
+	public abstract void insira(Requisicao requisicao, int id_pessoa);
 
 	public abstract void exclua(Requisicao requisicao);
 

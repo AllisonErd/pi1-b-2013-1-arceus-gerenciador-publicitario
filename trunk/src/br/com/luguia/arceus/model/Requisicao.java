@@ -1,21 +1,22 @@
 package br.com.luguia.arceus.model;
 
-import javax.xml.crypto.Data;
 
 public class Requisicao {
 
 	private int idProjeto;
 	private String nomeProjet;
 	private String definicaoProjeto;
-	private double custoEquipamento;
-	private String prioridadeProjeto;
-	private Data dataPedido;
+	private String custoEquipamento;
+	private int prioridadeProjeto;
+	private String dataPedido;
 	private String tempoEntrega;
 	private String tipoExecucao;
+	private int porcentagemConclusao;
+	private int idPessoa;
 	
 	
 	public int getIdProjeto() {
-		return idProjeto++;
+		return idProjeto;
 	}
 	public void setIdProjeto(int idProjeto) {
 		this.idProjeto = idProjeto;
@@ -32,22 +33,22 @@ public class Requisicao {
 	public void setDefinicaoProjeto(String definicaoProjeto) {
 		this.definicaoProjeto = definicaoProjeto;
 	}
-	public double getCustoEquipamento() {
+	public String getCustoEquipamento() {
 		return custoEquipamento;
 	}
-	public void setCustoEquipamento(double custoEquipamento) {
+	public void setCustoEquipamento(String custoEquipamento) {
 		this.custoEquipamento = custoEquipamento;
 	}
-	public String getPrioridadeProjeto() {
+	public int getPrioridadeProjeto() {
 		return prioridadeProjeto;
 	}
-	public void setPrioridadeProjeto(String prioridadeProjeto) {
+	public void setPrioridadeProjeto(int prioridadeProjeto) {
 		this.prioridadeProjeto = prioridadeProjeto;
 	}
-	public Data getDataPedido() {
+	public String getDataPedido() {
 		return dataPedido;
 	}
-	public void setDataPedido(Data dataPedido) {
+	public void setDataPedido(String dataPedido) {
 		this.dataPedido = dataPedido;
 	}
 	public String getTempoEntrega() {
@@ -62,6 +63,18 @@ public class Requisicao {
 	public void setTipoExecucao(String tipoExecucao) {
 		this.tipoExecucao = tipoExecucao;
 	}
+	public int getPorcentagemConclusao(){
+		return porcentagemConclusao;
+	}
 	
+	public void setPorcentagemConclusao(int porcentagemConclusao){
+		this.porcentagemConclusao = porcentagemConclusao;
+	}
+	public int getIdPessoa() {
+		return idPessoa;
+	}
+	public void setIdPessoa(int idPessoa) {
+		this.idPessoa = idPessoa;
+	}
 	
 }

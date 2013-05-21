@@ -12,6 +12,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
@@ -26,10 +27,15 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.luguia.arceus.model.PessoaFisica;
 import br.com.luguia.arceus.model.PessoaJuridica;
+import br.com.luguia.arceus.model.Requisicao;
 import br.com.luguia.arceus.model.dao.array.PessoaFisicaDAO;
 import br.com.luguia.arceus.model.dao.array.PessoaJuridicaDAO;
+import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
+
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 
@@ -41,22 +47,33 @@ public class TelaAtendimento extends JFrame {
 	private JTextField campoDataEntrega;
 	private JTextField campoDataEmissao;
 	private JTextField campoCpfCnpj;
+	private JTextArea campoDescricaoProjeto;
 	
 	private PessoaJuridicaDAO pessoaJuridicaDAO = new PessoaJuridicaDAO();
 	private ArrayList<PessoaJuridica> manipulaPessoaJuridica;
-	//private PessoaJuridica pessoaJuridica;
 
 	private PessoaFisicaDAO pessoaFisicaDAO = new PessoaFisicaDAO();
 	private ArrayList<PessoaFisica> manipulaPessoaFisicas;
-	//private PessoaFisica pessoaFisica;
-	
-	//private String codigo;
+
 	private boolean fisico = true;
 	
 	private JTextArea campoCaracteristicas;
 	private JTable table;
 
+	private ProjetoDAO projetoDao = new ProjetoDAO();
+	private ArrayList<Requisicao> manipulaProjeto;
+	private Requisicao projeto;
+	
+	private int idPessoa = 0;
+	
 	public TelaAtendimento() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				posicaoCorreta();
+			
+			}
+		});
 		setTitle("Setor de Atendimento");
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -106,8 +123,8 @@ public class TelaAtendimento extends JFrame {
 						if (manipulaPessoaFisicas.get(i).getCpf()
 								.equalsIgnoreCase(cpfCnpj)) {
 							
-							
-							
+							idPessoa = manipulaPessoaFisicas.get(i).getId();
+							tabelaSincronizada(idPessoa);
 							campoCaracteristicas.setText(""+ manipulaPessoaFisicas.get(i).getId()+
 															"\n"+manipulaPessoaFisicas.get(i).getNome()+
 															 "\n"+manipulaPessoaFisicas.get(i).getRg()+
@@ -136,6 +153,8 @@ public class TelaAtendimento extends JFrame {
 						if (manipulaPessoaJuridica.get(i).getCnpj()
 								.equalsIgnoreCase(cpfCnpj)) {
 
+							idPessoa = manipulaPessoaJuridica.get(i).getId();
+							tabelaSincronizada(idPessoa);
 							campoCaracteristicas.setText(""+manipulaPessoaJuridica.get(i).getId()+
 														 "\n"+manipulaPessoaJuridica.get(i).getNome()+
 														 "\n"+manipulaPessoaJuridica.get(i).getCnpj()+
@@ -153,7 +172,6 @@ public class TelaAtendimento extends JFrame {
 					}
 					
 				}
-				
 				
 			}
 		});
@@ -208,7 +226,7 @@ public class TelaAtendimento extends JFrame {
 						TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				panel_6.setLayout(null);
 				
-						final JTextArea campoDescricaoProjeto = new JTextArea();
+						campoDescricaoProjeto = new JTextArea();
 						campoDescricaoProjeto.setLineWrap(true);
 						campoDescricaoProjeto.setBounds(12, 23, 476, 79);
 						panel_6.add(campoDescricaoProjeto);
@@ -217,7 +235,7 @@ public class TelaAtendimento extends JFrame {
 								panel_5.setBounds(10, 212, 498, 107);
 								panel_3.add(panel_5);
 								panel_5.setBorder(new TitledBorder(null,
-										"Projetos relacionados a : ", TitledBorder.LEADING,
+										"Projetos relacionados ao cliente pesquisado", TitledBorder.LEADING,
 										TitledBorder.TOP, null, null));
 								panel_5.setLayout(null);
 								
@@ -232,6 +250,8 @@ public class TelaAtendimento extends JFrame {
 										"New column", "New column", "New column"
 									}
 								));
+								table.getColumnModel().getColumn(0).setPreferredWidth(10);
+								table.getColumnModel().getColumn(1).setPreferredWidth(150);
 								table.setBounds(10, 24, 478, 72);
 								panel_5.add(table);
 
@@ -245,8 +265,6 @@ public class TelaAtendimento extends JFrame {
 		campoCodigoProjeto.setBounds(911, 62, 43, 31);
 		contentPane.add(campoCodigoProjeto);
 		campoCodigoProjeto.setColumns(10);
-
-	
 
 		campoCpfCnpj = new JTextField();
 		campoCpfCnpj.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -293,27 +311,106 @@ public class TelaAtendimento extends JFrame {
 		novoCliente.setBounds(325, 436, 98, 23);
 		contentPane.add(novoCliente);
 		
-				JButton btnConfirmar = new JButton("Confirmar");
-				btnConfirmar.setBounds(629, 437, 98, 23);
-				contentPane.add(btnConfirmar);
+				JButton btnExcluir = new JButton("Excluir");
+				btnExcluir.setBounds(856, 436, 98, 23);
+				contentPane.add(btnExcluir);
 				
 						JButton botaoOrcamento = new JButton("Or\u00E7amento");
+						botaoOrcamento.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+							//TODO
+								projeto = new Requisicao();
+
+								if (campoNomeProjeto.getText().toString().equalsIgnoreCase("")
+										|| campoDataEntrega.getText().equalsIgnoreCase("")
+										|| campoDataEmissao.getText().toString().equalsIgnoreCase("") 
+										|| campoDescricaoProjeto.getText().equalsIgnoreCase("")
+										) {
+									JOptionPane.showMessageDialog(null,
+											"Preencha todos os campos! ");
+
+								}else{
+									projeto.setIdProjeto(Integer.parseInt(campoCodigoProjeto.getText().toString().trim()));
+									projeto.setNomeProjet(campoNomeProjeto.getText().toString().trim());
+									projeto.setDataPedido(campoDataEmissao.getText().toString().trim());
+									projeto.setTempoEntrega(campoDataEntrega.getText().toString().trim());
+									projeto.setDefinicaoProjeto(campoDescricaoProjeto.getText().toString().trim());
+									
+									projeto.setCustoEquipamento("");
+									projeto.setPorcentagemConclusao(0);
+									projeto.setPrioridadeProjeto(0);
+									projeto.setTipoExecucao("");
+									
+									if(idPessoa != 0){
+										projetoDao.insira(projeto, idPessoa);
+									}else{
+										JOptionPane.showMessageDialog(null, "Pesquisar o cliente que deseja solicitar um projeto!");
+									}
+									
+								}
+								posicaoCorreta();
+								tabelaSincronizada(idPessoa);
+								limpaTela();
+							}
+						});
 						botaoOrcamento.setBounds(742, 437, 98, 23);
 						contentPane.add(botaoOrcamento);
 						
-								JButton botaoCancela = new JButton("Cancelar");
-								botaoCancela.setBounds(856, 436, 98, 23);
-								contentPane.add(botaoCancela);
-								botaoCancela.addActionListener(new ActionListener() {
+								JButton botaoVoltar = new JButton("Voltar");
+								botaoVoltar.setBounds(451, 436, 98, 23);
+								contentPane.add(botaoVoltar);
+								botaoVoltar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 
 										dispose();
 									}
 								});
-				btnConfirmar.addActionListener(new ActionListener() {
+				btnExcluir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
 					}
 				});
+	}
+	
+	public void posicaoCorreta() {
+		int indice = 1;
+		
+		manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+				.listeTodos();
+		try {
+			indice += manipulaProjeto.get(manipulaProjeto.size() - 1)
+					.getIdProjeto();
+		} catch (Exception exp) {
+
+		} finally {
+			campoCodigoProjeto.setText("" + indice);
+		}
+		
+	}
+	
+	public void tabelaSincronizada(int id) {
+
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setNumRows(0);
+
+		manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+				.listeTodos();
+
+		for (int i = 0; i < manipulaProjeto.size(); i++) {
+			if(manipulaProjeto.get(i).getIdPessoa()== id)
+			model.addRow(new String[] {
+					"" + manipulaProjeto.get(i).getIdProjeto(),
+					"" + manipulaProjeto.get(i).getNomeProjet(),
+					"" + manipulaProjeto.get(i).getPorcentagemConclusao()+"% concluido" });
+
+		}
+
+	}
+	
+	public void limpaTela(){
+		campoNomeProjeto.setText("");
+		campoDataEmissao.setText("");
+		campoDataEntrega.setText("");
+		campoDescricaoProjeto.setText("");
 	}
 }

@@ -230,6 +230,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel_1.add(lblComplemento);
 
 		campoComplemento = new JTextArea();
+		campoComplemento.setText(" ");
 		campoComplemento.setBounds(99, 102, 444, 50);
 		panel_1.add(campoComplemento);
 
@@ -501,11 +502,20 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 				if (campoNome.getText().toString().equalsIgnoreCase("")
 						|| campoCpfCnpj.getText().equalsIgnoreCase("")
-						|| campoTelefonefixo.getText().toString()
-								.equalsIgnoreCase("")) {
+						|| campoTelefonefixo.getText().toString().equalsIgnoreCase("")
+						
+						|| campoBairro.getText().equalsIgnoreCase("")
+						|| campoCep.getText().toString().equalsIgnoreCase("")
+						|| campoCidade.getText().equalsIgnoreCase("")
+						|| campoComplemento.getText().toString().equalsIgnoreCase("")
+						|| campoEmail.getText().equalsIgnoreCase("")
+						|| campoEstado.getText().toString().equalsIgnoreCase("")
+						|| campoRua.getText().equalsIgnoreCase("")
+						|| campoTelefoneCelular.getText().toString().equalsIgnoreCase("")
+						) {
 					JOptionPane
 							.showMessageDialog(null,
-									"Preencha obrigatoriamente\n NOME, CPF/CNPJ E TELEFONE FIXO ! ");
+									"Preencha todos os campos!! ");
 
 				} else if (fisico == false) {
 					// TODO

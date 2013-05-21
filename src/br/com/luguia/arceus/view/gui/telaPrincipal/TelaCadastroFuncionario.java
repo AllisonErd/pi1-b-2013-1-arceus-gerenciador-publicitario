@@ -6,11 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -45,27 +40,18 @@ public class TelaCadastroFuncionario extends JFrame {
 	private JComboBox boxTipoPesquisa;
 	private JTextField campoLogin;
 
-	FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-	ArrayList<Funcionario> manipulaFuncionario = new ArrayList<>();
-	Funcionario funcionario = new Funcionario();
+	private FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+	private ArrayList<Funcionario> manipulaFuncionario;
+	private Funcionario funcionario;
 	private int chaveDeControle = 0;
 
-	int i = 3;
-	int j = 1;
-	
 	public TelaCadastroFuncionario() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
 
-				conectBanco();
-				
 				posicaoCorreta();
-				
-				limpaList();
-				
-				
-				
+
 			}
 		});
 
@@ -155,7 +141,7 @@ public class TelaCadastroFuncionario extends JFrame {
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limpaCampo();
-				
+
 			}
 		});
 		btnLimpar.setBounds(403, 62, 91, 23);
@@ -165,12 +151,14 @@ public class TelaCadastroFuncionario extends JFrame {
 		botaoCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				funcionario = new Funcionario();
+
 				if (campoNome.getText().toString().equalsIgnoreCase("")
 						|| campoSenha.getText().equalsIgnoreCase("")
 						|| campoLogin.getText().toString().equalsIgnoreCase("")) {
 					JOptionPane.showMessageDialog(null,
 							"Preencha todos os campos! ");
-					
+
 				} else {
 					funcionario.setId(Integer.parseInt(campoCodigo.getText()
 							.toString()));
@@ -180,23 +168,21 @@ public class TelaCadastroFuncionario extends JFrame {
 					funcionario.setTipo("Financeiro");
 
 					if (chaveDeControle == 1) {
+
 						funcionarioDAO.altere(funcionario);
+
 						chaveDeControle = 0;
 					} else {
-					
-						
-						System.out.println("entrou");
+
 						funcionarioDAO.insira(funcionario);
-						
+
 					}
-					
+
 					limpaCampo();
 
-					funcionario = new Funcionario();
 				}
 			}
 		});
-
 		botaoCadastrar.setBounds(506, 62, 91, 23);
 		painelDeComponentes.add(botaoCadastrar);
 
@@ -217,8 +203,8 @@ public class TelaCadastroFuncionario extends JFrame {
 		panel_3.setLayout(null);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] { { null, null,
-				null }, }, new String[] { "Cod", "Nome", "Departamento" }));
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
+				"Cod", "Nome", "Departamento" }));
 		table.getColumnModel().getColumn(0).setPreferredWidth(50);
 		table.getColumnModel().getColumn(1).setPreferredWidth(250);
 		table.getColumnModel().getColumn(2).setPreferredWidth(250);
@@ -239,13 +225,15 @@ public class TelaCadastroFuncionario extends JFrame {
 		JButton botaoPesquisar = new JButton("Pesquisar");
 		botaoPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nome = campoPesquisa.getText().toString().trim();
 
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.setNumRows(0);
 
+				String nome = campoPesquisa.getText().toString().trim();
+
 				manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO
 						.listeTodos();
+
 				for (int i = 0; i < manipulaFuncionario.size(); i++) {
 					if (manipulaFuncionario.get(i).getNome()
 							.equalsIgnoreCase(nome)) {
@@ -267,6 +255,7 @@ public class TelaCadastroFuncionario extends JFrame {
 		JButton botaoAtualizar = new JButton("Alterar");
 		botaoAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				try {
 					chaveDeControle = 1;
 					String codigo, nome;
@@ -309,22 +298,21 @@ public class TelaCadastroFuncionario extends JFrame {
 		JButton boatoExcluir = new JButton("Excluir");
 		boatoExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String numero = (String) table.getModel().getValueAt(table.getSelectedRow(), 0);
-				
-				manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO.listeTodos();
-				
-				for(int i = 0; i<manipulaFuncionario.size(); i++){
+
+				String numero = (String) table.getModel().getValueAt(
+						table.getSelectedRow(), 0);
+
+				manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO
+						.listeTodos();
+
+				for (int i = 0; i < manipulaFuncionario.size(); i++) {
 					funcionario = manipulaFuncionario.get(i);
-					if(funcionario.getId() == Integer.parseInt(numero)){
+					if (funcionario.getId() == Integer.parseInt(numero)) {
 						funcionarioDAO.exclua(funcionario);
 					}
-					funcionario = new Funcionario();
+
 				}
-				
-				//funcionarioDAO.altere(anulaFuncionario(manipulaFuncionario.get(Integer.parseInt(numero)-1)));
-				
-				
-				//funcionarioDAO.exclua(manipulaFuncionario.indexOf();//get(Integer.parseInt(numero)-1));
+
 				limpaTabela();
 			}
 		});
@@ -348,6 +336,7 @@ public class TelaCadastroFuncionario extends JFrame {
 		campoNome.setText("");
 		campoSenha.setText("");
 		posicaoCorreta();
+		
 	}
 
 	public void limpaTabela() {
@@ -355,110 +344,41 @@ public class TelaCadastroFuncionario extends JFrame {
 		model.setNumRows(0);
 
 		model.addRow(new String[] { "", "", "" });
-
+		tabelaSincronizada();
 	}
 
 	public void posicaoCorreta() {
-		try{
-		InputStream is = new FileInputStream("banco.txt");
-		InputStreamReader isr = new InputStreamReader(is);
-		BufferedReader br = new BufferedReader(isr);
-		String s = br.readLine();
+		int indice = 1;
 		
-		InputStream iss = new FileInputStream("chave.txt");
-		InputStreamReader isrs = new InputStreamReader(iss);
-		BufferedReader brs = new BufferedReader(isrs);
-		String ss = brs.readLine();
-		
-		if(s.equalsIgnoreCase("false")){
 		manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO
 				.listeTodos();
-		int id = manipulaFuncionario.get(manipulaFuncionario.size() - 1)
-				.getId();
-		id = id + 1;
-		campoCodigo.setText("" + id);
-		}else{
-		if(ss.equalsIgnoreCase(" ")){
-				campoCodigo.setText(""+i);
-				i++;	
-			}else{
-				campoCodigo.setText(""+j);
-				j++;
-			}
-			
-			
+		try {
+			indice += manipulaFuncionario.get(manipulaFuncionario.size() - 1)
+					.getId();
+		} catch (Exception exp) {
+
+		} finally {
+			campoCodigo.setText("" + indice);
 		}
-		
-		
-		}catch(Exception ex){
-			
-		}
+		tabelaSincronizada();
 	}
 
-	public Funcionario anulaFuncionario(Funcionario funcionario){
-		
-		//funcionario.setLogin("Desativado!");
-		//funcionario.setNome("Desativado");
-		//funcionario.setSenha("Desativado");
-		funcionario.setTipo("Desativado");
-		
-		return funcionario;
-	}
-	
-	public void limpaList(){
-		
-		try {
-			InputStream is = new FileInputStream("chave.txt");
-			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr);
-			String s = br.readLine();
-		
-			
-			if(s.equalsIgnoreCase("vazio")){
-				manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO.listeTodos();
-				
-				for(int i = 0; i< manipulaFuncionario.size(); i++){
-					funcionarioDAO.exclua(manipulaFuncionario.get(i));
-				}
-				campoCodigo.setText("1");
-			}
-			
-		} catch (IOException e1) {
-			
-		}catch (NullPointerException e2){
-			
+	public void tabelaSincronizada() {
+
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setNumRows(0);
+
+		manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO
+				.listeTodos();
+
+		for (int i = 0; i < manipulaFuncionario.size(); i++) {
+
+			model.addRow(new String[] {
+					"" + manipulaFuncionario.get(i).getId(),
+					"" + manipulaFuncionario.get(i).getNome(),
+					"" + manipulaFuncionario.get(i).getTipo() });
+
 		}
-		
-	
-	
+
 	}
-	
-	public void conectBanco() {
-		try{
-		InputStream is = new FileInputStream("banco.txt");
-		InputStreamReader isr = new InputStreamReader(is);
-		BufferedReader br = new BufferedReader(isr);
-		String s = br.readLine();
-		
-		if(s.equalsIgnoreCase("true")){
-			
-			funcionarioDAO.bancoConectado(true);
-		
-			manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO
-					.listeTodos();
-			for(int i = 0; i< manipulaFuncionario.size(); i++){
-				funcionarioDAO.insira(manipulaFuncionario.get(i));
-				
-			}
-		}else{
-			funcionarioDAO.bancoConectado(false);
-		}
-	
-		}catch (IOException e1) {
-			
-		}
-	}
-	
-	
-	
 }

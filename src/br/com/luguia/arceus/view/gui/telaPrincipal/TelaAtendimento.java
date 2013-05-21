@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -23,6 +24,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import br.com.luguia.arceus.model.PessoaFisica;
+import br.com.luguia.arceus.model.PessoaJuridica;
+import br.com.luguia.arceus.model.dao.array.PessoaFisicaDAO;
+import br.com.luguia.arceus.model.dao.array.PessoaJuridicaDAO;
+import javax.swing.JTextPane;
+import javax.swing.UIManager;
+
 
 
 public class TelaAtendimento extends JFrame {
@@ -32,24 +40,28 @@ public class TelaAtendimento extends JFrame {
 	private JTextField campoNomeProjeto;
 	private JTextField campoDataEntrega;
 	private JTextField campoDataEmissao;
-	private JTable table_1;
-	private JTextField campoNomeCliente;
-	private String cliente;
-	private String codigo;
-
+	private JTextField campoCpfCnpj;
 	
+	private PessoaJuridicaDAO pessoaJuridicaDAO = new PessoaJuridicaDAO();
+	private ArrayList<PessoaJuridica> manipulaPessoaJuridica;
+	//private PessoaJuridica pessoaJuridica;
 
-
+	private PessoaFisicaDAO pessoaFisicaDAO = new PessoaFisicaDAO();
+	private ArrayList<PessoaFisica> manipulaPessoaFisicas;
+	//private PessoaFisica pessoaFisica;
 	
-	private JTable tabelaCliente;
-	private JTextField campoValorProjeto;
+	//private String codigo;
+	private boolean fisico = true;
+	
+	private JTextArea campoCaracteristicas;
+	private JTable table;
 
 	public TelaAtendimento() {
 		setTitle("Setor de Atendimento");
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1200, 500);
+		setBounds(100, 100, 970, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -69,20 +81,84 @@ public class TelaAtendimento extends JFrame {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "C l i e n t e",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(10, 122, 413, 56);
+		panel_1.setBounds(10, 122, 413, 303);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
-
-		tabelaCliente = new JTable();
-		tabelaCliente.setEnabled(false);
-		tabelaCliente.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "New column", "New column", "New column" }));
-		tabelaCliente.setBounds(10, 21, 393, 16);
-		panel_1.add(tabelaCliente);
+		
+		campoCaracteristicas = new JTextArea();
+		campoCaracteristicas.setBounds(10, 23, 393, 269);
+		panel_1.add(campoCaracteristicas);
+		campoCaracteristicas.setBackground(UIManager.getColor("CheckBox.background"));
+		campoCaracteristicas.setEditable(false);
 
 		JButton btnNovo = new JButton("Pesquisar Cliente");
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+				String cpfCnpj = campoCpfCnpj.getText().toString().trim();
+				
+				if(fisico == true){
+					manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+							.listeTodos();
+					
+					for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
+			
+						if (manipulaPessoaFisicas.get(i).getCpf()
+								.equalsIgnoreCase(cpfCnpj)) {
+							
+							
+							
+							campoCaracteristicas.setText(""+ manipulaPessoaFisicas.get(i).getId()+
+															"\n"+manipulaPessoaFisicas.get(i).getNome()+
+															 "\n"+manipulaPessoaFisicas.get(i).getRg()+
+															 "\n"+manipulaPessoaFisicas.get(i).getCpf()+
+															 "\n\n"+manipulaPessoaFisicas.get(i).getContato().getEmail()+
+															 "\n"+manipulaPessoaFisicas.get(i).getContato().getTelefone().getTelefoneFixo()+
+															 "\n"+manipulaPessoaFisicas.get(i).getContato().getTelefone().getTelefoneCel()+
+															 "\n\n"+manipulaPessoaFisicas.get(i).getEndereco().getRua()+
+															 "\n"+manipulaPessoaFisicas.get(i).getEndereco().getBairro()+
+															 "\n"+manipulaPessoaFisicas.get(i).getEndereco().getCep()+
+															 "\n"+manipulaPessoaFisicas.get(i).getEndereco().getCidade()+
+															 "\n"+manipulaPessoaFisicas.get(i).getEndereco().getEstado()+
+															 "\n"+manipulaPessoaFisicas.get(i).getEndereco().getComplemento());
 
-		btnNovo.setBounds(145, 92, 154, 23);
+							
+
+						}
+
+					}
+					
+				}else if(fisico == false){
+					manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+							.listeTodos();
+
+					for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
+						if (manipulaPessoaJuridica.get(i).getCnpj()
+								.equalsIgnoreCase(cpfCnpj)) {
+
+							campoCaracteristicas.setText(""+manipulaPessoaJuridica.get(i).getId()+
+														 "\n"+manipulaPessoaJuridica.get(i).getNome()+
+														 "\n"+manipulaPessoaJuridica.get(i).getCnpj()+
+														 "\n\n"+manipulaPessoaJuridica.get(i).getContato().getEmail()+
+														 "\n"+manipulaPessoaJuridica.get(i).getContato().getTelefone().getTelefoneFixo()+
+														 "\n"+manipulaPessoaJuridica.get(i).getContato().getTelefone().getTelefoneCel()+
+														 "\n\n"+manipulaPessoaJuridica.get(i).getEndereco().getRua()+
+														 "\n"+manipulaPessoaJuridica.get(i).getEndereco().getBairro()+
+														 "\n"+manipulaPessoaJuridica.get(i).getEndereco().getCep()+
+														 "\n"+manipulaPessoaJuridica.get(i).getEndereco().getCidade()+
+														 "\n"+manipulaPessoaJuridica.get(i).getEndereco().getEstado()+
+														 "\n"+manipulaPessoaJuridica.get(i).getEndereco().getComplemento());
+							}
+
+					}
+					
+				}
+				
+				
+			}
+		});
+
+		btnNovo.setBounds(269, 66, 154, 23);
 		contentPane.add(btnNovo);
 
 		JSeparator separator = new JSeparator();
@@ -90,17 +166,10 @@ public class TelaAtendimento extends JFrame {
 		separator.setBounds(433, 78, 18, 393);
 		contentPane.add(separator);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(null, "Observa\u00E7\u00F5es",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(10, 190, 413, 150);
-		contentPane.add(panel_2);
-		panel_2.setLayout(null);
-
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(null, "P r o j e t o",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_3.setBounds(441, 95, 743, 365);
+		panel_3.setBounds(441, 95, 513, 330);
 		contentPane.add(panel_3);
 		panel_3.setLayout(null);
 
@@ -109,16 +178,16 @@ public class TelaAtendimento extends JFrame {
 		panel_3.add(lblNomeDoProjeto);
 
 		campoNomeProjeto = new JTextField();
-		campoNomeProjeto.setBounds(126, 26, 382, 20);
+		campoNomeProjeto.setBounds(126, 26, 377, 20);
 		panel_3.add(campoNomeProjeto);
 		campoNomeProjeto.setColumns(10);
 
 		JLabel lblTermino = new JLabel("Entrega do Projeto");
-		lblTermino.setBounds(237, 58, 106, 14);
+		lblTermino.setBounds(301, 61, 106, 14);
 		panel_3.add(lblTermino);
 
 		campoDataEntrega = new JTextField();
-		campoDataEntrega.setBounds(361, 55, 86, 20);
+		campoDataEntrega.setBounds(417, 58, 86, 20);
 		panel_3.add(campoDataEntrega);
 		campoDataEntrega.setColumns(10);
 
@@ -127,142 +196,88 @@ public class TelaAtendimento extends JFrame {
 		panel_3.add(lblDataDaEmisso);
 
 		campoDataEmissao = new JTextField();
-		campoDataEmissao.setBounds(126, 55, 86, 20);
+		campoDataEmissao.setBounds(126, 58, 86, 20);
 		panel_3.add(campoDataEmissao);
 		campoDataEmissao.setColumns(10);
-
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(10, 214, 723, 140);
-		panel_3.add(panel_4);
-		panel_4.setLayout(null);
-
-		JPanel panel_5 = new JPanel();
-		panel_5.setBorder(new TitledBorder(null,
-				"Informa\u00E7\u00F5es Financeiras", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
-		panel_5.setBounds(0, 0, 355, 140);
-		panel_4.add(panel_5);
-		panel_5.setLayout(null);
-
-		campoValorProjeto = new JTextField();
-		campoValorProjeto.setHorizontalAlignment(SwingConstants.CENTER);
-		campoValorProjeto.setText("0");
-		campoValorProjeto.setBounds(114, 57, 114, 20);
-		panel_5.add(campoValorProjeto);
-		campoValorProjeto.setColumns(10);
-
-		JPanel panel_6 = new JPanel();
-		panel_6.setBorder(new TitledBorder(null,
-				"Informa\u00E7\u00F5es de Produ\u00E7\u00E3o",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_6.setBounds(365, 0, 358, 140);
-		panel_4.add(panel_6);
-		panel_6.setLayout(null);
-
-		final JTextArea campoDescricaoProjeto = new JTextArea();
-		campoDescricaoProjeto.setLineWrap(true);
-		campoDescricaoProjeto.setBounds(12, 23, 334, 105);
-		panel_6.add(campoDescricaoProjeto);
-
-		JPanel panel_7 = new JPanel();
-		panel_7.setBorder(new TitledBorder(null, "Servi\u00E7os",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_7.setBounds(10, 86, 723, 83);
-		panel_3.add(panel_7);
-
-		//table = new JTable();
-
-		table_1 = new JTable();
-
-		JScrollBar scrollBar = new JScrollBar();
-		GroupLayout gl_panel_7 = new GroupLayout(panel_7);
-		gl_panel_7.setHorizontalGroup(gl_panel_7.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_panel_7
-						.createSequentialGroup()
-						.addComponent(table_1, GroupLayout.DEFAULT_SIZE, 678,
-								Short.MAX_VALUE)
-						.addGap(18)
-						.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE,
-								GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE).addContainerGap()));
-		gl_panel_7.setVerticalGroup(gl_panel_7
-				.createParallelGroup(Alignment.LEADING)
-				.addComponent(table_1, GroupLayout.DEFAULT_SIZE, 60,
-						Short.MAX_VALUE)
-				.addGroup(
-						gl_panel_7
-								.createSequentialGroup()
-								.addComponent(scrollBar,
-										GroupLayout.DEFAULT_SIZE, 60,
-										Short.MAX_VALUE).addContainerGap()));
-		panel_7.setLayout(gl_panel_7);
-
-		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		btnConfirmar.setBounds(10, 180, 98, 23);
-		panel_3.add(btnConfirmar);
-
-		JButton botaoOrcamento = new JButton("Or\u00E7amento");
-
-		botaoOrcamento.setBounds(123, 180, 98, 23);
-		panel_3.add(botaoOrcamento);
-
-		JButton botaoCancela = new JButton("Cancelar");
-		botaoCancela.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				dispose();
-			}
-		});
-		botaoCancela.setBounds(237, 179, 98, 23);
-		panel_3.add(botaoCancela);
+		
+				JPanel panel_6 = new JPanel();
+				panel_6.setBounds(10, 88, 498, 113);
+				panel_3.add(panel_6);
+				panel_6.setBorder(new TitledBorder(null,
+						"Informa\u00E7\u00F5es de Produ\u00E7\u00E3o",
+						TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel_6.setLayout(null);
+				
+						final JTextArea campoDescricaoProjeto = new JTextArea();
+						campoDescricaoProjeto.setLineWrap(true);
+						campoDescricaoProjeto.setBounds(12, 23, 476, 79);
+						panel_6.add(campoDescricaoProjeto);
+							//TODO concatenar a frase Projetos relacionados a : com o nome da pessoa selecionada!! 
+								JPanel panel_5 = new JPanel();
+								panel_5.setBounds(10, 212, 498, 107);
+								panel_3.add(panel_5);
+								panel_5.setBorder(new TitledBorder(null,
+										"Projetos relacionados a : ", TitledBorder.LEADING,
+										TitledBorder.TOP, null, null));
+								panel_5.setLayout(null);
+								
+								table = new JTable();
+								table.setModel(new DefaultTableModel(
+									new Object[][] {
+										{null, null, null},
+										{null, null, null},
+										{null, null, null},
+									},
+									new String[] {
+										"New column", "New column", "New column"
+									}
+								));
+								table.setBounds(10, 24, 478, 72);
+								panel_5.add(table);
 
 		JLabel lblNewLabel_1 = new JLabel("Codigo do Projeto :");
 		lblNewLabel_1.setFont(new Font("Calibri", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(954, 69, 173, 23);
+		lblNewLabel_1.setBounds(738, 67, 163, 23);
 		contentPane.add(lblNewLabel_1);
 
 		campoCodigoProjeto = new JTextField();
 		campoCodigoProjeto.setEditable(false);
-		campoCodigoProjeto.setBounds(1129, 62, 43, 31);
+		campoCodigoProjeto.setBounds(911, 62, 43, 31);
 		contentPane.add(campoCodigoProjeto);
 		campoCodigoProjeto.setColumns(10);
 
 	
 
-		campoNomeCliente = new JTextField();
-		campoNomeCliente.setColumns(10);
-		campoNomeCliente.setBounds(309, 68, 88, 20);
-		contentPane.add(campoNomeCliente);
+		campoCpfCnpj = new JTextField();
+		campoCpfCnpj.setFont(new Font("Dialog", Font.BOLD, 14));
+		campoCpfCnpj.setHorizontalAlignment(SwingConstants.CENTER);
+		campoCpfCnpj.setColumns(10);
+		campoCpfCnpj.setBounds(76, 66, 181, 23);
+		contentPane.add(campoCpfCnpj);
 
 		JLabel lblCpfcnpj = new JLabel("CPF/CNPJ");
 		lblCpfcnpj.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCpfcnpj.setBounds(243, 71, 56, 14);
+		lblCpfcnpj.setBounds(10, 72, 56, 14);
 		contentPane.add(lblCpfcnpj);
 
-		JRadioButton rdbtnFisico = new JRadioButton("Fisico");
+		JRadioButton rdbtnFisico = new JRadioButton("Fisico", true);
 		rdbtnFisico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				cliente = "fisico";
+				fisico = true;
 
 			}
 		});
-		rdbtnFisico.setBounds(41, 64, 78, 23);
+		rdbtnFisico.setBounds(10, 97, 72, 17);
 		contentPane.add(rdbtnFisico);
 
 		JRadioButton rdbtnJuridico = new JRadioButton("Juridico");
 		rdbtnJuridico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cliente = "juridico";
+				fisico = false;
 			}
 		});
-		rdbtnJuridico.setBounds(123, 65, 78, 23);
+		rdbtnJuridico.setBounds(83, 97, 78, 17);
 		contentPane.add(rdbtnJuridico);
 
 		ButtonGroup gp = new ButtonGroup();
@@ -277,5 +292,28 @@ public class TelaAtendimento extends JFrame {
 		});
 		novoCliente.setBounds(325, 436, 98, 23);
 		contentPane.add(novoCliente);
+		
+				JButton btnConfirmar = new JButton("Confirmar");
+				btnConfirmar.setBounds(629, 437, 98, 23);
+				contentPane.add(btnConfirmar);
+				
+						JButton botaoOrcamento = new JButton("Or\u00E7amento");
+						botaoOrcamento.setBounds(742, 437, 98, 23);
+						contentPane.add(botaoOrcamento);
+						
+								JButton botaoCancela = new JButton("Cancelar");
+								botaoCancela.setBounds(856, 436, 98, 23);
+								contentPane.add(botaoCancela);
+								botaoCancela.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+
+										dispose();
+									}
+								});
+				btnConfirmar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+
+					}
+				});
 	}
 }

@@ -8,13 +8,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -44,6 +40,7 @@ import br.com.luguia.arceus.model.PessoaJuridica;
 import br.com.luguia.arceus.model.Telefone;
 import br.com.luguia.arceus.model.dao.array.PessoaFisicaDAO;
 import br.com.luguia.arceus.model.dao.array.PessoaJuridicaDAO;
+import javax.swing.JRadioButton;
 
 public class TelaCadastroCliente extends JFrame implements ItemListener {
 
@@ -60,36 +57,41 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 	private JTextField campoEmail;
 	private JTextField campoPesquisa;
 	private JComboBox boxTipoCliente;
-	private JTable table;
+	private JTable tableFisica;
 	private JComboBox boxTipoPesquisa;
 	private JTextArea campoComplemento;
 
 	private JTextField campoRg;
 	private JTextField campoEstado;
 
-	PessoaJuridicaDAO pessoaJuridicaDAO = new PessoaJuridicaDAO();
-	ArrayList<PessoaJuridica> manipulaPessoaJuridica = new ArrayList<>();
-	PessoaJuridica pessoaJuridica = new PessoaJuridica();
-	
-	PessoaFisicaDAO pessoaFisicaDAO = new PessoaFisicaDAO();
-	ArrayList<PessoaFisica> manipulaPessoaFisicas = new ArrayList<>();
-	PessoaFisica pessoaFisica = new PessoaFisica();
-	
+	private PessoaJuridicaDAO pessoaJuridicaDAO = new PessoaJuridicaDAO();
+	private ArrayList<PessoaJuridica> manipulaPessoaJuridica;
+	private PessoaJuridica pessoaJuridica;
+
+	private PessoaFisicaDAO pessoaFisicaDAO = new PessoaFisicaDAO();
+	private ArrayList<PessoaFisica> manipulaPessoaFisicas;
+	private PessoaFisica pessoaFisica;
+
 	private int chaveDeControle = 0;
-	
-	Contato contato = new Contato();
-	Endereco endereco = new Endereco();
-	Telefone telefone = new Telefone();
-	
+
+	private Contato contato;
+	private Endereco endereco;
+	private Telefone telefone;
+
 	private boolean fisico = false;
+	private boolean codigo = false;
+	private boolean pesquisaFisico = true;
 	
-	
+	private int idFisic = 0;
+	private int id = 0;
+	private JTable tableJuridica;
+
 	public TelaCadastroCliente() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
 				posicaoCorreta();
-				limpaList();
+
 			}
 		});
 		setResizable(false);
@@ -118,7 +120,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		painelDeComponentes.setBorder(new TitledBorder(null,
 				"D a d o s   C a d a s t r a i s", TitledBorder.LEADING,
 				TitledBorder.TOP, null, Color.BLACK));
-		painelDeComponentes.setBounds(10, 114, 607, 309);
+		painelDeComponentes.setBounds(10, 67, 607, 356);
 		contentPane.add(painelDeComponentes);
 		painelDeComponentes.setLayout(null);
 
@@ -163,11 +165,11 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoCpfCnpj.setColumns(10);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 92, 587, 2);
+		separator.setBounds(10, 112, 587, 2);
 		painelDeComponentes.add(separator);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 106, 587, 192);
+		tabbedPane.setBounds(10, 133, 587, 192);
 		painelDeComponentes.add(tabbedPane);
 
 		JPanel panel_1 = new JPanel();
@@ -212,21 +214,21 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoCep.setBounds(364, 42, 70, 20);
 		panel_1.add(campoCep);
 		campoCep.setColumns(10);
-		
+
 		campoEstado = new JTextField();
 		campoEstado.setColumns(10);
 		campoEstado.setBounds(364, 71, 179, 20);
 		panel_1.add(campoEstado);
-		
+
 		JLabel lblEstado = new JLabel("Estado");
 		lblEstado.setBounds(315, 74, 46, 14);
 		panel_1.add(lblEstado);
-		
+
 		JLabel lblComplemento = new JLabel("Complemento");
 		lblComplemento.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblComplemento.setBounds(10, 106, 79, 14);
 		panel_1.add(lblComplemento);
-		
+
 		campoComplemento = new JTextArea();
 		campoComplemento.setBounds(99, 102, 444, 50);
 		panel_1.add(campoComplemento);
@@ -264,19 +266,18 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoEmail.setColumns(10);
 
 		JFormattedTextField formattedTextField = null;
-	
 
 		JLabel lblCpfcnpj = new JLabel("CPF/CNPJ");
 		lblCpfcnpj.setBounds(192, 63, 62, 14);
 		painelDeComponentes.add(lblCpfcnpj);
-		
+
 		campoRg = new JTextField();
 		campoRg.setEditable(false);
 		campoRg.setEnabled(false);
 		campoRg.setColumns(10);
 		campoRg.setBounds(413, 59, 80, 20);
 		painelDeComponentes.add(campoRg);
-		
+
 		JLabel lblRg = new JLabel("RG");
 		lblRg.setBounds(382, 62, 27, 14);
 		painelDeComponentes.add(lblRg);
@@ -298,55 +299,123 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null,
 				null, null));
-		panel_3.setBounds(10, 51, 508, 294);
+		panel_3.setBounds(10, 55, 508, 290);
 		panel_2.add(panel_3);
 		panel_3.setLayout(null);
 
-		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] { { null, null,
+		tableFisica = new JTable();
+		tableFisica.setModel(new DefaultTableModel(new Object[][] { { null, null,
 				null }, }, new String[] { "New column", "New column",
 				"New column" }));
-		table.setBounds(12, 12, 484, 270);
-		panel_3.add(table);
+		tableFisica.setBounds(12, 30, 484, 107);
+		panel_3.add(tableFisica);
+		
+		tableJuridica = new JTable();
+		tableJuridica.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column"
+			}
+		));
+		tableJuridica.setBounds(12, 171, 484, 107);
+		panel_3.add(tableJuridica);
+		//TODO
+		JRadioButton radioJuridica = new JRadioButton("Juridica", false);
+		radioJuridica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pesquisaFisico = false;
+			}
+		});
+		radioJuridica.setBounds(12, 145, 81, 14);
+		panel_3.add(radioJuridica);
+		
+		JRadioButton radioFisica = new JRadioButton("Fisica", true);
+		radioFisica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pesquisaFisico = true;
+			}
+		});
+		radioFisica.setBounds(12, 8, 66, 14);
+		panel_3.add(radioFisica);
 
+		ButtonGroup grupRadio = new ButtonGroup();
+		grupRadio.add(radioJuridica);
+		grupRadio.add(radioFisica);
+		
+		
 		campoPesquisa = new JTextField();
-		campoPesquisa.setBounds(121, 20, 293, 20);
+		campoPesquisa.setBounds(88, 23, 330, 20);
 		panel_2.add(campoPesquisa);
 		campoPesquisa.setColumns(10);
 		final String items[] = { "Nome", "Codigo" };
 
 		boxTipoPesquisa = new JComboBox(items);
+		boxTipoPesquisa.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
 
-		boxTipoPesquisa.setBounds(10, 20, 101, 20);
-		panel_2.add(boxTipoPesquisa);
-		JButton botaoPesquisar = new JButton("Pesquisar");
-		botaoPesquisar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				String nome = campoPesquisa.getText().toString().trim();
+				if (e.getStateChange() == ItemEvent.SELECTED) {
 
-				DefaultTableModel model = (DefaultTableModel) table.getModel();
-				model.setNumRows(0);
+					if (e.getItem().toString().equalsIgnoreCase("Nome")) {
+						codigo = false;
 
-				
-				manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
-						.listeTodos();
-				for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
-					if (manipulaPessoaJuridica.get(i).getNome()
-							.equalsIgnoreCase(nome)) {
-
-						model.addRow(new String[] {
-								"" + manipulaPessoaJuridica.get(i).getId(),
-								"" + manipulaPessoaJuridica.get(i).getNome(),
-								"" + manipulaPessoaJuridica.get(i).getCnpj()});
-
+					} else {
+						codigo = true;
 					}
 
 				}
+
+			}
+		});
+
+		boxTipoPesquisa.setBounds(10, 23, 66, 20);
+		panel_2.add(boxTipoPesquisa);
+		JButton botaoPesquisar = new JButton("Pesquisar");
+		botaoPesquisar.setBounds(426, 22, 92, 23);
+		panel_2.add(botaoPesquisar);
+		botaoPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//TODO
+				DefaultTableModel model = (DefaultTableModel) tableFisica.getModel();
 				
-					
+
+				DefaultTableModel model2 = (DefaultTableModel) tableJuridica.getModel();
+				
+				
+				String nome = campoPesquisa.getText().toString().trim();
+
+			
+				
+				if(codigo == false && pesquisaFisico == false ){
+					model2.setNumRows(0);
+					manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+							.listeTodos();
+
+					for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
+						if (manipulaPessoaJuridica.get(i).getNome()
+								.equalsIgnoreCase(nome)) {
+
+							model2.addRow(new String[] {
+									"" + manipulaPessoaJuridica.get(i).getId(),
+									""
+											+ manipulaPessoaJuridica.get(i)
+													.getNome(),
+									""
+											+ manipulaPessoaJuridica.get(i)
+													.getCnpj() });
+
+						}
+
+					}
+				}
+				
+		
+				if(codigo == false && pesquisaFisico == true){
+					model.setNumRows(0);
 					manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
 							.listeTodos();
+
 					for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
 						if (manipulaPessoaFisicas.get(i).getNome()
 								.equalsIgnoreCase(nome)) {
@@ -354,17 +423,68 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 							model.addRow(new String[] {
 									"" + manipulaPessoaFisicas.get(i).getId(),
 									"" + manipulaPessoaFisicas.get(i).getNome(),
-									"" + manipulaPessoaFisicas.get(i).getCpf()});
+									"" + manipulaPessoaFisicas.get(i).getCpf() });
 
 						}
 
 					}
+				}
+				try{
+				if(codigo == true && pesquisaFisico == false){
+					model2.setNumRows(0);
+					manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+							.listeTodos();
+
 					
+					for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
+						if (manipulaPessoaJuridica.get(i).getId() == Integer
+								.parseInt(nome)) {
+
+							model2.addRow(new String[] {
+									""
+											+ manipulaPessoaJuridica.get(i)
+													.getId(),
+									""
+											+ manipulaPessoaJuridica.get(i)
+													.getNome(),
+									""
+											+ manipulaPessoaJuridica.get(i)
+													.getCnpj() });
+
+						}
+
+					}
+
+				}
+				
+				if(codigo == true && pesquisaFisico == true){
+					model.setNumRows(0);
+					manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+							.listeTodos();
+
+					for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
+						if (manipulaPessoaFisicas.get(i).getId() == Integer
+								.parseInt(nome)) {
+
+							model.addRow(new String[] {
+									""
+											+ manipulaPessoaFisicas.get(i)
+													.getId(),
+									""
+											+ manipulaPessoaFisicas.get(i)
+													.getNome(),
+									""
+											+ manipulaPessoaFisicas.get(i)
+													.getCpf() });
+						}
+					}
+				}
+				}catch(Exception ex){
+					JOptionPane.showMessageDialog(null, "Informe o codigo!");
+				}
 				
 			}
 		});
-		botaoPesquisar.setBounds(426, 17, 92, 23);
-		panel_2.add(botaoPesquisar);
 
 		JButton botaoVoltar = new JButton("Voltar");
 		botaoVoltar.addActionListener(new ActionListener() {
@@ -378,50 +498,51 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		JButton botaoCadastrar = new JButton("Salvar");
 		botaoCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (campoNome.getText().toString().equalsIgnoreCase("")
 						|| campoCpfCnpj.getText().equalsIgnoreCase("")
-						|| campoTelefonefixo.getText().toString().equalsIgnoreCase("")) {
-					JOptionPane.showMessageDialog(null,
-							"Preencha obrigatoriamente\n NOME, CPF/CNPJ E TELEFONE FIXO ! ");
-					
-				} else if(fisico == false){									
-					
-					cadastraClienteJuridico();
-							
-					
+						|| campoTelefonefixo.getText().toString()
+								.equalsIgnoreCase("")) {
+					JOptionPane
+							.showMessageDialog(null,
+									"Preencha obrigatoriamente\n NOME, CPF/CNPJ E TELEFONE FIXO ! ");
+
+				} else if (fisico == false) {
+					// TODO
+					// a pessoa esta sendo criada em uma função e retornando
+					// para aque! cadastraClienteJuridico()
+
 					if (chaveDeControle == 1) {
-						pessoaJuridicaDAO.altere(pessoaJuridica);
+						pessoaJuridicaDAO.altere(cadastraClienteJuridico());
 						chaveDeControle = 0;
 					} else {
-						pessoaJuridicaDAO.insira(pessoaJuridica);
+						pessoaJuridicaDAO.insira(cadastraClienteJuridico());
 					}
-						
+
 					limpaCampo();
 
-					pessoaJuridica = new PessoaJuridica();
-					endereco = new Endereco();
-					contato = new Contato();
-					telefone = new Telefone();
-				}else {
-					cadastraClienteFisico();
-							
-					
+					// pessoaJuridica = new PessoaJuridica();
+					// endereco = new Endereco();
+					// contato = new Contato();
+					// telefone = new Telefone();
+				} else {
+					// TODO
+
 					if (chaveDeControle == 1) {
-						pessoaFisicaDAO.altere(pessoaFisica);
+						pessoaFisicaDAO.altere(cadastraClienteFisico());
 						chaveDeControle = 0;
 					} else {
-						pessoaFisicaDAO.insira(pessoaFisica);
+						pessoaFisicaDAO.insira(cadastraClienteFisico());
 					}
-						
+
 					limpaCampo();
 
-					pessoaFisica = new PessoaFisica();
-					endereco = new Endereco();
-					contato = new Contato();
-					telefone = new Telefone();
+					// pessoaFisica = new PessoaFisica();
+					// endereco = new Endereco();
+					// contato = new Contato();
+					// telefone = new Telefone();
 				}
-				
+
 			}
 		});
 
@@ -431,9 +552,9 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				limpaCampo();
-				
+
 			}
 		});
 		btnLimpar.setBounds(409, 437, 98, 23);
@@ -442,26 +563,24 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		JButton botaoAlterar = new JButton("Alterar");
 		botaoAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				try {
 					chaveDeControle = 1;
 					String codigo, nome;
 
-					codigo = (String) table.getModel().getValueAt(
-							table.getSelectedRow(), 0);
-					nome = (String) table.getModel().getValueAt(
-							table.getSelectedRow(), 1);
-					
-									
+					codigo = (String) tableFisica.getModel().getValueAt(
+							tableFisica.getSelectedRow(), 0);
+					nome = (String) tableFisica.getModel().getValueAt(
+							tableFisica.getSelectedRow(), 1);
+
 					alteraPessoaJuridica(nome, codigo);
 					alteraPessoaFisica(nome, codigo);
-					
 
 				} catch (ArrayIndexOutOfBoundsException e1) {
 					JOptionPane.showMessageDialog(null,
 							"Ninguém foi selecionado !");
 				}
-				
+
 			}
 		});
 		botaoAlterar.setBounds(992, 435, 89, 23);
@@ -470,26 +589,34 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		JButton botaoCancelar = new JButton("Excluir");
 		botaoCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String numero = (String) table.getModel().getValueAt(table.getSelectedRow(), 0);
-				
-				manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO.listeTodos();
-				manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO.listeTodos();
-				
-				try{								
-				pessoaJuridicaDAO.altere(anulaPessoaJuridica(manipulaPessoaJuridica.get(Integer.parseInt(numero)-1)));
-				
-				}catch(IndexOutOfBoundsException e1){
-					pessoaFisicaDAO.altere(anulaPessoaFisica(manipulaPessoaFisicas.get(Integer.parseInt(numero)-1)));
-				}finally{
-					limpaTabela();
+				// TODO criado agora, testa!!
+				String numero = (String) tableFisica.getModel().getValueAt(
+						tableFisica.getSelectedRow(), 0);
+
+				manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+						.listeTodos();
+
+				for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
+					pessoaFisica = manipulaPessoaFisicas.get(i);
+					if (pessoaFisica.getId() == Integer.parseInt(numero)) {
+						pessoaFisicaDAO.exclua(pessoaFisica);
+					}
+
 				}
-				
-				
-					
-				
-				
-				
-				
+
+				manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+						.listeTodos();
+
+				for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
+					pessoaJuridica = manipulaPessoaJuridica.get(i);
+					if (pessoaJuridica.getId() == Integer.parseInt(numero)) {
+						pessoaJuridicaDAO.exclua(pessoaJuridica);
+					}
+
+				}
+
+				limpaTabela();
+
 			}
 		});
 		botaoCancelar.setBounds(1093, 435, 89, 23);
@@ -514,9 +641,9 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		}
 
 	}
-	
-	public void limpaCampo(){
-		
+
+	public void limpaCampo() {
+
 		campoRg.setText("");
 		campoEmail.setText("");
 		campoCidade.setText("");
@@ -530,99 +657,102 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoEstado.setText("");
 		campoTelefonefixo.setText("");
 		campoComplemento.setText("");
-		
+
 		posicaoCorreta();
 	}
-	
+
 	public void limpaTabela() {
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		DefaultTableModel model = (DefaultTableModel) tableFisica.getModel();
 		model.setNumRows(0);
 
 		model.addRow(new String[] { "", "", "" });
-
+		tabelaSincronizada();
 	}
 
 	public void posicaoCorreta() {
-		
-		try{
-		manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
-			.listeTodos();
-		int idFisic = manipulaPessoaFisicas.get(manipulaPessoaFisicas.size() - 1).getId();
-		
-		idFisic = idFisic+1;
-		
-		
-		manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
-				.listeTodos();
-		
-		int id = manipulaPessoaJuridica.get(manipulaPessoaJuridica.size() - 1).getId();
-		id = id + 1;
-	
-		
-		
-		if(id>= idFisic){
+
+		// TUDO
+		try {
+			manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+					.listeTodos();
+			idFisic = manipulaPessoaFisicas.get(
+					manipulaPessoaFisicas.size() - 1).getId();
+
+			idFisic = idFisic + 1;
+
+		} catch (ArrayIndexOutOfBoundsException ai) {
+			// System.out.println("1");
+
+		}
+
+		try {
+			manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+					.listeTodos();
+
+			id = manipulaPessoaJuridica.get(manipulaPessoaJuridica.size() - 1)
+					.getId();
+			id = id + 1;
+
+		} catch (ArrayIndexOutOfBoundsException ai) {
+			// System.out.println("2");
+		}
+
+		if (id > idFisic) {
 			campoCodigo.setText("" + id);
-		}else {
+		} else if (id < idFisic) {
 			campoCodigo.setText("" + idFisic);
+		} else {
+			campoCodigo.setText("1");
 		}
-		
-		}catch(Exception e){
-			int i = Integer.parseInt(campoCodigo.getText().toString());
-			i ++;
-			campoCodigo.setText(""+i);
-			
-		}
-		//	campoCodigo.setText("" + id);
+
+		 tabelaSincronizada();
+
 	}
+
+	public PessoaJuridica cadastraClienteJuridico() {
+		pessoaJuridica = new PessoaJuridica();
+		endereco = new Endereco();
+		telefone = new Telefone();
+		contato = new Contato();
+
 	
-	public PessoaJuridica anulaPessoaJuridica(PessoaJuridica pessoaJuridica){
 		
-		//funcionario.setLogin("Desativado!");
-		//funcionario.setNome("Desativado");
-		//funcionario.setSenha("Desativado");
-		
-		pessoaJuridica.setCnpj("Desativado");
-		
-		return pessoaJuridica;
-	}
-	
-	public PessoaFisica anulaPessoaFisica(PessoaFisica pessoaFisica){
-		
-		//funcionario.setLogin("Desativado!");
-		//funcionario.setNome("Desativado");
-		//funcionario.setSenha("Desativado");
-		
-		pessoaFisica.setCpf("Desativado");
-		
-		return pessoaFisica;
-	}
-	
-	
-	public void cadastraClienteJuridico() {
-		pessoaJuridica.setId(Integer.parseInt(campoCodigo.getText().toString().trim()));
+		pessoaJuridica.setId(Integer.parseInt(campoCodigo.getText().toString()
+				.trim()));
 		pessoaJuridica.setNome(campoNome.getText().toString().trim());
 		pessoaJuridica.setCnpj(campoCpfCnpj.getText().toString().trim());
-		
+
 		endereco.setBairro(campoBairro.getText().toString().trim());
 		endereco.setCep(campoCep.getText().toString().trim());
 		endereco.setCidade(campoCidade.getText().toString().trim());
 		endereco.setComplemento(campoComplemento.getText().toString().trim());
 		endereco.setEstado(campoEstado.getText().toString().trim());
 		endereco.setRua(campoRua.getText().toString().trim());
-		
+
 		pessoaJuridica.setEndereco(endereco);
-		
+
 		telefone.setTelefoneFixo(campoTelefonefixo.getText().toString().trim());
-		telefone.setTelefoneCel(campoTelefoneCelular.getText().toString().trim());
-		
-		contato.setTelefone(telefone);					
-		contato.setEmail(campoEmail.getText().toString().trim());					
-		
+		telefone.setTelefoneCel(campoTelefoneCelular.getText().toString()
+				.trim());
+
+		contato.setTelefone(telefone);
+		contato.setEmail(campoEmail.getText().toString().trim());
+
 		pessoaJuridica.setContato(contato);
+
+		return pessoaJuridica;
 	}
-	
-	public void cadastraClienteFisico(){
-		pessoaFisica.setId(Integer.parseInt(campoCodigo.getText().toString().trim()));
+
+	public PessoaFisica cadastraClienteFisico() {
+		pessoaFisica = new PessoaFisica();
+		endereco = new Endereco();
+		telefone = new Telefone();
+		contato = new Contato();
+		
+		
+		
+		pessoaFisica.setId(Integer.parseInt(campoCodigo.getText().toString()
+				.trim()));
 		pessoaFisica.setNome(campoNome.getText().toString().trim());
 		pessoaFisica.setCpf(campoCpfCnpj.getText().toString().trim());
 		pessoaFisica.setRg(campoRg.getText().toString().trim());
@@ -632,111 +762,156 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		endereco.setComplemento(campoComplemento.getText().toString().trim());
 		endereco.setEstado(campoEstado.getText().toString().trim());
 		endereco.setRua(campoRua.getText().toString().trim());
-		
+
 		pessoaFisica.setEndereco(endereco);
-		
+
 		telefone.setTelefoneFixo(campoTelefonefixo.getText().toString().trim());
-		telefone.setTelefoneCel(campoTelefoneCelular.getText().toString().trim());
-		
-		contato.setTelefone(telefone);					
-		contato.setEmail(campoEmail.getText().toString().trim());					
-		
+		telefone.setTelefoneCel(campoTelefoneCelular.getText().toString()
+				.trim());
+
+		contato.setTelefone(telefone);
+		contato.setEmail(campoEmail.getText().toString().trim());
+
 		pessoaFisica.setContato(contato);
-		
+
+		return pessoaFisica;
 	}
-	
-	public void alteraPessoaJuridica(String nome, String codigo){
-		manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO.listeTodos();
-		
-		
-		
+
+	public void alteraPessoaJuridica(String nome, String codigo) {
+		manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+				.listeTodos();
+
 		for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
-			if (manipulaPessoaJuridica.get(i).getNome().equalsIgnoreCase(nome.toString().trim())
-					&& manipulaPessoaJuridica.get(i).getId() == Integer.parseInt(codigo)) {
-				
-				campoCodigo.setText(""
-						+ manipulaPessoaJuridica.get(i).getId());
-				campoNome.setText(""
-						+ manipulaPessoaJuridica.get(i).getNome());
-				campoBairro.setText(""+manipulaPessoaJuridica.get(i).getEndereco().getBairro());
-				campoCep.setText(""+manipulaPessoaJuridica.get(i).getEndereco().getCep());
-				campoCidade.setText(""+manipulaPessoaJuridica.get(i).getEndereco().getCidade());
-				campoComplemento.setText(""+manipulaPessoaJuridica.get(i).getEndereco().getComplemento());
-				campoCpfCnpj.setText(""+manipulaPessoaJuridica.get(i).getCnpj());
-				campoEmail.setText(""+manipulaPessoaJuridica.get(i).getContato().getEmail());
-				campoEstado.setText(""+manipulaPessoaJuridica.get(i).getEndereco().getEstado());
-				campoRua.setText(""+manipulaPessoaJuridica.get(i).getEndereco().getRua());
-				campoTelefoneCelular.setText(""+manipulaPessoaJuridica.get(i).getContato().getTelefone().getTelefoneCel());
-				campoTelefonefixo.setText(""+manipulaPessoaJuridica.get(i).getContato().getTelefone().getTelefoneFixo());
+			if (manipulaPessoaJuridica.get(i).getNome()
+					.equalsIgnoreCase(nome.toString().trim())
+					&& manipulaPessoaJuridica.get(i).getId() == Integer
+							.parseInt(codigo)) {
+
+				campoCodigo.setText("" + manipulaPessoaJuridica.get(i).getId());
+				campoNome.setText("" + manipulaPessoaJuridica.get(i).getNome());
+				campoBairro.setText(""
+						+ manipulaPessoaJuridica.get(i).getEndereco()
+								.getBairro());
+				campoCep.setText(""
+						+ manipulaPessoaJuridica.get(i).getEndereco().getCep());
+				campoCidade.setText(""
+						+ manipulaPessoaJuridica.get(i).getEndereco()
+								.getCidade());
+				campoComplemento.setText(""
+						+ manipulaPessoaJuridica.get(i).getEndereco()
+								.getComplemento());
+				campoCpfCnpj.setText(""
+						+ manipulaPessoaJuridica.get(i).getCnpj());
+				campoEmail
+						.setText(""
+								+ manipulaPessoaJuridica.get(i).getContato()
+										.getEmail());
+				campoEstado.setText(""
+						+ manipulaPessoaJuridica.get(i).getEndereco()
+								.getEstado());
+				campoRua.setText(""
+						+ manipulaPessoaJuridica.get(i).getEndereco().getRua());
+				campoTelefoneCelular.setText(""
+						+ manipulaPessoaJuridica.get(i).getContato()
+								.getTelefone().getTelefoneCel());
+				campoTelefonefixo.setText(""
+						+ manipulaPessoaJuridica.get(i).getContato()
+								.getTelefone().getTelefoneFixo());
 
 			}
 		}
 		limpaTabela();
 	}
-	
-	public void alteraPessoaFisica(String nome, String codigo){
-		
-manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO.listeTodos();
-		
-		
-		
+
+	public void alteraPessoaFisica(String nome, String codigo) {
+
+		manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+				.listeTodos();
+
 		for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
-			if (manipulaPessoaFisicas.get(i).getNome().equalsIgnoreCase(nome.toString().trim())
-					&& manipulaPessoaFisicas.get(i).getId() == Integer.parseInt(codigo)) {
-				System.out.println("entrou");
-				campoCodigo.setText(""
-						+ manipulaPessoaFisicas.get(i).getId());
-				campoNome.setText(""
-						+ manipulaPessoaFisicas.get(i).getNome());
-				campoBairro.setText(""+manipulaPessoaFisicas.get(i).getEndereco().getBairro());
-				campoCep.setText(""+manipulaPessoaFisicas.get(i).getEndereco().getCep());
-				campoCidade.setText(""+manipulaPessoaFisicas.get(i).getEndereco().getCidade());
-				campoComplemento.setText(""+manipulaPessoaFisicas.get(i).getEndereco().getComplemento());
-				campoCpfCnpj.setText(""+manipulaPessoaFisicas.get(i).getCpf());
-				campoRg.setText(""+manipulaPessoaFisicas.get(i).getRg());//diferencial!!
-				campoEmail.setText(""+manipulaPessoaFisicas.get(i).getContato().getEmail());
-				campoEstado.setText(""+manipulaPessoaFisicas.get(i).getEndereco().getEstado());
-				campoRua.setText(""+manipulaPessoaFisicas.get(i).getEndereco().getRua());
-				campoTelefoneCelular.setText(""+manipulaPessoaFisicas.get(i).getContato().getTelefone().getTelefoneCel());
-				campoTelefonefixo.setText(""+manipulaPessoaFisicas.get(i).getContato().getTelefone().getTelefoneFixo());
-				
+			if (manipulaPessoaFisicas.get(i).getNome()
+					.equalsIgnoreCase(nome.toString().trim())
+					&& manipulaPessoaFisicas.get(i).getId() == Integer
+							.parseInt(codigo)) {
+
+				campoCodigo.setText("" + manipulaPessoaFisicas.get(i).getId());
+				campoNome.setText("" + manipulaPessoaFisicas.get(i).getNome());
+				campoBairro.setText(""
+						+ manipulaPessoaFisicas.get(i).getEndereco()
+								.getBairro());
+				campoCep.setText(""
+						+ manipulaPessoaFisicas.get(i).getEndereco().getCep());
+				campoCidade.setText(""
+						+ manipulaPessoaFisicas.get(i).getEndereco()
+								.getCidade());
+				campoComplemento.setText(""
+						+ manipulaPessoaFisicas.get(i).getEndereco()
+								.getComplemento());
+				campoCpfCnpj
+						.setText("" + manipulaPessoaFisicas.get(i).getCpf());
+				campoRg.setText("" + manipulaPessoaFisicas.get(i).getRg());// diferencial!!
+				campoEmail.setText(""
+						+ manipulaPessoaFisicas.get(i).getContato().getEmail());
+				campoEstado.setText(""
+						+ manipulaPessoaFisicas.get(i).getEndereco()
+								.getEstado());
+				campoRua.setText(""
+						+ manipulaPessoaFisicas.get(i).getEndereco().getRua());
+				campoTelefoneCelular.setText(""
+						+ manipulaPessoaFisicas.get(i).getContato()
+								.getTelefone().getTelefoneCel());
+				campoTelefonefixo.setText(""
+						+ manipulaPessoaFisicas.get(i).getContato()
+								.getTelefone().getTelefoneFixo());
+
 				campoRg.setEditable(true);
 				campoRg.setEnabled(true);
-				
+
 			}
 		}
 		limpaTabela();
-		
+
 	}
-	public void limpaList(){
-		
+
+	public void tabelaSincronizada() {
 		try {
-			InputStream is = new FileInputStream("chave.txt");
-			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr);
-			String s = br.readLine();
-		
-			if(s.equalsIgnoreCase("vazio")){
-				manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO.listeTodos();
-				manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO.listeTodos();
-				
-				for(int i = 0; i< manipulaPessoaFisicas.size(); i++){
-					pessoaFisicaDAO.exclua(manipulaPessoaFisicas.get(i));
-				}
-					
-				for(int i = 0; i< manipulaPessoaJuridica.size(); i++){
-						pessoaJuridicaDAO.exclua(manipulaPessoaJuridica.get(i));
-				}
-				
-				campoCodigo.setText("1");
-			}
-				
-		} catch (IOException e1) {
-			
-		}catch (NullPointerException e2){
-			
+		DefaultTableModel model = (DefaultTableModel) tableFisica.getModel();
+		model.setNumRows(0);
+
+		DefaultTableModel model2 = (DefaultTableModel) tableJuridica.getModel();
+		model2.setNumRows(0);
+
+		manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+				.listeTodos();
+
+	
+	for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
+
+			model.addRow(new String[] {
+					"" + manipulaPessoaFisicas.get(i).getId(),
+					"" + manipulaPessoaFisicas.get(i).getNome(),
+					""
+							+ manipulaPessoaFisicas.get(i).getContato()
+									.getTelefone().getTelefoneFixo() });
+
+		}
+
+		manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+				.listeTodos();
+
+		for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
+
+			model2.addRow(new String[] {
+					"" + manipulaPessoaJuridica.get(i).getId(),
+					"" + manipulaPessoaJuridica.get(i).getNome(),
+					""
+							+ manipulaPessoaJuridica.get(i).getContato()
+									.getTelefone().getTelefoneFixo() });
+
+		}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
-	
-	
+		
 }

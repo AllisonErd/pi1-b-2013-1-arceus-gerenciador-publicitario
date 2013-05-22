@@ -13,8 +13,14 @@ public class Requisicao {
 	private String tipoExecucao;
 	private int porcentagemConclusao;
 	private int idPessoa;
+	private Financeiro custos;
 	
-	
+	public Financeiro getCustos() {
+		return custos;
+	}
+	public void setCustos(Financeiro custos) {
+		this.custos = custos;
+	}
 	public int getIdProjeto() {
 		return idProjeto;
 	}

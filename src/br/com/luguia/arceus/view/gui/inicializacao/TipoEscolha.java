@@ -28,8 +28,7 @@ public class TipoEscolha extends JFrame {
 		contentPane.setLayout(null);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(UIManager
-				.getColor("Button.disabledToolBarBorderBackground"));
+		panel_1.setBackground(Color.WHITE);
 		panel_1.setBounds(0, 0, 284, 261);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);

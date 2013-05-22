@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.naming.LimitExceededException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
+import br.com.luguia.arceus.model.Financeiro;
 import br.com.luguia.arceus.model.Requisicao;
 import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
 import java.awt.event.WindowAdapter;
@@ -29,7 +31,7 @@ public class TelaFinanceiro extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField campoLucro;
-	private JTextField textField_2;
+	private JTextField campoTotalCaixa;
 	private JTable tabelaSolicitacoes;
 	
 	private JTable tabelaPedidosAvaliados;
@@ -37,7 +39,8 @@ public class TelaFinanceiro extends JFrame {
 	private ProjetoDAO projetoDao = new ProjetoDAO();
 	private ArrayList<Requisicao> manipulaProjeto;
 	private Requisicao projeto;
-	
+	private Financeiro custo;
+	private JTextField campoDesconto;
 	
 	public TelaFinanceiro() {
 		addWindowListener(new WindowAdapter() {
@@ -93,7 +96,41 @@ public class TelaFinanceiro extends JFrame {
 		JButton btnSolicitaCusto = new JButton("Solicita Custo");
 		btnSolicitaCusto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				try {
+					
+					String codigo, nome;
+
+					codigo = (String) tabelaSolicitacoes.getModel().getValueAt(
+							tabelaSolicitacoes.getSelectedRow(), 0);
+					nome = (String) tabelaSolicitacoes.getModel().getValueAt(
+							tabelaSolicitacoes.getSelectedRow(), 1);
+
+					manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+							.listeTodos();
+					for (int i = 0; i < manipulaProjeto.size(); i++) {
+						if (manipulaProjeto.get(i).getNomeProjet()
+								.equalsIgnoreCase(nome.toString().trim())
+								&& manipulaProjeto.get(i).getIdProjeto() == Integer
+										.parseInt(codigo)) {
+							
+							projeto = new Requisicao();
+							projeto.setIdProjeto(manipulaProjeto.get(i).getIdProjeto());
+							projeto.setPorcentagemConclusao(5);
+							
+							projetoDao.altere(projeto, 3);
+							
+
+						}
+					}
+					
+
+				} catch (ArrayIndexOutOfBoundsException e1) {
+					JOptionPane.showMessageDialog(null,
+							"Ninguém foi selecionado !");
+				} finally{
+					tabelaSincronizada();
+				}
+			
 				
 				
 			}
@@ -119,20 +156,22 @@ public class TelaFinanceiro extends JFrame {
 
 		JLabel lblLucro = new JLabel("Lucro");
 		lblLucro.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblLucro.setBounds(770, 356, 112, 16);
+		lblLucro.setBounds(770, 323, 112, 16);
 		contentPane.add(lblLucro);
 
 		campoLucro = new JTextField();
 		campoLucro.setHorizontalAlignment(SwingConstants.CENTER);
 		campoLucro.setText("0");
 		campoLucro.setColumns(10);
-		campoLucro.setBounds(900, 354, 114, 20);
+		campoLucro.setBounds(900, 321, 114, 20);
 		contentPane.add(campoLucro);
 
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(900, 384, 114, 20);
-		contentPane.add(textField_2);
+		campoTotalCaixa = new JTextField();
+		campoTotalCaixa.setEditable(false);
+		campoTotalCaixa.setHorizontalAlignment(SwingConstants.CENTER);
+		campoTotalCaixa.setColumns(10);
+		campoTotalCaixa.setBounds(900, 384, 114, 20);
+		contentPane.add(campoTotalCaixa);
 
 		JLabel lblTotalEmCaixa = new JLabel("Total em caixa");
 		lblTotalEmCaixa.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -145,6 +184,60 @@ public class TelaFinanceiro extends JFrame {
 		contentPane.add(separator_2);
 
 		JButton button = new JButton("Retorna Or\u00E7.");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					
+					String codigo, nome;
+
+					codigo = (String) tabelaPedidosAvaliados.getModel().getValueAt(
+							tabelaPedidosAvaliados.getSelectedRow(), 0);
+					nome = (String) tabelaPedidosAvaliados.getModel().getValueAt(
+							tabelaPedidosAvaliados.getSelectedRow(), 1);
+
+					manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+							.listeTodos();
+					for (int i = 0; i < manipulaProjeto.size(); i++) {
+						if (manipulaProjeto.get(i).getNomeProjet()
+								.equalsIgnoreCase(nome.toString().trim())
+								&& manipulaProjeto.get(i).getIdProjeto() == Integer
+										.parseInt(codigo)) {
+
+							projeto = new Requisicao();
+							custo = new Financeiro();
+							
+							double desconto = Double.parseDouble(campoDesconto.getText().toString().trim());
+							double lucro = Double.parseDouble(campoLucro.getText().toString().trim());
+							
+							
+							projeto.setIdProjeto(manipulaProjeto.get(i).getIdProjeto());
+							
+							projeto.setPorcentagemConclusao(15);
+							custo.setCusto(manipulaProjeto.get(i).getCustos().getCusto());
+							custo.setDesconto(desconto);
+							custo.setGanho(lucro - desconto);
+							custo.setOrcamento((lucro+manipulaProjeto.get(i).getCustos().getCusto())-desconto);
+							
+							projeto.setCustos(custo);
+
+							projetoDao.altere(projeto, 2);
+							projetoDao.altere(projeto, 3);
+							
+						}
+					}
+					
+
+				} catch (ArrayIndexOutOfBoundsException e1) {
+					JOptionPane.showMessageDialog(null,
+							"Ninguém foi selecionado !");
+				}finally{
+					tabelaSincronizada();
+					campoDesconto.setText("0");
+					campoLucro.setText("0");
+				}
+				
+			}
+		});
 	
 		button.setBounds(902, 433, 112, 26);
 		contentPane.add(button);
@@ -164,6 +257,11 @@ public class TelaFinanceiro extends JFrame {
 		contentPane.add(tabelaSolicitacoes);
 
 		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabelaSincronizada();
+			}
+		});
 
 		btnAtualizar.setBounds(468, 65, 89, 23);
 		contentPane.add(btnAtualizar);
@@ -221,6 +319,18 @@ public class TelaFinanceiro extends JFrame {
 		});
 		btnVisualizar.setBounds(377, 435, 123, 23);
 		contentPane.add(btnVisualizar);
+		
+		campoDesconto = new JTextField();
+		campoDesconto.setText("0");
+		campoDesconto.setHorizontalAlignment(SwingConstants.CENTER);
+		campoDesconto.setColumns(10);
+		campoDesconto.setBounds(900, 352, 114, 20);
+		contentPane.add(campoDesconto);
+		
+		JLabel lblDesconto = new JLabel("Desconto");
+		lblDesconto.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblDesconto.setBounds(770, 354, 112, 16);
+		contentPane.add(lblDesconto);
 	}
 	
 	
@@ -233,14 +343,49 @@ public class TelaFinanceiro extends JFrame {
 				.listeTodos();
 
 		for (int i = 0; i < manipulaProjeto.size(); i++) {
-			
+			if(manipulaProjeto.get(i).getPorcentagemConclusao()==0){
 			model.addRow(new String[] {
 					"" + manipulaProjeto.get(i).getIdProjeto(),
 					"" + manipulaProjeto.get(i).getNomeProjet(),
 					"" + manipulaProjeto.get(i).getPorcentagemConclusao()+"% concluido",
 					"R$" + manipulaProjeto.get(i).getCustos().getOrcamento()});
-
+			}
 		}
+		tabelaPedidosAvaliados();
+	}
+	
+	public void tabelaPedidosAvaliados() {
 
+		DefaultTableModel model = (DefaultTableModel) tabelaPedidosAvaliados.getModel();
+		model.setNumRows(0);
+
+		manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+				.listeTodos();
+
+		for (int i = 0; i < manipulaProjeto.size(); i++) {
+			if(manipulaProjeto.get(i).getPorcentagemConclusao()==10){
+			
+				model.addRow(new String[] {
+					"" + manipulaProjeto.get(i).getIdProjeto(),
+					"" + manipulaProjeto.get(i).getNomeProjet(),
+					"" + manipulaProjeto.get(i).getPorcentagemConclusao()+"% concluido",
+					"R$" + manipulaProjeto.get(i).getCustos().getOrcamento()});
+			}
+		}
+		totalCaixa();
+	}
+
+	public void totalCaixa(){
+		double total = 0;
+		manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+				.listeTodos();
+
+		for (int i = 0; i < manipulaProjeto.size(); i++) {
+			if(manipulaProjeto.get(i).getPorcentagemConclusao()>=20){
+				total+=manipulaProjeto.get(i).getCustos().getGanho();
+			}
+		
+		}
+		campoTotalCaixa.setText("R$ "+total+"0");
 	}
 }

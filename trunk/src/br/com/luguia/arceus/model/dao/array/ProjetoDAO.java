@@ -73,6 +73,15 @@ public class ProjetoDAO implements InterfaceProjetoDAO{
 				+ requisicao.getCustos().getDesconto() + "' WHERE id_projeto = '"
 				+ requisicao.getIdProjeto() + "'");
 		break;
+	case 3:
+		bd.alterar("UPDATE requisicao SET porcentagem_conclusao = '"+requisicao.getPorcentagemConclusao()
+				+"' WHERE id_projeto = '"+requisicao.getIdProjeto()+"'");
+		break;
+	
+	case 4:
+		bd.alterar("UPDATE financeiro SET custo = '"+requisicao.getCustos().getCusto()+"' WHERE id_projeto = '"+requisicao.getIdProjeto()+"'");
+		bd.alterar("UPDATE requisicao SET custo_equipamento = '"+requisicao.getCustoEquipamento()+"', porcentagem_conclusao = '"+requisicao.getPorcentagemConclusao()+"' WHERE id_projeto = '"+requisicao.getIdProjeto()+"'");
+		break;
 	}
 		
 		

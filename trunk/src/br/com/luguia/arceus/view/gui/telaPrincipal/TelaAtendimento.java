@@ -414,6 +414,48 @@ public class TelaAtendimento extends JFrame {
 								});
 								btnAlterar.setBounds(757, 436, 89, 23);
 								contentPane.add(btnAlterar);
+								
+								JButton btnCriao = new JButton("Cria\u00E7\u00E3o");
+								btnCriao.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										try {
+											
+											String codigo, nome;
+
+											codigo = (String) table.getModel().getValueAt(
+													table.getSelectedRow(), 0);
+											nome = (String) table.getModel().getValueAt(
+													table.getSelectedRow(), 1);
+
+											manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+													.listeTodos();
+											for (int i = 0; i < manipulaProjeto.size(); i++) {
+												if (manipulaProjeto.get(i).getNomeProjet()
+														.equalsIgnoreCase(nome.toString().trim())
+														&& manipulaProjeto.get(i).getIdProjeto() == Integer
+																.parseInt(codigo) && manipulaProjeto.get(i).getPorcentagemConclusao()==15) {
+													
+													projeto = new Requisicao();
+													projeto.setPorcentagemConclusao(20);
+													projeto.setIdProjeto(manipulaProjeto.get(i).getIdProjeto());
+													
+													projetoDao.altere(projeto, 3);
+												}
+											}
+											
+
+										} catch (ArrayIndexOutOfBoundsException e1) {
+											JOptionPane.showMessageDialog(null,
+													"Nenhum projeto foi selecionad");
+										}finally{
+											tabelaSincronizada(idPessoa);
+										}
+										
+										
+										}
+								});
+								btnCriao.setBounds(550, 436, 89, 23);
+								contentPane.add(btnCriao);
 								botaoVoltar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 

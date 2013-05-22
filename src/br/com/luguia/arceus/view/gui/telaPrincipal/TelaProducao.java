@@ -2,6 +2,9 @@ package br.com.luguia.arceus.view.gui.telaPrincipal;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -12,19 +15,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+
+import br.com.luguia.arceus.model.Financeiro;
+import br.com.luguia.arceus.model.Requisicao;
+import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class TelaProducao extends JFrame {
 
@@ -35,7 +39,22 @@ public class TelaProducao extends JFrame {
 
 	private JTextField campoValorTotal;
 
+	private ProjetoDAO projetoDao = new ProjetoDAO();
+	private ArrayList<Requisicao> manipulaProjeto;
+	private Requisicao projeto;
+	private Financeiro custos;
+	private int chaveControle = 0;
+	
+	
 	public TelaProducao() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+			
+				tabelaSincronizada();
+				limpaCampos();
+			}
+		});
 
 		setTitle("Setor de Produ\u00E7\u00E3o");
 		setResizable(false);
@@ -70,13 +89,38 @@ public class TelaProducao extends JFrame {
 		JButton btnAbrir = new JButton("Abrir");
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String descricao;
-				descricao = (String) tabelaSolicitacoesFinanceiro.getModel()
-						.getValueAt(
-								tabelaSolicitacoesFinanceiro.getSelectedRow(),
-								1);
+				try {
+					
+					String codigo, nome;
 
-				campoDescricaoPedido.setText(descricao + "");
+					codigo = (String) tabelaSolicitacoesFinanceiro.getModel().getValueAt(
+							tabelaSolicitacoesFinanceiro.getSelectedRow(), 0);
+					nome = (String) tabelaSolicitacoesFinanceiro.getModel().getValueAt(
+							tabelaSolicitacoesFinanceiro.getSelectedRow(), 1);
+
+					manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+							.listeTodos();
+					for (int i = 0; i < manipulaProjeto.size(); i++) {
+						if (manipulaProjeto.get(i).getNomeProjet()
+								.equalsIgnoreCase(nome.toString().trim())
+								&& manipulaProjeto.get(i).getIdProjeto() == Integer
+										.parseInt(codigo)) {
+							chaveControle = 1;
+							campoDescricaoPedido.setText(""
+									+ manipulaProjeto.get(i).getDefinicaoProjeto());
+							
+							projeto = new Requisicao();
+							custos = new Financeiro();
+							projeto.setIdProjeto(manipulaProjeto.get(i).getIdProjeto());
+							
+						}
+					}
+					
+
+				} catch (ArrayIndexOutOfBoundsException e1) {
+					JOptionPane.showMessageDialog(null,
+							"Ninguém foi selecionado !");
+				}
 
 			}
 		});
@@ -99,6 +143,11 @@ public class TelaProducao extends JFrame {
 		panel_1.add(lblEnviar);
 
 		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabelaSincronizada();
+			}
+		});
 
 		btnAtualizar.setBounds(351, 22, 89, 23);
 		panel_1.add(btnAtualizar);
@@ -121,10 +170,35 @@ public class TelaProducao extends JFrame {
 		contentPane.add(panel_3);
 
 		campoValorTotal = new JTextField();
+		campoValorTotal.setHorizontalAlignment(SwingConstants.CENTER);
 		campoValorTotal.setFont(new Font("Tahoma", Font.BOLD, 20));
 		campoValorTotal.setColumns(10);
 
 		JButton button = new JButton("Enviar");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(chaveControle == 1){
+					projeto.setCustoEquipamento(listaPrecoEquipamentos.getText().toString());
+					projeto.setPorcentagemConclusao(10);				
+					
+					String dinheiro[] = campoValorTotal.getText().toString().trim().split(",");
+					custos.setCusto(Double.parseDouble(dinheiro[0]+"."+dinheiro[1]));
+					
+					projeto.setCustos(custos);
+					
+					projetoDao.altere(projeto, 4);
+					
+					
+				}else{
+					JOptionPane.showMessageDialog(null, "Você esqueceu de escolher o projeto na lista!");
+				}
+				
+				tabelaSincronizada();
+				limpaCampos();
+				
+			}
+		});
 
 		JLabel label = new JLabel("Total gasto");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -134,98 +208,73 @@ public class TelaProducao extends JFrame {
 
 		JLabel lblNewLabel_1 = new JLabel(
 				"Relatorio do valor que ser\u00E1 gasto em equipamentos e servis\u00E7os para esse projeto");
+		
+		JLabel lblOCampoTotal = new JLabel("o campo total gasto deve apenas acc ,");
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
-		gl_panel_3
-				.setHorizontalGroup(gl_panel_3
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panel_3
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_panel_3
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																Alignment.TRAILING,
-																gl_panel_3
-																		.createSequentialGroup()
-																		.addComponent(
-																				listaPrecoEquipamentos,
-																				GroupLayout.DEFAULT_SIZE,
-																				412,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				ComponentPlacement.UNRELATED)
-																		.addGroup(
-																				gl_panel_3
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addGroup(
-																								gl_panel_3
-																										.createSequentialGroup()
-																										.addGap(39)
-																										.addComponent(
-																												label,
-																												GroupLayout.PREFERRED_SIZE,
-																												111,
-																												GroupLayout.PREFERRED_SIZE))
-																						.addComponent(
-																								campoValorTotal,
-																								GroupLayout.PREFERRED_SIZE,
-																								188,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addGroup(
-																								gl_panel_3
-																										.createSequentialGroup()
-																										.addGap(125)
-																										.addComponent(
-																												button,
-																												GroupLayout.PREFERRED_SIZE,
-																												63,
-																												GroupLayout.PREFERRED_SIZE))))
-														.addComponent(
-																lblNewLabel_1))
-										.addContainerGap()));
-		gl_panel_3
-				.setVerticalGroup(gl_panel_3
-						.createParallelGroup(Alignment.TRAILING)
-						.addGroup(
-								gl_panel_3
-										.createSequentialGroup()
-										.addComponent(lblNewLabel_1)
-										.addPreferredGap(
-												ComponentPlacement.UNRELATED)
-										.addGroup(
-												gl_panel_3
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addGroup(
-																gl_panel_3
-																		.createSequentialGroup()
-																		.addComponent(
-																				label,
-																				GroupLayout.PREFERRED_SIZE,
-																				25,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(11)
-																		.addComponent(
-																				campoValorTotal,
-																				GroupLayout.PREFERRED_SIZE,
-																				54,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(18)
-																		.addComponent(
-																				button))
-														.addGroup(
-																gl_panel_3
-																		.createSequentialGroup()
-																		.addComponent(
-																				listaPrecoEquipamentos,
-																				GroupLayout.DEFAULT_SIZE,
-																				334,
-																				Short.MAX_VALUE)
-																		.addContainerGap()))));
+		gl_panel_3.setHorizontalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_3.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_3.createSequentialGroup()
+							.addComponent(listaPrecoEquipamentos, GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_3.createSequentialGroup()
+									.addGap(39)
+									.addComponent(label, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
+								.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel_3.createSequentialGroup()
+									.addGap(125)
+									.addComponent(button, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblOCampoTotal)))
+						.addComponent(lblNewLabel_1))
+					.addContainerGap())
+		);
+		gl_panel_3.setVerticalGroup(
+			gl_panel_3.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_3.createSequentialGroup()
+					.addComponent(lblNewLabel_1)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_3.createSequentialGroup()
+							.addComponent(lblOCampoTotal)
+							.addGap(33)
+							.addComponent(label, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+							.addGap(11)
+							.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(button))
+						.addGroup(gl_panel_3.createSequentialGroup()
+							.addComponent(listaPrecoEquipamentos, GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+							.addContainerGap())))
+		);
 		panel_3.setLayout(gl_panel_3);
+	}
+
+	public void tabelaSincronizada() {
+
+		DefaultTableModel model = (DefaultTableModel) tabelaSolicitacoesFinanceiro.getModel();
+		model.setNumRows(0);
+
+		manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+				.listeTodos();
+
+		for (int i = 0; i < manipulaProjeto.size(); i++) {
+			if(manipulaProjeto.get(i).getPorcentagemConclusao()==5){
+			model.addRow(new String[] {
+					"" + manipulaProjeto.get(i).getIdProjeto(),
+					"" + manipulaProjeto.get(i).getNomeProjet(),
+					"" + manipulaProjeto.get(i).getPorcentagemConclusao()+"% concluido",
+					"R$" + manipulaProjeto.get(i).getCustos().getOrcamento()});
+			}
+		}
+		
+	}
+	
+	public void limpaCampos(){
+		campoDescricaoPedido.setText("");
+		campoValorTotal.setText("0,00");
+		listaPrecoEquipamentos.setText("");
 	}
 }

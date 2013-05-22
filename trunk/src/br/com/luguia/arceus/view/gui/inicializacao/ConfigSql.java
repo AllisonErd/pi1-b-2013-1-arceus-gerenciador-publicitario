@@ -41,7 +41,7 @@ public class ConfigSql extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		panel.setBackground(UIManager.getColor("Button.focus"));
+		panel.setBackground(Color.WHITE);
 		panel.setBounds(0, 0, 294, 271);
 		contentPane.add(panel);
 		panel.setLayout(null);

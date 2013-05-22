@@ -29,7 +29,7 @@ public class EscolhaBanco extends JFrame {
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(192, 192, 192));
+		panel.setBackground(Color.WHITE);
 		panel.setBounds(0, 0, 294, 271);
 		contentPane.add(panel);
 		panel.setLayout(null);

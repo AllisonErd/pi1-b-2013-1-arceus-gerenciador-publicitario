@@ -7,21 +7,22 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextPane;
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 
-public class TelaChat extends JDialog {
+public class TelaLogonChat extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			TelaChat dialog = new TelaChat();
+			TelaLogonChat dialog = new TelaLogonChat();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -32,28 +33,33 @@ public class TelaChat extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public TelaChat() {
-		setBounds(100, 100, 250, 350);
+	public TelaLogonChat() {
+		setBounds(100, 100, 300, 350);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		{
+			textField = new JTextField();
+			textField.setBounds(51, 92, 186, 20);
+			contentPanel.add(textField);
+			textField.setColumns(10);
+		}
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(10, 11, 214, 201);
-		contentPanel.add(textPane);
+		passwordField = new JPasswordField();
+		passwordField.setBounds(51, 151, 186, 20);
+		contentPanel.add(passwordField);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 243, 214, 31);
-		contentPanel.add(textField);
-		textField.setColumns(10);
+		JLabel lblUsuario = new JLabel("Usuario");
+		lblUsuario.setBounds(51, 67, 67, 14);
+		contentPanel.add(lblUsuario);
 		
-		JButton btnEnviar = new JButton("Enviar");
-		btnEnviar.setBounds(71, 277, 89, 23);
-		contentPanel.add(btnEnviar);
+		JLabel lblSenha = new JLabel("Senha");
+		lblSenha.setBounds(51, 126, 67, 14);
+		contentPanel.add(lblSenha);
 		
-		JLabel lblDigiteAquiSua = new JLabel("Digite aqui sua menssagem");
-		lblDigiteAquiSua.setBounds(10, 223, 165, 14);
-		contentPanel.add(lblDigiteAquiSua);
+		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.setBounds(97, 232, 104, 23);
+		contentPanel.add(btnEntrar);
 	}
 }

@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
@@ -18,6 +20,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
+import br.com.luguia.arceus.model.Requisicao;
+import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class TelaFinanceiro extends JFrame {
 
 	private JPanel contentPane;
@@ -27,7 +34,20 @@ public class TelaFinanceiro extends JFrame {
 	
 	private JTable tabelaPedidosAvaliados;
 
+	private ProjetoDAO projetoDao = new ProjetoDAO();
+	private ArrayList<Requisicao> manipulaProjeto;
+	private Requisicao projeto;
+	
+	
 	public TelaFinanceiro() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				
+				tabelaSincronizada();
+				
+			}
+		});
 
 
 
@@ -71,6 +91,13 @@ public class TelaFinanceiro extends JFrame {
 		contentPane.add(campoDescricao);
 
 		JButton btnSolicitaCusto = new JButton("Solicita Custo");
+		btnSolicitaCusto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
 	
 		btnSolicitaCusto.setBounds(10, 433, 112, 26);
 		contentPane.add(btnSolicitaCusto);
@@ -81,7 +108,7 @@ public class TelaFinanceiro extends JFrame {
 				dispose();
 			}
 		});
-		btnRetornaOramento.setBounds(902, 433, 112, 26);
+		btnRetornaOramento.setBounds(770, 433, 112, 26);
 		contentPane.add(btnRetornaOramento);
 
 		JLabel lblCustoDeProduo = new JLabel(
@@ -119,13 +146,20 @@ public class TelaFinanceiro extends JFrame {
 
 		JButton button = new JButton("Retorna Or\u00E7.");
 	
-		button.setBounds(778, 433, 112, 26);
+		button.setBounds(902, 433, 112, 26);
 		contentPane.add(button);
 
 		tabelaSolicitacoes = new JTable();
-		tabelaSolicitacoes.setModel(new DefaultTableModel(new Object[][] { {
-				null, null, null }, }, new String[] { "New column",
-				"New column", "New column" }));
+		tabelaSolicitacoes.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column"
+			}
+		));
+		tabelaSolicitacoes.getColumnModel().getColumn(0).setPreferredWidth(15);
+		tabelaSolicitacoes.getColumnModel().getColumn(1).setPreferredWidth(150);
 		tabelaSolicitacoes.setBounds(20, 96, 472, 132);
 		contentPane.add(tabelaSolicitacoes);
 
@@ -145,5 +179,68 @@ public class TelaFinanceiro extends JFrame {
 		));
 		tabelaPedidosAvaliados.setBounds(536, 95, 480, 216);
 		contentPane.add(tabelaPedidosAvaliados);
+		
+		JButton btnVisualizar = new JButton("Ver Caracteristicas");
+		btnVisualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+				
+					String codigo, nome;
+
+					codigo = (String) tabelaSolicitacoes.getModel().getValueAt(
+							tabelaSolicitacoes.getSelectedRow(), 0);
+					nome = (String) tabelaSolicitacoes.getModel().getValueAt(
+							tabelaSolicitacoes.getSelectedRow(), 1);
+
+					manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+							.listeTodos();
+					for (int i = 0; i < manipulaProjeto.size(); i++) {
+						if (manipulaProjeto.get(i).getNomeProjet()
+								.equalsIgnoreCase(nome.toString().trim())
+								&& manipulaProjeto.get(i).getIdProjeto() == Integer
+										.parseInt(codigo)) {
+
+							campoDescricao.setText(""
+									+ manipulaProjeto.get(i).getIdProjeto()+
+									"\n"+manipulaProjeto.get(i).getNomeProjet()+
+									"\n"+manipulaProjeto.get(i).getDataPedido()+
+									"\n"+manipulaProjeto.get(i).getTempoEntrega()+
+									"\n"+manipulaProjeto.get(i).getDefinicaoProjeto());
+							
+
+						}
+					}
+					
+
+				} catch (ArrayIndexOutOfBoundsException e1) {
+					JOptionPane.showMessageDialog(null,
+							"Ninguém foi selecionado !");
+				}
+			
+			}
+		});
+		btnVisualizar.setBounds(377, 435, 123, 23);
+		contentPane.add(btnVisualizar);
+	}
+	
+	
+	public void tabelaSincronizada() {
+
+		DefaultTableModel model = (DefaultTableModel) tabelaSolicitacoes.getModel();
+		model.setNumRows(0);
+
+		manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+				.listeTodos();
+
+		for (int i = 0; i < manipulaProjeto.size(); i++) {
+			
+			model.addRow(new String[] {
+					"" + manipulaProjeto.get(i).getIdProjeto(),
+					"" + manipulaProjeto.get(i).getNomeProjet(),
+					"" + manipulaProjeto.get(i).getPorcentagemConclusao()+"% concluido",
+					"R$" + manipulaProjeto.get(i).getCustos().getOrcamento()});
+
+		}
+
 	}
 }

@@ -10,7 +10,7 @@ public interface InterfaceProjetoDAO {
 
 	public abstract void exclua(Requisicao requisicao);
 
-	public abstract void altere(Requisicao requisicao);
+	public abstract void altere(Requisicao requisicao, int caso);
 
 	public abstract List<Requisicao> listeTodos();
 	

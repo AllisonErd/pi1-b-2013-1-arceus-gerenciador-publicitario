@@ -65,7 +65,7 @@ public class TelaAtendimento extends JFrame {
 	private Requisicao projeto;
 	
 	private int idPessoa = 0;
-	
+	private int chaveDeControle = 0;
 	public TelaAtendimento() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -242,15 +242,16 @@ public class TelaAtendimento extends JFrame {
 								table = new JTable();
 								table.setModel(new DefaultTableModel(
 									new Object[][] {
-										{null, null, null},
-										{null, null, null},
-										{null, null, null},
+										{null, null, null, null},
+										{null, null, null, null},
+										{null, null, null, null},
+										{null, null, null, null},
 									},
 									new String[] {
-										"New column", "New column", "New column"
+										"New column", "New column", "New column", "New column"
 									}
 								));
-								table.getColumnModel().getColumn(0).setPreferredWidth(10);
+								table.getColumnModel().getColumn(0).setPreferredWidth(15);
 								table.getColumnModel().getColumn(1).setPreferredWidth(150);
 								table.setBounds(10, 24, 478, 72);
 								panel_5.add(table);
@@ -341,24 +342,78 @@ public class TelaAtendimento extends JFrame {
 									projeto.setPrioridadeProjeto(0);
 									projeto.setTipoExecucao("");
 									
-									if(idPessoa != 0){
-										projetoDao.insira(projeto, idPessoa);
+									if(chaveDeControle == 0){
+										if(idPessoa != 0){
+											projetoDao.insira(projeto, idPessoa);
+										}else{
+											JOptionPane.showMessageDialog(null, "Pesquisar o cliente que deseja solicitar um projeto!");
+										}
 									}else{
-										JOptionPane.showMessageDialog(null, "Pesquisar o cliente que deseja solicitar um projeto!");
+										projetoDao.altere(projeto, 1);
+
+										chaveDeControle = 0;
+										
 									}
-									
 								}
+								
+								
+																
 								posicaoCorreta();
 								tabelaSincronizada(idPessoa);
 								limpaTela();
 							}
 						});
-						botaoOrcamento.setBounds(742, 437, 98, 23);
+						botaoOrcamento.setBounds(649, 436, 98, 23);
 						contentPane.add(botaoOrcamento);
 						
 								JButton botaoVoltar = new JButton("Voltar");
-								botaoVoltar.setBounds(451, 436, 98, 23);
+								botaoVoltar.setBounds(10, 436, 98, 23);
 								contentPane.add(botaoVoltar);
+								
+								JButton btnAlterar = new JButton("Alterar");
+								btnAlterar.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										try {
+											chaveDeControle = 1;
+											String codigo, nome;
+
+											codigo = (String) table.getModel().getValueAt(
+													table.getSelectedRow(), 0);
+											nome = (String) table.getModel().getValueAt(
+													table.getSelectedRow(), 1);
+
+											manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+													.listeTodos();
+											for (int i = 0; i < manipulaProjeto.size(); i++) {
+												if (manipulaProjeto.get(i).getNomeProjet()
+														.equalsIgnoreCase(nome.toString().trim())
+														&& manipulaProjeto.get(i).getIdProjeto() == Integer
+																.parseInt(codigo)) {
+
+													campoCodigoProjeto.setText(""
+															+ manipulaProjeto.get(i).getIdProjeto());
+													campoNomeProjeto.setText(""
+															+ manipulaProjeto.get(i).getNomeProjet());
+													campoDataEmissao.setText(""
+															+ manipulaProjeto.get(i).getDataPedido());
+													campoDataEntrega.setText(""
+															+ manipulaProjeto.get(i).getTempoEntrega());
+													campoDescricaoProjeto.setText(""
+															+ manipulaProjeto.get(i).getDefinicaoProjeto());
+												}
+											}
+										//	limpaTabela();
+
+										} catch (ArrayIndexOutOfBoundsException e1) {
+											JOptionPane.showMessageDialog(null,
+													"Ninguém foi selecionado !");
+										}
+
+										
+									}
+								});
+								btnAlterar.setBounds(757, 436, 89, 23);
+								contentPane.add(btnAlterar);
 								botaoVoltar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 
@@ -367,7 +422,23 @@ public class TelaAtendimento extends JFrame {
 								});
 				btnExcluir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
+						String numero = (String) table.getModel().getValueAt(
+								table.getSelectedRow(), 0);
 
+						manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+								.listeTodos();
+
+						for (int i = 0; i < manipulaProjeto.size(); i++) {
+							projeto = manipulaProjeto.get(i);
+							if (projeto.getIdProjeto() == Integer.parseInt(numero)) {
+								projetoDao.exclua(projeto);
+							}
+
+						}
+
+						tabelaSincronizada(idPessoa);
+						posicaoCorreta();
 					}
 				});
 	}
@@ -397,12 +468,13 @@ public class TelaAtendimento extends JFrame {
 				.listeTodos();
 
 		for (int i = 0; i < manipulaProjeto.size(); i++) {
-			if(manipulaProjeto.get(i).getIdPessoa()== id)
+			if(manipulaProjeto.get(i).getIdPessoa()== id){
 			model.addRow(new String[] {
 					"" + manipulaProjeto.get(i).getIdProjeto(),
 					"" + manipulaProjeto.get(i).getNomeProjet(),
-					"" + manipulaProjeto.get(i).getPorcentagemConclusao()+"% concluido" });
-
+					"" + manipulaProjeto.get(i).getPorcentagemConclusao()+"% concluido",
+					"R$" + manipulaProjeto.get(i).getCustos().getOrcamento()});
+			}
 		}
 
 	}

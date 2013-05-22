@@ -2,19 +2,14 @@ package br.com.luguia.arceus.model;
 
 public class Financeiro {
 
-	private int idFinanceiro;
+	
 	private double orcamento;
 	private double custo ;
 	private double desconto;
 	private double ganho;
 	
 	
-	public int getIdFinanceiro() {
-		return idFinanceiro++;
-	}
-	public void setIdFinanceiro(int idFinanceiro) {
-		this.idFinanceiro = idFinanceiro;
-	}
+	
 	public double getOrcamento() {
 		return orcamento;
 	}

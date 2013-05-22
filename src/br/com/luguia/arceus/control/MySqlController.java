@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 
 import br.com.luguia.arceus.model.Contato;
 import br.com.luguia.arceus.model.Endereco;
+import br.com.luguia.arceus.model.Financeiro;
 import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.PessoaFisica;
 import br.com.luguia.arceus.model.PessoaJuridica;
@@ -38,6 +39,8 @@ public class MySqlController {
 	private Contato contato;
 	private Telefone telefone;
 
+	private Financeiro financeiro;
+	
 	private String host;
 	private String user;
 	private String pass;
@@ -258,6 +261,14 @@ public class MySqlController {
 					requisicao.setTempoEntrega(rs.getString("data_entrega"));
 					requisicao.setTipoExecucao(rs.getString("tipo_execucao"));
 					requisicao.setIdPessoa(Integer.parseInt(rs.getString("id_pessoa")));				
+					
+					financeiro = new Financeiro();
+					financeiro.setCusto(Double.parseDouble(rs.getString("custo")));
+					financeiro.setDesconto(Double.parseDouble(rs.getString("desconto")));
+					financeiro.setGanho(Double.parseDouble(rs.getString("ganho")));
+					financeiro.setOrcamento(Double.parseDouble(rs.getString("orcamento")));
+					
+					requisicao.setCustos(financeiro);
 					
 					this.modelRequisicao.add(requisicao);
 				}

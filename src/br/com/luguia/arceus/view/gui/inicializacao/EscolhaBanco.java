@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 
 public class EscolhaBanco extends JFrame {
 
@@ -34,14 +35,8 @@ public class EscolhaBanco extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JButton btnNewButton = new JButton("Array List");
-		btnNewButton.setForeground(new Color(47, 79, 79));
-		btnNewButton.setFont(new Font("Calibri", Font.BOLD, 13));
-		btnNewButton.setBackground(UIManager.getColor("Button.focus"));
-		btnNewButton.setBounds(66, 72, 155, 40);
-		panel.add(btnNewButton);
-
 		JButton btnSql = new JButton("MySQL");
+		btnSql.setIcon(new ImageIcon(EscolhaBanco.class.getResource("/images/database.png")));
 		btnSql.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -54,7 +49,7 @@ public class EscolhaBanco extends JFrame {
 		btnSql.setForeground(new Color(47, 79, 79));
 		btnSql.setFont(new Font("Calibri", Font.BOLD, 13));
 		btnSql.setBackground(UIManager.getColor("Button.focus"));
-		btnSql.setBounds(66, 166, 155, 40);
+		btnSql.setBounds(71, 102, 155, 81);
 		panel.add(btnSql);
 	}
 }

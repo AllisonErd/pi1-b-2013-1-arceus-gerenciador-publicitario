@@ -36,6 +36,7 @@ import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.ImageIcon;
 
 
 
@@ -90,9 +91,10 @@ public class TelaAtendimento extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("A t e n d i m e n t o");
+		JLabel lblNewLabel = new JLabel(" A t e n d i m e n t o");
+		lblNewLabel.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/images/notes_edit.png")));
 		lblNewLabel.setFont(new Font("OCR A Extended", Font.BOLD, 20));
-		lblNewLabel.setBounds(10, 11, 290, 34);
+		lblNewLabel.setBounds(10, 0, 384, 56);
 		panel.add(lblNewLabel);
 
 		JPanel panel_1 = new JPanel();
@@ -109,6 +111,7 @@ public class TelaAtendimento extends JFrame {
 		campoCaracteristicas.setEditable(false);
 
 		JButton btnNovo = new JButton("Pesquisar Cliente");
+		btnNovo.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/search.png")));
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO
@@ -176,7 +179,7 @@ public class TelaAtendimento extends JFrame {
 			}
 		});
 
-		btnNovo.setBounds(269, 66, 154, 23);
+		btnNovo.setBounds(255, 66, 168, 23);
 		contentPane.add(btnNovo);
 
 		JSeparator separator = new JSeparator();
@@ -228,8 +231,12 @@ public class TelaAtendimento extends JFrame {
 				
 						campoDescricaoProjeto = new JTextArea();
 						campoDescricaoProjeto.setLineWrap(true);
-						campoDescricaoProjeto.setBounds(12, 23, 476, 79);
+						campoDescricaoProjeto.setBounds(12, 23, 449, 79);
 						panel_6.add(campoDescricaoProjeto);
+						
+						JScrollBar scrollBar_1 = new JScrollBar();
+						scrollBar_1.setBounds(471, 23, 17, 79);
+						panel_6.add(scrollBar_1);
 							//TODO concatenar a frase Projetos relacionados a : com o nome da pessoa selecionada!! 
 								JPanel panel_5 = new JPanel();
 								panel_5.setBounds(10, 212, 498, 107);
@@ -253,8 +260,12 @@ public class TelaAtendimento extends JFrame {
 								));
 								table.getColumnModel().getColumn(0).setPreferredWidth(15);
 								table.getColumnModel().getColumn(1).setPreferredWidth(150);
-								table.setBounds(10, 24, 478, 72);
+								table.setBounds(10, 24, 458, 72);
 								panel_5.add(table);
+								
+								JScrollBar scrollBar = new JScrollBar();
+								scrollBar.setBounds(471, 24, 17, 72);
+								panel_5.add(scrollBar);
 
 		JLabel lblNewLabel_1 = new JLabel("Codigo do Projeto :");
 		lblNewLabel_1.setFont(new Font("Calibri", Font.BOLD, 20));
@@ -271,7 +282,7 @@ public class TelaAtendimento extends JFrame {
 		campoCpfCnpj.setFont(new Font("Dialog", Font.BOLD, 14));
 		campoCpfCnpj.setHorizontalAlignment(SwingConstants.CENTER);
 		campoCpfCnpj.setColumns(10);
-		campoCpfCnpj.setBounds(76, 66, 181, 23);
+		campoCpfCnpj.setBounds(76, 66, 168, 23);
 		contentPane.add(campoCpfCnpj);
 
 		JLabel lblCpfcnpj = new JLabel("CPF/CNPJ");
@@ -304,19 +315,22 @@ public class TelaAtendimento extends JFrame {
 		gp.add(rdbtnJuridico);
 
 		JButton novoCliente = new JButton("Cadastrar");
+		novoCliente.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/accept.png")));
 		novoCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new TelaCadastroCliente().setVisible(true);
 			}
 		});
-		novoCliente.setBounds(325, 436, 98, 23);
+		novoCliente.setBounds(300, 436, 123, 23);
 		contentPane.add(novoCliente);
 		
 				JButton btnExcluir = new JButton("Excluir");
+				btnExcluir.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/remove.png")));
 				btnExcluir.setBounds(856, 436, 98, 23);
 				contentPane.add(btnExcluir);
 				
 						JButton botaoOrcamento = new JButton("Or\u00E7amento");
+						botaoOrcamento.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/calculator.png")));
 						botaoOrcamento.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 							//TODO
@@ -363,14 +377,16 @@ public class TelaAtendimento extends JFrame {
 								limpaTela();
 							}
 						});
-						botaoOrcamento.setBounds(649, 436, 98, 23);
+						botaoOrcamento.setBounds(591, 436, 117, 23);
 						contentPane.add(botaoOrcamento);
 						
 								JButton botaoVoltar = new JButton("Voltar");
-								botaoVoltar.setBounds(10, 436, 98, 23);
+								botaoVoltar.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/back.png")));
+								botaoVoltar.setBounds(10, 436, 117, 23);
 								contentPane.add(botaoVoltar);
 								
 								JButton btnAlterar = new JButton("Alterar");
+								btnAlterar.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/page_edit.png")));
 								btnAlterar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 										try {
@@ -412,10 +428,11 @@ public class TelaAtendimento extends JFrame {
 										
 									}
 								});
-								btnAlterar.setBounds(757, 436, 89, 23);
+								btnAlterar.setBounds(730, 436, 106, 23);
 								contentPane.add(btnAlterar);
 								
 								JButton btnCriao = new JButton("Cria\u00E7\u00E3o");
+								btnCriao.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/image.png")));
 								btnCriao.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 										try {
@@ -454,7 +471,7 @@ public class TelaAtendimento extends JFrame {
 										
 										}
 								});
-								btnCriao.setBounds(550, 436, 89, 23);
+								btnCriao.setBounds(461, 436, 106, 23);
 								contentPane.add(btnCriao);
 								botaoVoltar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {

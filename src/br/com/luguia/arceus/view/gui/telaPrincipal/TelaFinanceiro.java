@@ -26,6 +26,8 @@ import br.com.luguia.arceus.model.Requisicao;
 import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
 
 public class TelaFinanceiro extends JFrame {
 
@@ -71,9 +73,10 @@ public class TelaFinanceiro extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("F i n a n c e i r o");
+		JLabel lblNewLabel = new JLabel(" F i n a n c e i r o");
+		lblNewLabel.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/images/calculator.png")));
 		lblNewLabel.setFont(new Font("OCR A Extended", Font.BOLD, 20));
-		lblNewLabel.setBounds(10, 11, 255, 34);
+		lblNewLabel.setBounds(10, 0, 344, 56);
 		panel.add(lblNewLabel);
 
 		JLabel lblSolicitaoDeOramento = new JLabel(
@@ -90,10 +93,11 @@ public class TelaFinanceiro extends JFrame {
 		contentPane.add(lblDescrioDoPedido);
 
 		final JTextArea campoDescricao = new JTextArea();
-		campoDescricao.setBounds(10, 283, 490, 132);
+		campoDescricao.setBounds(10, 283, 467, 132);
 		contentPane.add(campoDescricao);
 
 		JButton btnSolicitaCusto = new JButton("Solicita Custo");
+		btnSolicitaCusto.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/calculator_add.png")));
 		btnSolicitaCusto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -136,16 +140,17 @@ public class TelaFinanceiro extends JFrame {
 			}
 		});
 	
-		btnSolicitaCusto.setBounds(10, 433, 112, 26);
+		btnSolicitaCusto.setBounds(10, 433, 134, 26);
 		contentPane.add(btnSolicitaCusto);
 
 		JButton btnRetornaOramento = new JButton("Voltar");
+		btnRetornaOramento.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/back.png")));
 		btnRetornaOramento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnRetornaOramento.setBounds(770, 433, 112, 26);
+		btnRetornaOramento.setBounds(750, 433, 112, 26);
 		contentPane.add(btnRetornaOramento);
 
 		JLabel lblCustoDeProduo = new JLabel(
@@ -184,6 +189,7 @@ public class TelaFinanceiro extends JFrame {
 		contentPane.add(separator_2);
 
 		JButton button = new JButton("Retorna Or\u00E7.");
+		button.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/accept.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -239,7 +245,7 @@ public class TelaFinanceiro extends JFrame {
 			}
 		});
 	
-		button.setBounds(902, 433, 112, 26);
+		button.setBounds(872, 433, 142, 26);
 		contentPane.add(button);
 
 		tabelaSolicitacoes = new JTable();
@@ -253,17 +259,18 @@ public class TelaFinanceiro extends JFrame {
 		));
 		tabelaSolicitacoes.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tabelaSolicitacoes.getColumnModel().getColumn(1).setPreferredWidth(150);
-		tabelaSolicitacoes.setBounds(20, 96, 472, 132);
+		tabelaSolicitacoes.setBounds(20, 96, 457, 132);
 		contentPane.add(tabelaSolicitacoes);
 
 		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/database.png")));
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabelaSincronizada();
 			}
 		});
 
-		btnAtualizar.setBounds(468, 65, 89, 23);
+		btnAtualizar.setBounds(457, 65, 112, 23);
 		contentPane.add(btnAtualizar);
 
 		tabelaPedidosAvaliados = new JTable();
@@ -275,10 +282,11 @@ public class TelaFinanceiro extends JFrame {
 				"New column", "New column", "New column"
 			}
 		));
-		tabelaPedidosAvaliados.setBounds(536, 95, 480, 216);
+		tabelaPedidosAvaliados.setBounds(536, 95, 457, 216);
 		contentPane.add(tabelaPedidosAvaliados);
 		
 		JButton btnVisualizar = new JButton("Ver Caracteristicas");
+		btnVisualizar.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/page_search.png")));
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -317,7 +325,7 @@ public class TelaFinanceiro extends JFrame {
 			
 			}
 		});
-		btnVisualizar.setBounds(377, 435, 123, 23);
+		btnVisualizar.setBounds(315, 435, 185, 23);
 		contentPane.add(btnVisualizar);
 		
 		campoDesconto = new JTextField();
@@ -331,6 +339,18 @@ public class TelaFinanceiro extends JFrame {
 		lblDesconto.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDesconto.setBounds(770, 354, 112, 16);
 		contentPane.add(lblDesconto);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(483, 96, 17, 133);
+		contentPane.add(scrollBar);
+		
+		JScrollBar scrollBar_1 = new JScrollBar();
+		scrollBar_1.setBounds(483, 283, 17, 132);
+		contentPane.add(scrollBar_1);
+		
+		JScrollBar scrollBar_2 = new JScrollBar();
+		scrollBar_2.setBounds(1003, 95, 17, 215);
+		contentPane.add(scrollBar_2);
 	}
 	
 	

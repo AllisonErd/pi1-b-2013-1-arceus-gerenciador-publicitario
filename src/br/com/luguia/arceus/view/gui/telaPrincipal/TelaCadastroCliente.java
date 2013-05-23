@@ -41,6 +41,8 @@ import br.com.luguia.arceus.model.Telefone;
 import br.com.luguia.arceus.model.dao.array.PessoaFisicaDAO;
 import br.com.luguia.arceus.model.dao.array.PessoaJuridicaDAO;
 import javax.swing.JRadioButton;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
 
 public class TelaCadastroCliente extends JFrame implements ItemListener {
 
@@ -111,9 +113,10 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("C l i e n t e s");
+		JLabel lblNewLabel = new JLabel(" C l i e n t e s");
+		lblNewLabel.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/images/community_users.png")));
 		lblNewLabel.setFont(new Font("OCR A Extended", Font.BOLD, 20));
-		lblNewLabel.setBounds(10, 11, 234, 34);
+		lblNewLabel.setBounds(10, 0, 319, 56);
 		panel.add(lblNewLabel);
 
 		JPanel painelDeComponentes = new JPanel();
@@ -308,7 +311,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		tableFisica.setModel(new DefaultTableModel(new Object[][] { { null, null,
 				null }, }, new String[] { "New column", "New column",
 				"New column" }));
-		tableFisica.setBounds(12, 30, 484, 107);
+		tableFisica.setBounds(12, 30, 468, 107);
 		panel_3.add(tableFisica);
 		
 		tableJuridica = new JTable();
@@ -320,7 +323,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 				"New column", "New column", "New column"
 			}
 		));
-		tableJuridica.setBounds(12, 171, 484, 107);
+		tableJuridica.setBounds(12, 171, 468, 107);
 		panel_3.add(tableJuridica);
 		//TODO
 		JRadioButton radioJuridica = new JRadioButton("Juridica", false);
@@ -345,9 +348,17 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		grupRadio.add(radioJuridica);
 		grupRadio.add(radioFisica);
 		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(482, 30, 17, 107);
+		panel_3.add(scrollBar);
+		
+		JScrollBar scrollBar_1 = new JScrollBar();
+		scrollBar_1.setBounds(482, 171, 17, 107);
+		panel_3.add(scrollBar_1);
+		
 		
 		campoPesquisa = new JTextField();
-		campoPesquisa.setBounds(88, 23, 330, 20);
+		campoPesquisa.setBounds(88, 23, 290, 20);
 		panel_2.add(campoPesquisa);
 		campoPesquisa.setColumns(10);
 		final String items[] = { "Nome", "Codigo" };
@@ -373,7 +384,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		boxTipoPesquisa.setBounds(10, 23, 66, 20);
 		panel_2.add(boxTipoPesquisa);
 		JButton botaoPesquisar = new JButton("Pesquisar");
-		botaoPesquisar.setBounds(426, 22, 92, 23);
+		botaoPesquisar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/page_search.png")));
+		botaoPesquisar.setBounds(388, 22, 130, 23);
 		panel_2.add(botaoPesquisar);
 		botaoPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -488,15 +500,17 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		});
 
 		JButton botaoVoltar = new JButton("Voltar");
+		botaoVoltar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/back.png")));
 		botaoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		botaoVoltar.setBounds(299, 437, 98, 23);
+		botaoVoltar.setBounds(238, 437, 113, 23);
 		contentPane.add(botaoVoltar);
 
 		JButton botaoCadastrar = new JButton("Salvar");
+		botaoCadastrar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/database_accept.png")));
 		botaoCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -556,10 +570,11 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 			}
 		});
 
-		botaoCadastrar.setBounds(519, 437, 98, 23);
+		botaoCadastrar.setBounds(504, 437, 113, 23);
 		contentPane.add(botaoCadastrar);
 
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/page.png")));
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -567,10 +582,11 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 			}
 		});
-		btnLimpar.setBounds(409, 437, 98, 23);
+		btnLimpar.setBounds(376, 437, 105, 23);
 		contentPane.add(btnLimpar);
 
 		JButton botaoAlterar = new JButton("Alterar");
+		botaoAlterar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/page_edit.png")));
 		botaoAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -593,10 +609,11 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 			}
 		});
-		botaoAlterar.setBounds(992, 435, 89, 23);
+		botaoAlterar.setBounds(953, 434, 105, 23);
 		contentPane.add(botaoAlterar);
 
 		JButton botaoCancelar = new JButton("Excluir");
+		botaoCancelar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/page_remove.png")));
 		botaoCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO criado agora, testa!!
@@ -629,7 +646,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 			}
 		});
-		botaoCancelar.setBounds(1093, 435, 89, 23);
+		botaoCancelar.setBounds(1077, 435, 105, 23);
 		contentPane.add(botaoCancelar);
 	}
 

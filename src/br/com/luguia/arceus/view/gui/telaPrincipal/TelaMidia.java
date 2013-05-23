@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
 
 public class TelaMidia extends JFrame {
 
@@ -42,9 +44,10 @@ public class TelaMidia extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("M \u00ED d i a");
+		JLabel lblNewLabel = new JLabel(" M \u00ED d i a");
+		lblNewLabel.setIcon(new ImageIcon(TelaMidia.class.getResource("/images/movie_track.png")));
 		lblNewLabel.setFont(new Font("OCR A Extended", Font.BOLD, 20));
-		lblNewLabel.setBounds(10, 11, 141, 34);
+		lblNewLabel.setBounds(10, 0, 217, 56);
 		panel.add(lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
@@ -54,8 +57,9 @@ public class TelaMidia extends JFrame {
 		panel_1.setLayout(null);
 		
 		JButton btnAbrir = new JButton("Abrir");
+		btnAbrir.setIcon(new ImageIcon(TelaMidia.class.getResource("/Images16x16/accept.png")));
 	
-		btnAbrir.setBounds(275, 343, 89, 23);
+		btnAbrir.setBounds(275, 343, 113, 23);
 		panel_1.add(btnAbrir);
 		
 		tabelaJobsProntos = new JTable();
@@ -67,8 +71,12 @@ public class TelaMidia extends JFrame {
 				"New column", "New column", "New column"
 			}
 		));
-		tabelaJobsProntos.setBounds(10, 25, 594, 298);
+		tabelaJobsProntos.setBounds(10, 25, 572, 298);
 		panel_1.add(tabelaJobsProntos);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(592, 25, 17, 298);
+		panel_1.add(scrollBar);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "Informa\u00E7\u00F5es do Job's", TitledBorder.LEADING, TitledBorder.TOP, null, null));

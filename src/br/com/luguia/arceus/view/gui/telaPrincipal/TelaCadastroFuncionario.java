@@ -28,6 +28,8 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
 
 public class TelaCadastroFuncionario extends JFrame {
 
@@ -72,9 +74,10 @@ public class TelaCadastroFuncionario extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("F u n c i o n \u00E1 r i o s");
+		JLabel lblNewLabel = new JLabel(" F u n c i o n \u00E1 r i o s");
+		lblNewLabel.setIcon(new ImageIcon(TelaCadastroFuncionario.class.getResource("/images/users.png")));
 		lblNewLabel.setFont(new Font("OCR A Extended", Font.BOLD, 20));
-		lblNewLabel.setBounds(10, 11, 351, 34);
+		lblNewLabel.setBounds(10, 0, 408, 56);
 		panel.add(lblNewLabel);
 
 		JPanel painelDeComponentes = new JPanel();
@@ -138,16 +141,18 @@ public class TelaCadastroFuncionario extends JFrame {
 		painelDeComponentes.add(lblLogin);
 
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.setIcon(new ImageIcon(TelaCadastroFuncionario.class.getResource("/Images16x16/page.png")));
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limpaCampo();
 
 			}
 		});
-		btnLimpar.setBounds(403, 62, 91, 23);
+		btnLimpar.setBounds(380, 57, 100, 23);
 		painelDeComponentes.add(btnLimpar);
 
 		JButton botaoCadastrar = new JButton("Salvar");
+		botaoCadastrar.setIcon(new ImageIcon(TelaCadastroFuncionario.class.getResource("/Images16x16/database_accept.png")));
 		botaoCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -183,7 +188,7 @@ public class TelaCadastroFuncionario extends JFrame {
 				}
 			}
 		});
-		botaoCadastrar.setBounds(506, 62, 91, 23);
+		botaoCadastrar.setBounds(497, 57, 100, 23);
 		painelDeComponentes.add(botaoCadastrar);
 
 		JPanel panel_2 = new JPanel();
@@ -208,12 +213,16 @@ public class TelaCadastroFuncionario extends JFrame {
 		table.getColumnModel().getColumn(0).setPreferredWidth(50);
 		table.getColumnModel().getColumn(1).setPreferredWidth(250);
 		table.getColumnModel().getColumn(2).setPreferredWidth(250);
-		table.setBounds(12, 12, 564, 162);
+		table.setBounds(12, 12, 550, 162);
 
 		panel_3.add(table);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(561, 12, 17, 162);
+		panel_3.add(scrollBar);
 
 		campoPesquisa = new JTextField();
-		campoPesquisa.setBounds(121, 20, 371, 20);
+		campoPesquisa.setBounds(121, 20, 355, 20);
 		panel_2.add(campoPesquisa);
 		campoPesquisa.setColumns(10);
 
@@ -223,6 +232,7 @@ public class TelaCadastroFuncionario extends JFrame {
 		panel_2.add(boxTipoPesquisa);
 
 		JButton botaoPesquisar = new JButton("Pesquisar");
+		botaoPesquisar.setIcon(new ImageIcon(TelaCadastroFuncionario.class.getResource("/Images16x16/search.png")));
 		botaoPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -249,10 +259,11 @@ public class TelaCadastroFuncionario extends JFrame {
 
 			}
 		});
-		botaoPesquisar.setBounds(504, 16, 94, 23);
+		botaoPesquisar.setBounds(486, 17, 112, 23);
 		panel_2.add(botaoPesquisar);
 
 		JButton botaoAtualizar = new JButton("Alterar");
+		botaoAtualizar.setIcon(new ImageIcon(TelaCadastroFuncionario.class.getResource("/Images16x16/page_edit.png")));
 		botaoAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -292,10 +303,11 @@ public class TelaCadastroFuncionario extends JFrame {
 				}
 			}
 		});
-		botaoAtualizar.setBounds(401, 249, 91, 23);
+		botaoAtualizar.setBounds(372, 249, 107, 23);
 		panel_2.add(botaoAtualizar);
 
 		JButton boatoExcluir = new JButton("Excluir");
+		boatoExcluir.setIcon(new ImageIcon(TelaCadastroFuncionario.class.getResource("/Images16x16/database_remove.png")));
 		boatoExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -316,16 +328,17 @@ public class TelaCadastroFuncionario extends JFrame {
 				limpaTabela();
 			}
 		});
-		boatoExcluir.setBounds(509, 249, 89, 23);
+		boatoExcluir.setBounds(497, 249, 101, 23);
 		panel_2.add(boatoExcluir);
 
 		JButton botaoVoltar = new JButton("Voltar");
+		botaoVoltar.setIcon(new ImageIcon(TelaCadastroFuncionario.class.getResource("/Images16x16/back.png")));
 		botaoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		botaoVoltar.setBounds(12, 249, 91, 23);
+		botaoVoltar.setBounds(12, 249, 99, 23);
 		panel_2.add(botaoVoltar);
 
 	}

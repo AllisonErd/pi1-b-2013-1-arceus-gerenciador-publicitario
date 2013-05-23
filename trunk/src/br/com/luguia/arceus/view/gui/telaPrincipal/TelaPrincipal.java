@@ -8,11 +8,22 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 public class TelaPrincipal extends JFrame {
 
 	public TelaPrincipal() {
 		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 10, 10);
+		getContentPane().add(panel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 0, 434, 240);
+		getContentPane().add(panel_1);
+		panel_1.setLayout(null);
 		setTitle("Arceus - Gerenciador Publicit\u00E1rio");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);

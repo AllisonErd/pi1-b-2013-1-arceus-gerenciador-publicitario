@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class TelaChat extends JDialog {
 
@@ -33,6 +35,8 @@ public class TelaChat extends JDialog {
 	 * Create the dialog.
 	 */
 	public TelaChat() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaChat.class.getResource("/Images24x24/user_comments.png")));
+		setTitle("Chat");
 		setBounds(100, 100, 250, 350);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -49,7 +53,8 @@ public class TelaChat extends JDialog {
 		textField.setColumns(10);
 		
 		JButton btnEnviar = new JButton("Enviar");
-		btnEnviar.setBounds(71, 277, 89, 23);
+		btnEnviar.setIcon(new ImageIcon(TelaChat.class.getResource("/Images16x16/accept.png")));
+		btnEnviar.setBounds(62, 277, 104, 23);
 		contentPanel.add(btnEnviar);
 		
 		JLabel lblDigiteAquiSua = new JLabel("Digite aqui sua menssagem");

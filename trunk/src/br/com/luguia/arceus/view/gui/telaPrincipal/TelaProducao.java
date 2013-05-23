@@ -29,6 +29,8 @@ import br.com.luguia.arceus.model.Requisicao;
 import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
 
 public class TelaProducao extends JFrame {
 
@@ -72,9 +74,10 @@ public class TelaProducao extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("P r o d u \u00E7 \u00E3 o");
+		JLabel lblNewLabel = new JLabel(" P r o d u \u00E7 \u00E3 o");
+		lblNewLabel.setIcon(new ImageIcon(TelaProducao.class.getResource("/images/chart.png")));
 		lblNewLabel.setFont(new Font("OCR A Extended", Font.BOLD, 20));
-		lblNewLabel.setBounds(10, 11, 228, 34);
+		lblNewLabel.setBounds(10, 0, 366, 56);
 		panel.add(lblNewLabel);
 
 		JPanel panel_1 = new JPanel();
@@ -87,6 +90,7 @@ public class TelaProducao extends JFrame {
 		panel_1.setLayout(null);
 
 		JButton btnAbrir = new JButton("Abrir");
+		btnAbrir.setIcon(new ImageIcon(TelaProducao.class.getResource("/Images16x16/accept.png")));
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -124,14 +128,14 @@ public class TelaProducao extends JFrame {
 
 			}
 		});
-		btnAbrir.setBounds(349, 171, 89, 23);
+		btnAbrir.setBounds(314, 171, 124, 23);
 		panel_1.add(btnAbrir);
 
 		tabelaSolicitacoesFinanceiro = new JTable();
 		tabelaSolicitacoesFinanceiro.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null }, }, new String[] {
 						"New column", "New column", "New column" }));
-		tabelaSolicitacoesFinanceiro.setBounds(10, 26, 329, 168);
+		tabelaSolicitacoesFinanceiro.setBounds(10, 26, 267, 168);
 		panel_1.add(tabelaSolicitacoesFinanceiro);
 
 		JSeparator separator_1 = new JSeparator();
@@ -139,22 +143,31 @@ public class TelaProducao extends JFrame {
 		panel_1.add(separator_1);
 
 		JLabel lblEnviar = new JLabel("Descri\u00E7\u00E3o completa do pedido");
-		lblEnviar.setBounds(10, 212, 150, 14);
+		lblEnviar.setBounds(10, 212, 202, 14);
 		panel_1.add(lblEnviar);
 
 		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setIcon(new ImageIcon(TelaProducao.class.getResource("/Images16x16/database.png")));
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabelaSincronizada();
 			}
 		});
 
-		btnAtualizar.setBounds(351, 22, 89, 23);
+		btnAtualizar.setBounds(314, 22, 126, 23);
 		panel_1.add(btnAtualizar);
 
 		campoDescricaoPedido = new JTextArea();
-		campoDescricaoPedido.setBounds(10, 237, 428, 145);
+		campoDescricaoPedido.setBounds(10, 237, 404, 145);
 		panel_1.add(campoDescricaoPedido);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(287, 26, 17, 168);
+		panel_1.add(scrollBar);
+		
+		JScrollBar scrollBar_1 = new JScrollBar();
+		scrollBar_1.setBounds(423, 237, 17, 145);
+		panel_1.add(scrollBar_1);
 
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
@@ -166,7 +179,7 @@ public class TelaProducao extends JFrame {
 				.getBorder("TitledBorder.border"),
 				"Retorna dados ao Setor Financeiro", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
-		panel_3.setBounds(481, 67, 642, 393);
+		panel_3.setBounds(481, 67, 703, 393);
 		contentPane.add(panel_3);
 
 		campoValorTotal = new JTextField();
@@ -175,6 +188,7 @@ public class TelaProducao extends JFrame {
 		campoValorTotal.setColumns(10);
 
 		JButton button = new JButton("Enviar");
+		button.setIcon(new ImageIcon(TelaProducao.class.getResource("/Images16x16/accept.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -215,19 +229,18 @@ public class TelaProducao extends JFrame {
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_3.createSequentialGroup()
-							.addComponent(listaPrecoEquipamentos, GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+							.addComponent(listaPrecoEquipamentos, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_3.createSequentialGroup()
-									.addGap(39)
-									.addComponent(label, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
-								.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel_3.createSequentialGroup()
-									.addGap(125)
-									.addComponent(button, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblOCampoTotal)))
+							.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_panel_3.createSequentialGroup()
+										.addGap(39)
+										.addComponent(label, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
+									.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblOCampoTotal))
+								.addComponent(button, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(lblNewLabel_1))
 					.addContainerGap())
 		);
@@ -235,7 +248,7 @@ public class TelaProducao extends JFrame {
 			gl_panel_3.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_3.createSequentialGroup()
 					.addComponent(lblNewLabel_1)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(11)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel_3.createSequentialGroup()
 							.addComponent(lblOCampoTotal)
@@ -244,7 +257,7 @@ public class TelaProducao extends JFrame {
 							.addGap(11)
 							.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(button))
+							.addComponent(button, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_3.createSequentialGroup()
 							.addComponent(listaPrecoEquipamentos, GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
 							.addContainerGap())))

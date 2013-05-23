@@ -12,6 +12,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.ImageIcon;
 
 public class TelaLogin extends JFrame {
 
@@ -57,17 +58,19 @@ public class TelaLogin extends JFrame {
 		campoNomeUsuario.setColumns(10);
 
 		JButton botaoEntrar = new JButton("Entrar");
+		botaoEntrar.setIcon(new ImageIcon(TelaLogin.class.getResource("/Images16x16/accept.png")));
 		
-		botaoEntrar.setBounds(290, 237, 89, 23);
+		botaoEntrar.setBounds(273, 237, 106, 23);
 		painelPrincipal.add(botaoEntrar);
 
 		JButton botaoSair = new JButton("Sair");
+		botaoSair.setIcon(new ImageIcon(TelaLogin.class.getResource("/Images16x16/folder.png")));
 		botaoSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);// fecha a tela de login
 			}
 		});
-		botaoSair.setBounds(69, 237, 89, 23);
+		botaoSair.setBounds(69, 237, 106, 23);
 		painelPrincipal.add(botaoSair);
 	}
 

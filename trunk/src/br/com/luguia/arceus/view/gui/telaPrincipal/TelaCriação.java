@@ -20,6 +20,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollBar;
+import javax.swing.ImageIcon;
 
 public class TelaCriação extends JFrame {
 
@@ -50,9 +52,10 @@ public class TelaCriação extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("C r i a \u00E7 \u00E3 o");
+		JLabel lblNewLabel = new JLabel(" C r i a \u00E7 \u00E3 o");
+		lblNewLabel.setIcon(new ImageIcon(TelaCriação.class.getResource("/images/favorite.png")));
 		lblNewLabel.setFont(new Font("OCR A Extended", Font.BOLD, 20));
-		lblNewLabel.setBounds(10, 11, 195, 34);
+		lblNewLabel.setBounds(10, 0, 301, 56);
 		panel.add(lblNewLabel);
 
 		JPanel panel_1 = new JPanel();
@@ -64,6 +67,7 @@ public class TelaCriação extends JFrame {
 		panel_1.setLayout(null);
 
 		JButton btnAbrir = new JButton("Abrir");
+		btnAbrir.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/accept.png")));
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String informacoes, codigo;
@@ -82,20 +86,25 @@ public class TelaCriação extends JFrame {
 
 			}
 		});
-		btnAbrir.setBounds(337, 189, 89, 23);
+		btnAbrir.setBounds(308, 189, 118, 23);
 		panel_1.add(btnAbrir);
 
 		tabelaSolicitacoesAprovadas = new JTable();
 		tabelaSolicitacoesAprovadas.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null }, }, new String[] {
 						"New column", "New column", "New column" }));
-		tabelaSolicitacoesAprovadas.setBounds(10, 21, 319, 361);
+		tabelaSolicitacoesAprovadas.setBounds(10, 21, 261, 361);
 		panel_1.add(tabelaSolicitacoesAprovadas);
 
 		JButton botaoAtualiza = new JButton("Atualiza");
+		botaoAtualiza.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/database.png")));
 
-		botaoAtualiza.setBounds(337, 155, 89, 23);
+		botaoAtualiza.setBounds(308, 155, 118, 23);
 		panel_1.add(botaoAtualiza);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(281, 21, 17, 361);
+		panel_1.add(scrollBar);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null,
@@ -118,7 +127,7 @@ public class TelaCriação extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(null, "Job's", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
-		panel_3.setBounds(456, 270, 612, 190);
+		panel_3.setBounds(466, 270, 718, 190);
 		contentPane.add(panel_3);
 		panel_3.setLayout(null);
 
@@ -135,7 +144,7 @@ public class TelaCriação extends JFrame {
 		panel_3.add(lblMeioDeExibio);
 
 		JLabel lblAndamento = new JLabel("Andamento:");
-		lblAndamento.setBounds(396, 52, 73, 16);
+		lblAndamento.setBounds(496, 54, 73, 16);
 		panel_3.add(lblAndamento);
 
 		campoCodigo = new JTextField();
@@ -160,7 +169,7 @@ public class TelaCriação extends JFrame {
 				andamento = "Desenvolvendo";
 			}
 		});
-		rdbtnDesenvolvendo.setBounds(483, 50, 112, 24);
+		rdbtnDesenvolvendo.setBounds(575, 82, 112, 24);
 		panel_3.add(rdbtnDesenvolvendo);
 
 		JRadioButton rdbtnDesenvolvido = new JRadioButton("Desenvolvido");
@@ -169,7 +178,7 @@ public class TelaCriação extends JFrame {
 				andamento = "Desenvolvido";
 			}
 		});
-		rdbtnDesenvolvido.setBounds(483, 82, 121, 24);
+		rdbtnDesenvolvido.setBounds(575, 50, 121, 24);
 		panel_3.add(rdbtnDesenvolvido);
 
 		ButtonGroup bt = new ButtonGroup();
@@ -177,8 +186,9 @@ public class TelaCriação extends JFrame {
 		bt.add(rdbtnDesenvolvido);
 
 		JButton btnOk = new JButton("OK");
+		btnOk.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/accept.png")));
 
-		btnOk.setBounds(497, 152, 98, 26);
+		btnOk.setBounds(589, 153, 98, 26);
 		panel_3.add(btnOk);
 
 		JLabel lblDataDaExibio = new JLabel("Data da exibi\u00E7\u00E3o");

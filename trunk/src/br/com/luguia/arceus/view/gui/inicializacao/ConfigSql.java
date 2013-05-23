@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
+import javax.swing.ImageIcon;
 
 public class ConfigSql extends JFrame {
 
@@ -78,6 +79,7 @@ public class ConfigSql extends JFrame {
 		panel.add(lblNewLabel_2);
 
 		JButton botaoContinua = new JButton("Continuar");
+		botaoContinua.setIcon(new ImageIcon(ConfigSql.class.getResource("/Images16x16/next.png")));
 		botaoContinua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -125,10 +127,11 @@ public class ConfigSql extends JFrame {
 		botaoContinua.setFont(new Font("Calibri", Font.BOLD, 13));
 		botaoContinua.setForeground(new Color(0, 0, 255));
 		botaoContinua.setBackground(UIManager.getColor("CheckBox.foreground"));
-		botaoContinua.setBounds(179, 220, 105, 40);
+		botaoContinua.setBounds(159, 220, 125, 40);
 		panel.add(botaoContinua);
 
 		JButton botaoVolta = new JButton("Voltar");
+		botaoVolta.setIcon(new ImageIcon(ConfigSql.class.getResource("/Images16x16/back.png")));
 		botaoVolta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new EscolhaBanco().setVisible(true);

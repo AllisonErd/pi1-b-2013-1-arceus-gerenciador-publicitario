@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import br.com.luguia.arceus.view.gui.telaPrincipal.TelaPrincipal;
+import javax.swing.ImageIcon;
 
 public class TipoEscolha extends JFrame {
 
@@ -34,14 +35,16 @@ public class TipoEscolha extends JFrame {
 		panel_1.setLayout(null);
 
 		JButton btnNewButton = new JButton("Populado");
+		btnNewButton.setIcon(new ImageIcon(TipoEscolha.class.getResource("/Images24x24/folder_full.png")));
 
 		btnNewButton.setFont(new Font("Calibri", Font.BOLD, 13));
 		btnNewButton.setForeground(new Color(47, 79, 79));
 		btnNewButton.setBackground(UIManager.getColor("Button.disabledText"));
-		btnNewButton.setBounds(55, 72, 160, 40);
+		btnNewButton.setBounds(66, 72, 160, 40);
 		panel_1.add(btnNewButton);
 
 		JButton btnNopopulado = new JButton("N\u00E3o-Populado");
+		btnNopopulado.setIcon(new ImageIcon(TipoEscolha.class.getResource("/Images24x24/folder_edit.png")));
 		btnNopopulado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -54,10 +57,11 @@ public class TipoEscolha extends JFrame {
 		btnNopopulado.setFont(new Font("Calibri", Font.BOLD, 13));
 		btnNopopulado.setForeground(new Color(47, 79, 79));
 		btnNopopulado.setBackground(UIManager.getColor("Button.disabledText"));
-		btnNopopulado.setBounds(55, 151, 160, 40);
+		btnNopopulado.setBounds(66, 150, 160, 40);
 		panel_1.add(btnNopopulado);
 
 		JButton btnInicio = new JButton("Inicio");
+		btnInicio.setIcon(new ImageIcon(TipoEscolha.class.getResource("/Images16x16/accept.png")));
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EscolhaBanco escolha = new EscolhaBanco();
@@ -69,7 +73,7 @@ public class TipoEscolha extends JFrame {
 		btnInicio.setBackground(UIManager.getColor("Button.disabledText"));
 		btnInicio.setFont(new Font("Calibri", Font.BOLD, 12));
 		btnInicio.setForeground(new Color(47, 79, 79));
-		btnInicio.setBounds(215, 227, 59, 23);
+		btnInicio.setBounds(192, 225, 82, 25);
 		panel_1.add(btnInicio);
 	}
 

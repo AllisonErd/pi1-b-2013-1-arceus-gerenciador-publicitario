@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,9 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import br.com.luguia.arceus.control.MySqlController;
 import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
-import javax.swing.ImageIcon;
 
 public class ConfigSql extends JFrame {
 
@@ -30,8 +32,10 @@ public class ConfigSql extends JFrame {
 	private JTextField campo;
 	private JPasswordField campoPass;
 	private Funcionario adm;
-	private FuncionarioDAO fDao;
-	
+	private FuncionarioDAO fDao = new FuncionarioDAO();
+	MySqlController msc;
+	private ArrayList<Funcionario> manipulaFuncionario;
+
 	public ConfigSql() {
 		setTitle("Setings");
 		setResizable(false);
@@ -79,7 +83,8 @@ public class ConfigSql extends JFrame {
 		panel.add(lblNewLabel_2);
 
 		JButton botaoContinua = new JButton("Continuar");
-		botaoContinua.setIcon(new ImageIcon(ConfigSql.class.getResource("/Images16x16/next.png")));
+		botaoContinua.setIcon(new ImageIcon(ConfigSql.class
+				.getResource("/Images16x16/next.png")));
 		botaoContinua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -94,28 +99,54 @@ public class ConfigSql extends JFrame {
 					try {
 						FileWriter fw = new FileWriter("ConectBanco.txt");
 
-						fw.write(campoHost.getText().toString().trim()+"#&V&#"+campoUser.getText().toString().trim()+"#&V&#"+campoPass.getText().toString().trim());
-						
+						fw.write(campoHost.getText().toString().trim()
+								+ "#&V&#"
+								+ campoUser.getText().toString().trim()
+								+ "#&V&#"
+								+ campoPass.getText().toString().trim());
+
 						fw.close();
 
 					} catch (IOException e1) {
 						System.err.println("Erro do tipo IOException!!!");
 					} finally {
-						try {
+						boolean insereAdm = false;
+						msc = new MySqlController();
+						if (msc.conectado() == true) {
+
+							manipulaFuncionario = (ArrayList<Funcionario>) fDao
+									.listeTodos();
+
+						//	for (int i = 0; i < manipulaFuncionario.size(); i++) {
+							//	if (manipulaFuncionario.get(i).getId() != 0) {
+								//	insereAdm = true;
+								//} else {
+									//insereAdm = false;
+									//break;
+								//}
 							
-							adm = new Funcionario();
-							fDao = new FuncionarioDAO();
+							if(manipulaFuncionario.size()==0){
+								insereAdm = true;
+								
+							}
+
+							if (insereAdm == true) {
+								adm = new Funcionario();
+
 								adm.setId(0);
-								
+								adm.setLogin("arceus");
+								adm.setNome("admin");
+								adm.setSenha("pepeka");
+								adm.setTipo("admin");
+
 								fDao.insira(adm);
-								
-								fDao.exclua(adm);
-							
+							}
+
 							new TipoEscolha().setVisible(true);
 							dispose();
-
-						} catch (Exception e2) {
-							
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Falha na conexão!!");
 						}
 
 					}
@@ -131,7 +162,8 @@ public class ConfigSql extends JFrame {
 		panel.add(botaoContinua);
 
 		JButton botaoVolta = new JButton("Voltar");
-		botaoVolta.setIcon(new ImageIcon(ConfigSql.class.getResource("/Images16x16/back.png")));
+		botaoVolta.setIcon(new ImageIcon(ConfigSql.class
+				.getResource("/Images16x16/back.png")));
 		botaoVolta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new EscolhaBanco().setVisible(true);

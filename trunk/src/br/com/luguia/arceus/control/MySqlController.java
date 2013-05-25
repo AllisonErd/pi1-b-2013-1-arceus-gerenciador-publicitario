@@ -18,6 +18,7 @@ import br.com.luguia.arceus.model.Contato;
 import br.com.luguia.arceus.model.Endereco;
 import br.com.luguia.arceus.model.Financeiro;
 import br.com.luguia.arceus.model.Funcionario;
+import br.com.luguia.arceus.model.Job;
 import br.com.luguia.arceus.model.PessoaFisica;
 import br.com.luguia.arceus.model.PessoaJuridica;
 import br.com.luguia.arceus.model.Requisicao;
@@ -29,21 +30,42 @@ public class MySqlController {
 	private ArrayList<PessoaFisica> modelFisica;
 	private ArrayList<PessoaJuridica> modelJuridica;
 	private ArrayList<Requisicao> modelRequisicao;
-	
+	private ArrayList<Job> modeloJob;
+
 	private Funcionario func;
 	private PessoaFisica pessoaFisica;
 	private PessoaJuridica pessoaJuridica;
 	private Requisicao requisicao;
-	
+	private Job job;
+
 	private Endereco endereco;
 	private Contato contato;
 	private Telefone telefone;
 
 	private Financeiro financeiro;
-	
+
 	private String host;
 	private String user;
 	private String pass;
+
+	public boolean conectado() {
+		this.parametrosConexao();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(this.host, this.user, this.pass);
+
+			return true;
+
+		} catch (ClassNotFoundException e) {
+
+			return false;
+		} catch (SQLException e) {
+
+			return false;
+		}
+
+	}
 
 	public void parametrosConexao() {
 		try {
@@ -70,7 +92,7 @@ public class MySqlController {
 	private PreparedStatement stmt = null;
 
 	public void cadastrar(String query, String parametros) {
-
+	this.parametrosConexao();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -88,8 +110,8 @@ public class MySqlController {
 			// con.close();
 
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,
-					"Informe os parâmetros corretos para a conexão!");
+			e.printStackTrace();
+			//JOptionPane.showMessageDialog(null,"Informe os parâmetros corretos para a conexão!");
 
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -110,6 +132,7 @@ public class MySqlController {
 	}
 
 	public void excluir(String query) {
+		this.parametrosConexao();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -141,11 +164,14 @@ public class MySqlController {
 	}
 
 	public void exibir(String query, int tipo) {
+		this.parametrosConexao();
+		
 		model = new ArrayList<>();
 		modelFisica = new ArrayList<>();
 		modelJuridica = new ArrayList<>();
 		modelRequisicao = new ArrayList<>();
-		
+		modeloJob = new ArrayList<>();
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -190,9 +216,6 @@ public class MySqlController {
 					endereco.setCidade(rs.getString("CIDADE"));
 					endereco.setEstado(rs.getString("ESTADO"));
 					endereco.setComplemento(rs.getString("COMPLEMENTO"));
-					
-					
-					
 
 					pessoaFisica.setEndereco(endereco);
 
@@ -216,20 +239,20 @@ public class MySqlController {
 
 					pessoaJuridica = new PessoaJuridica();
 
-					
-					pessoaJuridica.setId(Integer.parseInt(rs.getString("id_pessoa")));
+					pessoaJuridica.setId(Integer.parseInt(rs
+							.getString("id_pessoa")));
 					pessoaJuridica.setNome(rs.getString("nome"));
 					pessoaJuridica.setCnpj(rs.getString("CNPJ"));
 
 					endereco = new Endereco();
-					
+
 					endereco.setRua(rs.getString("RUA"));
 					endereco.setCep(rs.getString("CEP"));
 					endereco.setBairro(rs.getString("BAIRRO"));
 					endereco.setCidade(rs.getString("CIDADE"));
 					endereco.setEstado(rs.getString("ESTADO"));
 					endereco.setComplemento(rs.getString("COMPLEMENTO"));
-					
+
 					pessoaJuridica.setEndereco(endereco);
 
 					contato = new Contato();
@@ -246,33 +269,62 @@ public class MySqlController {
 					this.modelJuridica.add(pessoaJuridica);
 				}
 				break;
-			case 4 :
+			case 4:
 				while (rs.next()) {
 
-					requisicao	= new Requisicao();
+					requisicao = new Requisicao();
 
-					requisicao.setCustoEquipamento(rs.getString("custo_equipamento"));
+					requisicao.setCustoEquipamento(rs
+							.getString("custo_equipamento"));
 					requisicao.setDataPedido(rs.getString("data_pedido"));
-					requisicao.setDefinicaoProjeto(rs.getString("definicao_projeto"));
-					requisicao.setIdProjeto(Integer.parseInt(rs.getString("id_projeto")));
+					requisicao.setDefinicaoProjeto(rs
+							.getString("definicao_projeto"));
+					requisicao.setIdProjeto(Integer.parseInt(rs
+							.getString("id_projeto")));
 					requisicao.setNomeProjet(rs.getString("nome_projeto"));
-					requisicao.setPorcentagemConclusao(Integer.parseInt(rs.getString("porcentagem_conclusao")));
-					requisicao.setPrioridadeProjeto(Integer.parseInt(rs.getString("prioridade")));
+					requisicao.setPorcentagemConclusao(Integer.parseInt(rs
+							.getString("porcentagem_conclusao")));
+//					requisicao.setPrioridadeProjeto(Integer.parseInt(rs
+//							.getString("prioridade")));
 					requisicao.setTempoEntrega(rs.getString("data_entrega"));
 					requisicao.setTipoExecucao(rs.getString("tipo_execucao"));
-					requisicao.setIdPessoa(Integer.parseInt(rs.getString("id_pessoa")));				
-					
+					requisicao.setIdPessoa(Integer.parseInt(rs
+							.getString("id_pessoa")));
+
 					financeiro = new Financeiro();
-					financeiro.setCusto(Double.parseDouble(rs.getString("custo")));
-					financeiro.setDesconto(Double.parseDouble(rs.getString("desconto")));
-					financeiro.setGanho(Double.parseDouble(rs.getString("ganho")));
-					financeiro.setOrcamento(Double.parseDouble(rs.getString("orcamento")));
-					
+					financeiro.setCusto(Double.parseDouble(rs
+							.getString("custo")));
+					financeiro.setDesconto(Double.parseDouble(rs
+							.getString("desconto")));
+					financeiro.setGanho(Double.parseDouble(rs
+							.getString("ganho")));
+					financeiro.setOrcamento(Double.parseDouble(rs
+							.getString("orcamento")));
+
 					requisicao.setCustos(financeiro);
-					
+
 					this.modelRequisicao.add(requisicao);
 				}
 
+				break;
+			case 5:
+				while (rs.next()) {
+
+					job = new Job();
+
+					job.setIdJob(Integer.parseInt(rs.getString("id_job")));
+					job.setIdProjeto(Integer.parseInt(rs
+							.getString("id_projeto")));
+					job.setIdFuncionario(Integer.parseInt(rs
+							.getString("id_func")));
+					job.setNomeJob(rs.getString("nome_job"));
+					job.setCaracteristicasJob(rs
+							.getString("caracteristicas_job"));
+					job.setPrioridadeJob(Integer.parseInt(rs
+							.getString("prioridade_job")));
+					job.setStatus(rs.getString("status_job"));
+					this.modeloJob.add(job);
+				}
 				break;
 			}
 
@@ -295,7 +347,7 @@ public class MySqlController {
 	}
 
 	public void alterar(String query) {
-
+		this.parametrosConexao();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
@@ -326,8 +378,6 @@ public class MySqlController {
 
 	}
 
-	
-
 	public List<Funcionario> getListaFuncionario() {
 
 		return this.model;
@@ -341,12 +391,16 @@ public class MySqlController {
 	}
 
 	public List<PessoaJuridica> getListaPessoaJuridica() {
-		
+
 		return this.modelJuridica;
 
 	}
-	
-	public List<Requisicao> getListaRequisicao(){
+
+	public List<Requisicao> getListaRequisicao() {
 		return this.modelRequisicao;
+	}
+
+	public List<Job> getListaJob() {
+		return this.modeloJob;
 	}
 }

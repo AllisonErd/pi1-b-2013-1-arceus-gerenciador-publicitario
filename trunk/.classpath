@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="images16x16.jar"/>
 	<classpathentry kind="lib" path="images24x24.jar"/>
 	<classpathentry kind="lib" path="images48x48.jar"/>
+	<classpathentry kind="lib" path="forms-1.3.0.jar" sourcepath="forms-1.3.0-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,0 +1,18 @@
+if (msc.conectado() == true) {
+							manipulaFuncionario = (ArrayList<Funcionario>) fDao
+									.listeTodos();
+
+							for (int i = 0; i < manipulaFuncionario.size(); i++) {
+								if (manipulaFuncionario.get(i).getId() != 0) {
+									adm = new Funcionario();
+
+									adm.setId(0);
+									adm.setLogin("admin");
+									adm.setNome("admin");
+									adm.setSenha("admin");
+									adm.setTipo("admin");
+
+									fDao.insira(adm);
+								}
+
+							}

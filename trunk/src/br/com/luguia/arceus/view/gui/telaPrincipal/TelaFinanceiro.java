@@ -123,7 +123,7 @@ public class TelaFinanceiro extends JFrame {
 							
 							projetoDao.altere(projeto, 3);
 							
-
+							campoDescricao.setText("");
 						}
 					}
 					
@@ -133,6 +133,7 @@ public class TelaFinanceiro extends JFrame {
 							"Ninguém foi selecionado !");
 				} finally{
 					tabelaSincronizada();
+					
 				}
 			
 				
@@ -222,8 +223,8 @@ public class TelaFinanceiro extends JFrame {
 							custo.setCusto(manipulaProjeto.get(i).getCustos().getCusto());
 							custo.setDesconto(desconto);
 							custo.setGanho(lucro - desconto);
-							custo.setOrcamento((lucro+manipulaProjeto.get(i).getCustos().getCusto())-desconto);
-							
+							custo.setOrcamento(manipulaProjeto.get(i).getCustos().getCusto()+(lucro - desconto));
+							//(lucro+manipulaProjeto.get(i).getCustos().getCusto())-desconto
 							projeto.setCustos(custo);
 
 							projetoDao.altere(projeto, 2);
@@ -351,6 +352,15 @@ public class TelaFinanceiro extends JFrame {
 		JScrollBar scrollBar_2 = new JScrollBar();
 		scrollBar_2.setBounds(1003, 95, 17, 215);
 		contentPane.add(scrollBar_2);
+		
+		JButton btnCadastraFuncionario = new JButton("Cadastra funcionario");
+		btnCadastraFuncionario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TelaCadastroFuncionario().setVisible(true);
+			}
+		});
+		btnCadastraFuncionario.setBounds(536, 435, 153, 23);
+		contentPane.add(btnCadastraFuncionario);
 	}
 	
 	
@@ -367,8 +377,8 @@ public class TelaFinanceiro extends JFrame {
 			model.addRow(new String[] {
 					"" + manipulaProjeto.get(i).getIdProjeto(),
 					"" + manipulaProjeto.get(i).getNomeProjet(),
-					"" + manipulaProjeto.get(i).getPorcentagemConclusao()+"% concluido",
-					"R$" + manipulaProjeto.get(i).getCustos().getOrcamento()});
+					"" + manipulaProjeto.get(i).getDataPedido(),
+					"" + manipulaProjeto.get(i).getTempoEntrega()});
 			}
 		}
 		tabelaPedidosAvaliados();
@@ -388,8 +398,7 @@ public class TelaFinanceiro extends JFrame {
 				model.addRow(new String[] {
 					"" + manipulaProjeto.get(i).getIdProjeto(),
 					"" + manipulaProjeto.get(i).getNomeProjet(),
-					"" + manipulaProjeto.get(i).getPorcentagemConclusao()+"% concluido",
-					"R$" + manipulaProjeto.get(i).getCustos().getOrcamento()});
+					"R$" + manipulaProjeto.get(i).getCustos().getCusto()});
 			}
 		}
 		totalCaixa();

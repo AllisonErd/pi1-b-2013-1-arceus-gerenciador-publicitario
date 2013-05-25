@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -19,6 +20,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -40,9 +43,6 @@ import br.com.luguia.arceus.model.PessoaJuridica;
 import br.com.luguia.arceus.model.Telefone;
 import br.com.luguia.arceus.model.dao.array.PessoaFisicaDAO;
 import br.com.luguia.arceus.model.dao.array.PessoaJuridicaDAO;
-import javax.swing.JRadioButton;
-import javax.swing.ImageIcon;
-import javax.swing.JScrollBar;
 
 public class TelaCadastroCliente extends JFrame implements ItemListener {
 
@@ -83,7 +83,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 	private boolean fisico = false;
 	private boolean codigo = false;
 	private boolean pesquisaFisico = true;
-	
+
 	private int idFisic = 0;
 	private int id = 0;
 	private JTable tableJuridica;
@@ -114,7 +114,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel(" C l i e n t e s");
-		lblNewLabel.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/images/community_users.png")));
+		lblNewLabel.setIcon(new ImageIcon(TelaCadastroCliente.class
+				.getResource("/images/community_users.png")));
 		lblNewLabel.setFont(new Font("OCR A Extended", Font.BOLD, 20));
 		lblNewLabel.setBounds(10, 0, 319, 56);
 		panel.add(lblNewLabel);
@@ -308,24 +309,19 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel_3.setLayout(null);
 
 		tableFisica = new JTable();
-		tableFisica.setModel(new DefaultTableModel(new Object[][] { { null, null,
-				null }, }, new String[] { "New column", "New column",
+		tableFisica.setModel(new DefaultTableModel(new Object[][] { { null,
+				null, null }, }, new String[] { "New column", "New column",
 				"New column" }));
 		tableFisica.setBounds(12, 30, 468, 107);
 		panel_3.add(tableFisica);
-		
+
 		tableJuridica = new JTable();
-		tableJuridica.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-			},
-			new String[] {
-				"New column", "New column", "New column"
-			}
-		));
+		tableJuridica.setModel(new DefaultTableModel(new Object[][] { { null,
+				null, null }, }, new String[] { "New column", "New column",
+				"New column" }));
 		tableJuridica.setBounds(12, 171, 468, 107);
 		panel_3.add(tableJuridica);
-		//TODO
+		// TODO
 		JRadioButton radioJuridica = new JRadioButton("Juridica", false);
 		radioJuridica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -334,7 +330,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		});
 		radioJuridica.setBounds(12, 145, 81, 14);
 		panel_3.add(radioJuridica);
-		
+
 		JRadioButton radioFisica = new JRadioButton("Fisica", true);
 		radioFisica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -347,16 +343,15 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		ButtonGroup grupRadio = new ButtonGroup();
 		grupRadio.add(radioJuridica);
 		grupRadio.add(radioFisica);
-		
+
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setBounds(482, 30, 17, 107);
 		panel_3.add(scrollBar);
-		
+
 		JScrollBar scrollBar_1 = new JScrollBar();
 		scrollBar_1.setBounds(482, 171, 17, 107);
 		panel_3.add(scrollBar_1);
-		
-		
+
 		campoPesquisa = new JTextField();
 		campoPesquisa.setBounds(88, 23, 290, 20);
 		panel_2.add(campoPesquisa);
@@ -384,23 +379,22 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		boxTipoPesquisa.setBounds(10, 23, 66, 20);
 		panel_2.add(boxTipoPesquisa);
 		JButton botaoPesquisar = new JButton("Pesquisar");
-		botaoPesquisar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/page_search.png")));
+		botaoPesquisar.setIcon(new ImageIcon(TelaCadastroCliente.class
+				.getResource("/Images16x16/page_search.png")));
 		botaoPesquisar.setBounds(388, 22, 130, 23);
 		panel_2.add(botaoPesquisar);
 		botaoPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//TODO
-				DefaultTableModel model = (DefaultTableModel) tableFisica.getModel();
-				
+				// TODO
+				DefaultTableModel model = (DefaultTableModel) tableFisica
+						.getModel();
 
-				DefaultTableModel model2 = (DefaultTableModel) tableJuridica.getModel();
-				
-				
+				DefaultTableModel model2 = (DefaultTableModel) tableJuridica
+						.getModel();
+
 				String nome = campoPesquisa.getText().toString().trim();
 
-			
-				
-				if(codigo == false && pesquisaFisico == false ){
+				if (codigo == false && pesquisaFisico == false) {
 					model2.setNumRows(0);
 					manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
 							.listeTodos();
@@ -422,9 +416,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 					}
 				}
-				
-		
-				if(codigo == false && pesquisaFisico == true){
+
+				if (codigo == false && pesquisaFisico == true) {
 					model.setNumRows(0);
 					manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
 							.listeTodos();
@@ -442,65 +435,65 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 					}
 				}
-				try{
-				if(codigo == true && pesquisaFisico == false){
-					model2.setNumRows(0);
-					manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
-							.listeTodos();
+				try {
+					if (codigo == true && pesquisaFisico == false) {
+						model2.setNumRows(0);
+						manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+								.listeTodos();
 
-					
-					for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
-						if (manipulaPessoaJuridica.get(i).getId() == Integer
-								.parseInt(nome)) {
+						for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
+							if (manipulaPessoaJuridica.get(i).getId() == Integer
+									.parseInt(nome)) {
 
-							model2.addRow(new String[] {
-									""
-											+ manipulaPessoaJuridica.get(i)
-													.getId(),
-									""
-											+ manipulaPessoaJuridica.get(i)
-													.getNome(),
-									""
-											+ manipulaPessoaJuridica.get(i)
-													.getCnpj() });
+								model2.addRow(new String[] {
+										""
+												+ manipulaPessoaJuridica.get(i)
+														.getId(),
+										""
+												+ manipulaPessoaJuridica.get(i)
+														.getNome(),
+										""
+												+ manipulaPessoaJuridica.get(i)
+														.getCnpj() });
+
+							}
 
 						}
 
 					}
 
-				}
-				
-				if(codigo == true && pesquisaFisico == true){
-					model.setNumRows(0);
-					manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
-							.listeTodos();
+					if (codigo == true && pesquisaFisico == true) {
+						model.setNumRows(0);
+						manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+								.listeTodos();
 
-					for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
-						if (manipulaPessoaFisicas.get(i).getId() == Integer
-								.parseInt(nome)) {
+						for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
+							if (manipulaPessoaFisicas.get(i).getId() == Integer
+									.parseInt(nome)) {
 
-							model.addRow(new String[] {
-									""
-											+ manipulaPessoaFisicas.get(i)
-													.getId(),
-									""
-											+ manipulaPessoaFisicas.get(i)
-													.getNome(),
-									""
-											+ manipulaPessoaFisicas.get(i)
-													.getCpf() });
+								model.addRow(new String[] {
+										""
+												+ manipulaPessoaFisicas.get(i)
+														.getId(),
+										""
+												+ manipulaPessoaFisicas.get(i)
+														.getNome(),
+										""
+												+ manipulaPessoaFisicas.get(i)
+														.getCpf() });
+							}
 						}
 					}
-				}
-				}catch(Exception ex){
+				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "Informe o codigo!");
 				}
-				
+
 			}
 		});
 
 		JButton botaoVoltar = new JButton("Voltar");
-		botaoVoltar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/back.png")));
+		botaoVoltar.setIcon(new ImageIcon(TelaCadastroCliente.class
+				.getResource("/Images16x16/back.png")));
 		botaoVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -510,26 +503,33 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		contentPane.add(botaoVoltar);
 
 		JButton botaoCadastrar = new JButton("Salvar");
-		botaoCadastrar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/database_accept.png")));
+		botaoCadastrar.setIcon(new ImageIcon(TelaCadastroCliente.class
+				.getResource("/Images16x16/database_accept.png")));
 		botaoCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				if (campoNome.getText().toString().equalsIgnoreCase("")
-						|| campoCpfCnpj.getText().equalsIgnoreCase("")
-						|| campoTelefonefixo.getText().toString().equalsIgnoreCase("")
-						
-						|| campoBairro.getText().equalsIgnoreCase("")
-						|| campoCep.getText().toString().equalsIgnoreCase("")
-						|| campoCidade.getText().equalsIgnoreCase("")
-						|| campoComplemento.getText().toString().equalsIgnoreCase("")
-						|| campoEmail.getText().equalsIgnoreCase("")
-						|| campoEstado.getText().toString().equalsIgnoreCase("")
-						|| campoRua.getText().equalsIgnoreCase("")
-						|| campoTelefoneCelular.getText().toString().equalsIgnoreCase("")
-						) {
-					JOptionPane
-							.showMessageDialog(null,
-									"Preencha todos os campos!! ");
+						|| campoCpfCnpj.getText().toString()
+								.equalsIgnoreCase("")
+						|| campoTelefonefixo.getText().toString()
+								.equalsIgnoreCase("")
+
+						|| campoBairro.getText().toString()
+								.equalsIgnoreCase("")
+						|| campoCep.getText().toString().toString()
+								.equalsIgnoreCase("")
+						|| campoCidade.getText().toString()
+								.equalsIgnoreCase("")
+						|| campoComplemento.getText().toString()
+								.equalsIgnoreCase("")
+						|| campoEmail.getText().toString().equalsIgnoreCase("")
+						|| campoEstado.getText().toString()
+								.equalsIgnoreCase("")
+						|| campoRua.getText().toString().equalsIgnoreCase("")
+						|| campoTelefoneCelular.getText().toString()
+								.equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null,
+							"Preencha todos os campos!! ");
 
 				} else if (fisico == false) {
 					// TODO
@@ -540,7 +540,16 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 						pessoaJuridicaDAO.altere(cadastraClienteJuridico());
 						chaveDeControle = 0;
 					} else {
-						pessoaJuridicaDAO.insira(cadastraClienteJuridico());
+						if ((verificaCpf(campoCpfCnpj.getText().toString()) + validaCnpj(campoCpfCnpj
+								.getText().toString())) != 0) {
+							JOptionPane
+									.showMessageDialog(
+											null,
+											"Cadastro não concluido\n 			Ja existe um cliente cadastrado com o CNPJ que esta sendo informado!!");
+						} else {
+							pessoaJuridicaDAO.insira(cadastraClienteJuridico());
+						}
+
 					}
 
 					limpaCampo();
@@ -556,7 +565,16 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 						pessoaFisicaDAO.altere(cadastraClienteFisico());
 						chaveDeControle = 0;
 					} else {
-						pessoaFisicaDAO.insira(cadastraClienteFisico());
+
+						if ((verificaCpf(campoCpfCnpj.getText().toString()) + validaCnpj(campoCpfCnpj
+								.getText().toString())) != 0) {
+							JOptionPane
+									.showMessageDialog(
+											null,
+											"Cadastro não concluido\n 			Ja existe um cliente cadastrado com o CPF que esta sendo informado!!");
+						} else {
+							pessoaFisicaDAO.insira(cadastraClienteFisico());
+						}
 					}
 
 					limpaCampo();
@@ -574,7 +592,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		contentPane.add(botaoCadastrar);
 
 		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/page.png")));
+		btnLimpar.setIcon(new ImageIcon(TelaCadastroCliente.class
+				.getResource("/Images16x16/page.png")));
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -586,7 +605,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		contentPane.add(btnLimpar);
 
 		JButton botaoAlterar = new JButton("Alterar");
-		botaoAlterar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/page_edit.png")));
+		botaoAlterar.setIcon(new ImageIcon(TelaCadastroCliente.class
+				.getResource("/Images16x16/page_edit.png")));
 		botaoAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -613,41 +633,57 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		contentPane.add(botaoAlterar);
 
 		JButton botaoCancelar = new JButton("Excluir");
-		botaoCancelar.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/page_remove.png")));
+		botaoCancelar.setIcon(new ImageIcon(TelaCadastroCliente.class
+				.getResource("/Images16x16/page_remove.png")));
 		botaoCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO criado agora, testa!!
-				String numero = (String) tableFisica.getModel().getValueAt(
-						tableFisica.getSelectedRow(), 0);
+				try {
+					String numero = (String) tableFisica.getModel().getValueAt(
+							tableFisica.getSelectedRow(), 0);
 
-				manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
-						.listeTodos();
+					manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+							.listeTodos();
 
-				for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
-					pessoaFisica = manipulaPessoaFisicas.get(i);
-					if (pessoaFisica.getId() == Integer.parseInt(numero)) {
-						pessoaFisicaDAO.exclua(pessoaFisica);
+					for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
+						pessoaFisica = manipulaPessoaFisicas.get(i);
+						if (pessoaFisica.getId() == Integer.parseInt(numero)) {
+							pessoaFisicaDAO.exclua(pessoaFisica);
+						}
+
+					}
+				} catch (ArrayIndexOutOfBoundsException a1) {
+					String numero2 = (String) tableJuridica.getModel()
+							.getValueAt(tableJuridica.getSelectedRow(), 0);
+
+					manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+							.listeTodos();
+
+					for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
+						pessoaJuridica = manipulaPessoaJuridica.get(i);
+						if (pessoaJuridica.getId() == Integer.parseInt(numero2)) {
+							pessoaJuridicaDAO.exclua(pessoaJuridica);
+						}
+
 					}
 
+				} finally {
+					limpaTabela();
 				}
-
-				manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
-						.listeTodos();
-
-				for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
-					pessoaJuridica = manipulaPessoaJuridica.get(i);
-					if (pessoaJuridica.getId() == Integer.parseInt(numero)) {
-						pessoaJuridicaDAO.exclua(pessoaJuridica);
-					}
-
-				}
-
-				limpaTabela();
 
 			}
 		});
-		botaoCancelar.setBounds(1077, 435, 105, 23);
+		botaoCancelar.setBounds(1068, 434, 105, 23);
 		contentPane.add(botaoCancelar);
+		
+		JButton btnNewButton = new JButton("Atualizar Tabelas");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				posicaoCorreta();
+			}
+		});
+		btnNewButton.setBounds(656, 434, 126, 23);
+		contentPane.add(btnNewButton);
 	}
 
 	@Override
@@ -732,7 +768,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 			campoCodigo.setText("1");
 		}
 
-		 tabelaSincronizada();
+		tabelaSincronizada();
 
 	}
 
@@ -742,8 +778,6 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		telefone = new Telefone();
 		contato = new Contato();
 
-	
-		
 		pessoaJuridica.setId(Integer.parseInt(campoCodigo.getText().toString()
 				.trim()));
 		pessoaJuridica.setNome(campoNome.getText().toString().trim());
@@ -775,9 +809,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		endereco = new Endereco();
 		telefone = new Telefone();
 		contato = new Contato();
-		
-		
-		
+
 		pessoaFisica.setId(Integer.parseInt(campoCodigo.getText().toString()
 				.trim()));
 		pessoaFisica.setNome(campoNome.getText().toString().trim());
@@ -902,43 +934,84 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 	public void tabelaSincronizada() {
 		try {
-		DefaultTableModel model = (DefaultTableModel) tableFisica.getModel();
-		model.setNumRows(0);
+			DefaultTableModel model = (DefaultTableModel) tableFisica
+					.getModel();
+			model.setNumRows(0);
 
-		DefaultTableModel model2 = (DefaultTableModel) tableJuridica.getModel();
-		model2.setNumRows(0);
+			DefaultTableModel model2 = (DefaultTableModel) tableJuridica
+					.getModel();
+			model2.setNumRows(0);
+
+			manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+					.listeTodos();
+
+			for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
+
+				model.addRow(new String[] {
+						"" + manipulaPessoaFisicas.get(i).getId(),
+						"" + manipulaPessoaFisicas.get(i).getNome(),
+						""
+								+ manipulaPessoaFisicas.get(i).getContato()
+										.getTelefone().getTelefoneFixo() });
+
+			}
+
+			manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+					.listeTodos();
+
+			for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
+
+				model2.addRow(new String[] {
+						"" + manipulaPessoaJuridica.get(i).getId(),
+						"" + manipulaPessoaJuridica.get(i).getNome(),
+						""
+								+ manipulaPessoaJuridica.get(i).getContato()
+										.getTelefone().getTelefoneFixo() });
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public int verificaCpf(String test) {
+		int valida = 0;
 
 		manipulaPessoaFisicas = (ArrayList<PessoaFisica>) pessoaFisicaDAO
 				.listeTodos();
 
-	
-	for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
+		for (int i = 0; i < manipulaPessoaFisicas.size(); i++) {
 
-			model.addRow(new String[] {
-					"" + manipulaPessoaFisicas.get(i).getId(),
-					"" + manipulaPessoaFisicas.get(i).getNome(),
-					""
-							+ manipulaPessoaFisicas.get(i).getContato()
-									.getTelefone().getTelefoneFixo() });
+			if (manipulaPessoaFisicas.get(i).getCpf().equalsIgnoreCase(test)) {
+				valida = 1;
 
+				break;
+			} else {
+				valida = 0;
+			}
 		}
+		System.out.println(valida);
+		return valida;
+
+	}
+
+	public int validaCnpj(String test) {
+		int valida = 0;
 
 		manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
 				.listeTodos();
 
 		for (int i = 0; i < manipulaPessoaJuridica.size(); i++) {
 
-			model2.addRow(new String[] {
-					"" + manipulaPessoaJuridica.get(i).getId(),
-					"" + manipulaPessoaJuridica.get(i).getNome(),
-					""
-							+ manipulaPessoaJuridica.get(i).getContato()
-									.getTelefone().getTelefoneFixo() });
+			if (manipulaPessoaJuridica.get(i).getCnpj().equalsIgnoreCase(test)) {
+				valida = 1;
 
+				break;
+			} else {
+				valida = 0;
+			}
 		}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		System.out.println(valida);
+		return valida;
 	}
-		
 }

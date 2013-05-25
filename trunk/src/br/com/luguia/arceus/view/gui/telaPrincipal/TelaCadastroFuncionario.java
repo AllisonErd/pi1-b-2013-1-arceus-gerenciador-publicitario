@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
 
-public class TelaCadastroFuncionario extends JFrame {
+public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 
 	private JPanel contentPane;
 	private JTextField campoNome;
@@ -47,6 +49,9 @@ public class TelaCadastroFuncionario extends JFrame {
 	private Funcionario funcionario;
 	private int chaveDeControle = 0;
 
+	private String setor = "ATENDIMENTO";
+	private JComboBox campoSetor ;
+	
 	public TelaCadastroFuncionario() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -109,8 +114,9 @@ public class TelaCadastroFuncionario extends JFrame {
 
 		final String[] setores = { "Atendimento", "Criação", "Financeiro",
 				"Produção", "Midia" };
-		final JComboBox campoSetor = new JComboBox();
-		campoSetor.setModel(new DefaultComboBoxModel(setores));
+		campoSetor = new JComboBox(setores);
+		campoSetor.addItemListener(this);
+	
 		campoSetor.setBounds(380, 27, 100, 20);
 		painelDeComponentes.add(campoSetor);
 
@@ -165,12 +171,15 @@ public class TelaCadastroFuncionario extends JFrame {
 							"Preencha todos os campos! ");
 
 				} else {
+					
+						
+					
 					funcionario.setId(Integer.parseInt(campoCodigo.getText()
 							.toString()));
 					funcionario.setNome(campoNome.getText().toString());
 					funcionario.setLogin(campoLogin.getText().toString());
 					funcionario.setSenha(campoSenha.getText().toString());
-					funcionario.setTipo("Financeiro");
+					funcionario.setTipo(setor);
 
 					if (chaveDeControle == 1) {
 
@@ -178,9 +187,12 @@ public class TelaCadastroFuncionario extends JFrame {
 
 						chaveDeControle = 0;
 					} else {
-
+						if(verificaLogin(campoLogin.getText().toString()) == false){
+							JOptionPane.showMessageDialog(null, "Este login ja existe!");
+							campoLogin.setText("");
+						}else{	
 						funcionarioDAO.insira(funcionario);
-
+						}
 					}
 
 					limpaCampo();
@@ -340,6 +352,15 @@ public class TelaCadastroFuncionario extends JFrame {
 		});
 		botaoVoltar.setBounds(12, 249, 99, 23);
 		panel_2.add(botaoVoltar);
+		
+		JButton btnAtualizarTabela = new JButton("Atualizar tabela");
+		btnAtualizarTabela.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				posicaoCorreta();
+			}
+		});
+		btnAtualizarTabela.setBounds(121, 249, 112, 23);
+		panel_2.add(btnAtualizarTabela);
 
 	}
 
@@ -385,13 +406,51 @@ public class TelaCadastroFuncionario extends JFrame {
 				.listeTodos();
 
 		for (int i = 0; i < manipulaFuncionario.size(); i++) {
-
+			//if insserido para que o usuario master não conste na lista!
+			if(manipulaFuncionario.get(i).getId()!=0){
 			model.addRow(new String[] {
 					"" + manipulaFuncionario.get(i).getId(),
 					"" + manipulaFuncionario.get(i).getNome(),
 					"" + manipulaFuncionario.get(i).getTipo() });
-
+			}
 		}
 
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+	
+		if (e.getItem().toString().equalsIgnoreCase("Atendimento")) {
+			setor = "ATENDIMENTO";
+		} else if(e.getItem().toString().equalsIgnoreCase("Criação")){
+			setor = "CRIACAO";
+		} else if(e.getItem().toString().equalsIgnoreCase("Financeiro")){
+			setor = "FINANCEIRO";
+		} else if(e.getItem().toString().equalsIgnoreCase("Produção")){
+			setor = "PRODUCAO";
+		} else if(e.getItem().toString().equalsIgnoreCase("Midia")){
+			setor = "MIDIA";
+		}
+
+	}
+	
+	
+	public boolean verificaLogin(String loginTest) {
+		boolean valida = false;
+		
+		manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO
+				.listeTodos();
+
+		for (int i = 0; i < manipulaFuncionario.size(); i++) {
+			
+			if(manipulaFuncionario.get(i).getLogin().equalsIgnoreCase(loginTest)){
+				valida =  false;
+				
+				break;
+			}else{
+				valida = true;
+			}
+		}
+		return valida;
 	}
 }

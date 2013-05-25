@@ -25,9 +25,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import br.com.luguia.arceus.model.Job;
 import br.com.luguia.arceus.model.PessoaFisica;
 import br.com.luguia.arceus.model.PessoaJuridica;
 import br.com.luguia.arceus.model.Requisicao;
+import br.com.luguia.arceus.model.dao.array.CriacaoDAO;
 import br.com.luguia.arceus.model.dao.array.PessoaFisicaDAO;
 import br.com.luguia.arceus.model.dao.array.PessoaJuridicaDAO;
 import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
@@ -64,6 +66,10 @@ public class TelaAtendimento extends JFrame {
 	private ProjetoDAO projetoDao = new ProjetoDAO();
 	private ArrayList<Requisicao> manipulaProjeto;
 	private Requisicao projeto;
+	
+	private CriacaoDAO jobDao = new CriacaoDAO();
+	private ArrayList<Job> manipulaTrabalho;
+	private Job trabalho;
 	
 	private int idPessoa = 0;
 	private int chaveDeControle = 0;
@@ -105,10 +111,14 @@ public class TelaAtendimento extends JFrame {
 		panel_1.setLayout(null);
 		
 		campoCaracteristicas = new JTextArea();
-		campoCaracteristicas.setBounds(10, 23, 393, 269);
+		campoCaracteristicas.setBounds(10, 23, 374, 269);
 		panel_1.add(campoCaracteristicas);
 		campoCaracteristicas.setBackground(UIManager.getColor("CheckBox.background"));
 		campoCaracteristicas.setEditable(false);
+		
+		JScrollBar scrollBar_2 = new JScrollBar();
+		scrollBar_2.setBounds(384, 23, 17, 267);
+		panel_1.add(scrollBar_2);
 
 		JButton btnNovo = new JButton("Pesquisar Cliente");
 		btnNovo.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/search.png")));
@@ -273,6 +283,8 @@ public class TelaAtendimento extends JFrame {
 		contentPane.add(lblNewLabel_1);
 
 		campoCodigoProjeto = new JTextField();
+		campoCodigoProjeto.setFont(new Font("Dialog", Font.BOLD, 16));
+		campoCodigoProjeto.setHorizontalAlignment(SwingConstants.CENTER);
 		campoCodigoProjeto.setEditable(false);
 		campoCodigoProjeto.setBounds(911, 62, 43, 31);
 		contentPane.add(campoCodigoProjeto);
@@ -324,12 +336,14 @@ public class TelaAtendimento extends JFrame {
 		novoCliente.setBounds(300, 436, 123, 23);
 		contentPane.add(novoCliente);
 		
-				JButton btnExcluir = new JButton("Excluir");
+				JButton btnExcluir = new JButton("");
+				btnExcluir.setToolTipText("Excluir");
 				btnExcluir.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/remove.png")));
-				btnExcluir.setBounds(856, 436, 98, 23);
+				btnExcluir.setBounds(920, 436, 34, 23);
 				contentPane.add(btnExcluir);
 				
-						JButton botaoOrcamento = new JButton("Or\u00E7amento");
+						JButton botaoOrcamento = new JButton("");
+						botaoOrcamento.setToolTipText("Solicita Or\u00E7amento");
 						botaoOrcamento.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/calculator.png")));
 						botaoOrcamento.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -353,7 +367,7 @@ public class TelaAtendimento extends JFrame {
 									
 									projeto.setCustoEquipamento("");
 									projeto.setPorcentagemConclusao(0);
-									projeto.setPrioridadeProjeto(0);
+//									projeto.setPrioridadeProjeto(0);
 									projeto.setTipoExecucao("");
 									
 									if(chaveDeControle == 0){
@@ -377,7 +391,7 @@ public class TelaAtendimento extends JFrame {
 								limpaTela();
 							}
 						});
-						botaoOrcamento.setBounds(591, 436, 117, 23);
+						botaoOrcamento.setBounds(812, 437, 34, 23);
 						contentPane.add(botaoOrcamento);
 						
 								JButton botaoVoltar = new JButton("Voltar");
@@ -385,7 +399,8 @@ public class TelaAtendimento extends JFrame {
 								botaoVoltar.setBounds(10, 436, 117, 23);
 								contentPane.add(botaoVoltar);
 								
-								JButton btnAlterar = new JButton("Alterar");
+								JButton btnAlterar = new JButton("");
+								btnAlterar.setToolTipText("Alterar");
 								btnAlterar.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/page_edit.png")));
 								btnAlterar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
@@ -428,10 +443,11 @@ public class TelaAtendimento extends JFrame {
 										
 									}
 								});
-								btnAlterar.setBounds(730, 436, 106, 23);
+								btnAlterar.setBounds(867, 437, 34, 23);
 								contentPane.add(btnAlterar);
 								
-								JButton btnCriao = new JButton("Cria\u00E7\u00E3o");
+								JButton btnCriao = new JButton("");
+								btnCriao.setToolTipText("Envia Cria\u00E7\u00E3o");
 								btnCriao.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/image.png")));
 								btnCriao.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
@@ -471,8 +487,62 @@ public class TelaAtendimento extends JFrame {
 										
 										}
 								});
-								btnCriao.setBounds(461, 436, 106, 23);
+								btnCriao.setBounds(755, 437, 34, 23);
 								contentPane.add(btnCriao);
+								
+								JButton button = new JButton("");
+								button.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										try {
+
+											String codigo, nome;
+
+											codigo = (String) table.getModel()
+													.getValueAt(table.getSelectedRow(),
+															0);
+											nome = (String) table.getModel()
+													.getValueAt(table.getSelectedRow(),
+															1);
+
+											manipulaProjeto = (ArrayList<Requisicao>) projetoDao
+													.listeTodos();
+											for (int i = 0; i < manipulaProjeto.size(); i++) {
+												if (manipulaProjeto.get(i).getNomeProjet()
+														.equalsIgnoreCase(nome.toString().trim())
+														&& manipulaProjeto.get(i).getIdProjeto() == Integer
+																.parseInt(codigo)
+														&& manipulaProjeto.get(i)
+																.getPorcentagemConclusao() == 100) {
+													JOptionPane.showMessageDialog(null, ""
+															+ manipulaProjeto.get(i).getIdProjeto()
+															+ "\n\n"
+															+ manipulaProjeto.get(i).getNomeProjet()
+															+ "\n\n"
+															+ manipulaProjeto.get(i).getDataPedido()
+															+ "\n"
+															+ manipulaProjeto.get(i).getTempoEntrega()
+															+ "\n\n\n"
+															+ manipulaProjeto.get(i)
+															.getDefinicaoProjeto() + "\n\n"
+															+ manipulaProjeto.get(i)
+															.getTipoExecucao() + "\n");
+												
+
+													
+												}
+											}
+
+										} catch (ArrayIndexOutOfBoundsException e1) {
+											JOptionPane.showMessageDialog(null,
+													"Nenhum projeto foi selecionado");
+										} 
+										
+										
+									}
+								});
+								button.setToolTipText("Visualiza informa\u00E7\u00F5es ");
+								button.setBounds(700, 437, 34, 23);
+								contentPane.add(button);
 								botaoVoltar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 
@@ -487,11 +557,28 @@ public class TelaAtendimento extends JFrame {
 
 						manipulaProjeto = (ArrayList<Requisicao>) projetoDao
 								.listeTodos();
-
+						
+						manipulaTrabalho = (ArrayList<Job>) jobDao
+								.listeTodos();
+						
 						for (int i = 0; i < manipulaProjeto.size(); i++) {
 							projeto = manipulaProjeto.get(i);
+							
 							if (projeto.getIdProjeto() == Integer.parseInt(numero)) {
+								for(int j = 0; j< manipulaTrabalho.size(); j++){
+								if(projeto.getIdProjeto() == manipulaTrabalho.get(j).getIdProjeto()){
+									trabalho = new Job();
+									trabalho.setIdProjeto(manipulaTrabalho.get(j).getIdProjeto());
+									jobDao.exclua(trabalho);
+								}
+									
+								
+								}
+								
+								
 								projetoDao.exclua(projeto);
+							
+							
 							}
 
 						}

@@ -19,7 +19,7 @@ public class ProjetoDAO implements InterfaceProjetoDAO{
 	public void insira(Requisicao projeto, int id_pessoa) {
 
 		bd.cadastrar(
-				"INSERT into REQUISICAO (ID_PESSOA, ID_PROJETO, NOME_PROJETO, DATA_PEDIDO, DATA_ENTREGA, DEFINICAO_PROJETO, TIPO_EXECUCAO, PRIORIDADE, CUSTO_EQUIPAMENTO, PORCENTAGEM_CONCLUSAO) VALUES(?,?,?,?,?,?,?,?,?,?)",
+				"INSERT into REQUISICAO (ID_PESSOA, ID_PROJETO, NOME_PROJETO, DATA_PEDIDO, DATA_ENTREGA, DEFINICAO_PROJETO, TIPO_EXECUCAO, CUSTO_EQUIPAMENTO, PORCENTAGEM_CONCLUSAO) VALUES(?,?,?,?,?,?,?,?,?)",
 					 
 					 "" + id_pessoa + "#&V&#" 
 						+ projeto.getIdProjeto() + "#&V&#"
@@ -29,7 +29,7 @@ public class ProjetoDAO implements InterfaceProjetoDAO{
 						+ projeto.getTempoEntrega() + "#&V&#"
 						+ projeto.getDefinicaoProjeto() + "#&V&#" 
 						+ projeto.getTipoExecucao() + "#&V&#"
-						+ projeto.getPrioridadeProjeto() + "#&V&#"
+					
 						+ projeto.getCustoEquipamento() + "#&V&#" 
 						
 						+ projeto.getPorcentagemConclusao() + "");
@@ -82,6 +82,10 @@ public class ProjetoDAO implements InterfaceProjetoDAO{
 		bd.alterar("UPDATE financeiro SET custo = '"+requisicao.getCustos().getCusto()+"' WHERE id_projeto = '"+requisicao.getIdProjeto()+"'");
 		bd.alterar("UPDATE requisicao SET custo_equipamento = '"+requisicao.getCustoEquipamento()+"', porcentagem_conclusao = '"+requisicao.getPorcentagemConclusao()+"' WHERE id_projeto = '"+requisicao.getIdProjeto()+"'");
 		break;
+	
+	case 5:
+		bd.alterar("UPDATE requisicao SET tipo_execucao = '"+requisicao.getTipoExecucao()+"' WHERE id_projeto = '"+requisicao.getIdProjeto()+"'");
+		break;
 	}
 		
 		
@@ -90,7 +94,7 @@ public class ProjetoDAO implements InterfaceProjetoDAO{
 	@Override
 	public List<Requisicao> listeTodos() {
 		
-		bd.exibir("select requisicao.id_pessoa, requisicao.id_projeto, requisicao.nome_projeto, requisicao.data_pedido, requisicao.data_entrega, requisicao.definicao_projeto, requisicao.tipo_execucao, requisicao.prioridade, requisicao.custo_equipamento, requisicao.porcentagem_conclusao, financeiro.orcamento, financeiro.custo, financeiro.desconto, financeiro.ganho FROM requisicao, financeiro WHERE requisicao.id_projeto = financeiro.id_projeto",4);
+		bd.exibir("select requisicao.id_pessoa, requisicao.id_projeto, requisicao.nome_projeto, requisicao.data_pedido, requisicao.data_entrega, requisicao.definicao_projeto, requisicao.tipo_execucao, requisicao.custo_equipamento, requisicao.porcentagem_conclusao, financeiro.orcamento, financeiro.custo, financeiro.desconto, financeiro.ganho FROM requisicao, financeiro WHERE requisicao.id_projeto = financeiro.id_projeto",4);
 
 		return bd.getListaRequisicao();
 	}

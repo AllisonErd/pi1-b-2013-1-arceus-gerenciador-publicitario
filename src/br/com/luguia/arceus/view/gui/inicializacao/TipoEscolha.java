@@ -5,19 +5,16 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import br.com.luguia.arceus.view.gui.telaPrincipal.TelaPrincipal;
-import javax.swing.ImageIcon;
-
 public class TipoEscolha extends JFrame {
 
 	private JPanel contentPane;
-	private TelaPrincipal telaPrincipal;
 
 	public TipoEscolha() {
 		setTitle("Tipo de Teste");
@@ -35,7 +32,8 @@ public class TipoEscolha extends JFrame {
 		panel_1.setLayout(null);
 
 		JButton btnNewButton = new JButton("Populado");
-		btnNewButton.setIcon(new ImageIcon(TipoEscolha.class.getResource("/Images24x24/folder_full.png")));
+		btnNewButton.setIcon(new ImageIcon(TipoEscolha.class
+				.getResource("/Images24x24/folder_full.png")));
 
 		btnNewButton.setFont(new Font("Calibri", Font.BOLD, 13));
 		btnNewButton.setForeground(new Color(47, 79, 79));
@@ -44,12 +42,12 @@ public class TipoEscolha extends JFrame {
 		panel_1.add(btnNewButton);
 
 		JButton btnNopopulado = new JButton("N\u00E3o-Populado");
-		btnNopopulado.setIcon(new ImageIcon(TipoEscolha.class.getResource("/Images24x24/folder_edit.png")));
+		btnNopopulado.setIcon(new ImageIcon(TipoEscolha.class
+				.getResource("/Images24x24/folder_edit.png")));
 		btnNopopulado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				telaPrincipal = new TelaPrincipal();
-				telaPrincipal.setVisible(true);
+				new TelaLogin().setVisible(true);
 				dispose();
 
 			}
@@ -61,7 +59,8 @@ public class TipoEscolha extends JFrame {
 		panel_1.add(btnNopopulado);
 
 		JButton btnInicio = new JButton("Inicio");
-		btnInicio.setIcon(new ImageIcon(TipoEscolha.class.getResource("/Images16x16/accept.png")));
+		btnInicio.setIcon(new ImageIcon(TipoEscolha.class
+				.getResource("/Images16x16/accept.png")));
 		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EscolhaBanco escolha = new EscolhaBanco();

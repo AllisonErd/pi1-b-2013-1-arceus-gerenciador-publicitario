@@ -7,7 +7,7 @@ public class Requisicao {
 	private String nomeProjet;
 	private String definicaoProjeto;
 	private String custoEquipamento;
-	private int prioridadeProjeto;
+//	private int prioridadeProjeto;
 	private String dataPedido;
 	private String tempoEntrega;
 	private String tipoExecucao;
@@ -45,12 +45,12 @@ public class Requisicao {
 	public void setCustoEquipamento(String custoEquipamento) {
 		this.custoEquipamento = custoEquipamento;
 	}
-	public int getPrioridadeProjeto() {
-		return prioridadeProjeto;
-	}
-	public void setPrioridadeProjeto(int prioridadeProjeto) {
-		this.prioridadeProjeto = prioridadeProjeto;
-	}
+//	public int getPrioridadeProjeto() {
+//		return prioridadeProjeto;
+//	}
+//	public void setPrioridadeProjeto(int prioridadeProjeto) {
+//		this.prioridadeProjeto = prioridadeProjeto;
+//	}
 	public String getDataPedido() {
 		return dataPedido;
 	}

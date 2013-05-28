@@ -28,6 +28,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
+import java.awt.Toolkit;
 
 public class TelaFinanceiro extends JFrame {
 
@@ -45,6 +46,7 @@ public class TelaFinanceiro extends JFrame {
 	private JTextField campoDesconto;
 	
 	public TelaFinanceiro() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaFinanceiro.class.getResource("/Images24x24/calculator.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -141,7 +143,7 @@ public class TelaFinanceiro extends JFrame {
 			}
 		});
 	
-		btnSolicitaCusto.setBounds(10, 433, 134, 26);
+		btnSolicitaCusto.setBounds(10, 428, 142, 31);
 		contentPane.add(btnSolicitaCusto);
 
 		JButton btnRetornaOramento = new JButton("Voltar");
@@ -151,7 +153,7 @@ public class TelaFinanceiro extends JFrame {
 				dispose();
 			}
 		});
-		btnRetornaOramento.setBounds(750, 433, 112, 26);
+		btnRetornaOramento.setBounds(738, 428, 112, 31);
 		contentPane.add(btnRetornaOramento);
 
 		JLabel lblCustoDeProduo = new JLabel(
@@ -169,19 +171,19 @@ public class TelaFinanceiro extends JFrame {
 		campoLucro.setHorizontalAlignment(SwingConstants.CENTER);
 		campoLucro.setText("0");
 		campoLucro.setColumns(10);
-		campoLucro.setBounds(900, 321, 114, 20);
+		campoLucro.setBounds(900, 321, 114, 31);
 		contentPane.add(campoLucro);
 
 		campoTotalCaixa = new JTextField();
 		campoTotalCaixa.setEditable(false);
 		campoTotalCaixa.setHorizontalAlignment(SwingConstants.CENTER);
 		campoTotalCaixa.setColumns(10);
-		campoTotalCaixa.setBounds(900, 384, 114, 20);
+		campoTotalCaixa.setBounds(900, 395, 114, 31);
 		contentPane.add(campoTotalCaixa);
 
 		JLabel lblTotalEmCaixa = new JLabel("Total em caixa");
 		lblTotalEmCaixa.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTotalEmCaixa.setBounds(770, 386, 112, 16);
+		lblTotalEmCaixa.setBounds(770, 397, 112, 16);
 		contentPane.add(lblTotalEmCaixa);
 
 		JSeparator separator_2 = new JSeparator();
@@ -246,7 +248,7 @@ public class TelaFinanceiro extends JFrame {
 			}
 		});
 	
-		button.setBounds(872, 433, 142, 26);
+		button.setBounds(862, 428, 152, 31);
 		contentPane.add(button);
 
 		tabelaSolicitacoes = new JTable();
@@ -271,7 +273,7 @@ public class TelaFinanceiro extends JFrame {
 			}
 		});
 
-		btnAtualizar.setBounds(457, 65, 112, 23);
+		btnAtualizar.setBounds(457, 57, 112, 31);
 		contentPane.add(btnAtualizar);
 
 		tabelaPedidosAvaliados = new JTable();
@@ -326,19 +328,19 @@ public class TelaFinanceiro extends JFrame {
 			
 			}
 		});
-		btnVisualizar.setBounds(315, 435, 185, 23);
+		btnVisualizar.setBounds(315, 428, 185, 30);
 		contentPane.add(btnVisualizar);
 		
 		campoDesconto = new JTextField();
 		campoDesconto.setText("0");
 		campoDesconto.setHorizontalAlignment(SwingConstants.CENTER);
 		campoDesconto.setColumns(10);
-		campoDesconto.setBounds(900, 352, 114, 20);
+		campoDesconto.setBounds(900, 362, 114, 31);
 		contentPane.add(campoDesconto);
 		
 		JLabel lblDesconto = new JLabel("Desconto");
 		lblDesconto.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDesconto.setBounds(770, 354, 112, 16);
+		lblDesconto.setBounds(770, 364, 112, 16);
 		contentPane.add(lblDesconto);
 		
 		JScrollBar scrollBar = new JScrollBar();
@@ -353,13 +355,14 @@ public class TelaFinanceiro extends JFrame {
 		scrollBar_2.setBounds(1003, 95, 17, 215);
 		contentPane.add(scrollBar_2);
 		
-		JButton btnCadastraFuncionario = new JButton("Cadastra funcionario");
+		JButton btnCadastraFuncionario = new JButton("Cadastrar funcionario");
+		btnCadastraFuncionario.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/user_add.png")));
 		btnCadastraFuncionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new TelaCadastroFuncionario().setVisible(true);
 			}
 		});
-		btnCadastraFuncionario.setBounds(536, 435, 153, 23);
+		btnCadastraFuncionario.setBounds(536, 428, 179, 30);
 		contentPane.add(btnCadastraFuncionario);
 	}
 	

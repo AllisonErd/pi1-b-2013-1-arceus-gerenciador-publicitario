@@ -31,6 +31,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
+import java.awt.Toolkit;
 
 public class TelaProducao extends JFrame {
 
@@ -49,6 +50,7 @@ public class TelaProducao extends JFrame {
 	
 	
 	public TelaProducao() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaProducao.class.getResource("/Images24x24/chart.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -128,7 +130,7 @@ public class TelaProducao extends JFrame {
 
 			}
 		});
-		btnAbrir.setBounds(314, 171, 124, 23);
+		btnAbrir.setBounds(314, 160, 124, 34);
 		panel_1.add(btnAbrir);
 
 		tabelaSolicitacoesFinanceiro = new JTable();
@@ -154,7 +156,7 @@ public class TelaProducao extends JFrame {
 			}
 		});
 
-		btnAtualizar.setBounds(314, 22, 126, 23);
+		btnAtualizar.setBounds(314, 22, 126, 34);
 		panel_1.add(btnAtualizar);
 
 		campoDescricaoPedido = new JTextArea();
@@ -231,16 +233,16 @@ public class TelaProducao extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_3.createSequentialGroup()
-							.addComponent(listaPrecoEquipamentos, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+							.addComponent(listaPrecoEquipamentos, GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_panel_3.createSequentialGroup()
-										.addGap(39)
-										.addComponent(label, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
-									.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblOCampoTotal))
-								.addComponent(button, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)))
+							.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_3.createSequentialGroup()
+									.addGap(39)
+									.addComponent(label, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
+								.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
+									.addComponent(button, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblOCampoTotal))))
 						.addComponent(lblNewLabel_1))
 					.addContainerGap())
 		);
@@ -256,8 +258,8 @@ public class TelaProducao extends JFrame {
 							.addComponent(label, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 							.addGap(11)
 							.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(button, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(button, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_3.createSequentialGroup()
 							.addComponent(listaPrecoEquipamentos, GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
 							.addContainerGap())))

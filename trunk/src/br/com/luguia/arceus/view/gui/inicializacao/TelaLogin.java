@@ -49,7 +49,7 @@ public class TelaLogin extends JFrame {
 		painelComponentes.setLayout(null);
 
 		campoSenhaUsuario = new JPasswordField();
-		campoSenhaUsuario.setBounds(42, 115, 217, 20);
+		campoSenhaUsuario.setBounds(42, 115, 217, 28);
 		painelComponentes.add(campoSenhaUsuario);
 
 		JLabel lblUSU = new JLabel("U s u \u00E1 r i o");
@@ -61,7 +61,7 @@ public class TelaLogin extends JFrame {
 		painelComponentes.add(lblSEN);
 
 		campoNomeUsuario = new JTextField();
-		campoNomeUsuario.setBounds(42, 56, 217, 20);
+		campoNomeUsuario.setBounds(42, 56, 217, 28);
 		painelComponentes.add(campoNomeUsuario);
 		campoNomeUsuario.setColumns(10);
 
@@ -101,7 +101,7 @@ public class TelaLogin extends JFrame {
 		botaoEntrar.setIcon(new ImageIcon(TelaLogin.class
 				.getResource("/Images16x16/accept.png")));
 
-		botaoEntrar.setBounds(273, 237, 106, 23);
+		botaoEntrar.setBounds(273, 217, 106, 43);
 		painelPrincipal.add(botaoEntrar);
 
 		JButton botaoSair = new JButton("Sair");
@@ -112,7 +112,7 @@ public class TelaLogin extends JFrame {
 				System.exit(0);// fecha a tela de login
 			}
 		});
-		botaoSair.setBounds(69, 237, 106, 23);
+		botaoSair.setBounds(69, 217, 106, 43);
 		painelPrincipal.add(botaoSair);
 	}
 

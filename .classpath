@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="images24x24.jar"/>
 	<classpathentry kind="lib" path="images48x48.jar"/>
 	<classpathentry kind="lib" path="forms-1.3.0.jar" sourcepath="forms-1.3.0-src.zip"/>
-	<classpathentry kind="lib" path="C:/Users/José/workspace/ProjetoArceus1.1/Arceus/src/logoArceus.jar"/>
 	<classpathentry kind="lib" path="logoArceus1024x768.jar"/>
 	<classpathentry kind="lib" path="logoArceus498x444.jar"/>
 	<classpathentry kind="lib" path="src/logoArceusfinal.jar"/>

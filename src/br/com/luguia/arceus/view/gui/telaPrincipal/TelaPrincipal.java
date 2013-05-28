@@ -133,21 +133,20 @@ public class TelaPrincipal extends JFrame {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(509)
-							.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(394)
-							.addComponent(lblKk, GroupLayout.PREFERRED_SIZE, 620, GroupLayout.PREFERRED_SIZE)))
+					.addGap(394)
+					.addComponent(lblKk, GroupLayout.PREFERRED_SIZE, 620, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(356, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(532, Short.MAX_VALUE)
+					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
+					.addGap(519))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
 					.addComponent(lblKk, GroupLayout.PREFERRED_SIZE, 574, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
@@ -155,106 +154,6 @@ public class TelaPrincipal extends JFrame {
 		getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{toolBar, btnAtendimento, btnCriao, btnProduo, btnMidia, btnFinanceiro}));
 		setTitle("Arceus - Gerenciador Publicit\u00E1rio");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-
-		JMenu menuCadastro = new JMenu("Cadastros");
-		menuBar.add(menuCadastro);
-
-		JMenuItem itemMenuCadastroDeClientes = new JMenuItem("Clientes");
-		itemMenuCadastroDeClientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new TelaCadastroCliente().setVisible(true);
-
-			}
-		});
-		menuCadastro.add(itemMenuCadastroDeClientes);
-
-		JMenuItem itemMenuCadastroDeFuncionários = new JMenuItem(
-				"Funcion\u00E1rios");
-		itemMenuCadastroDeFuncionários.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new TelaCadastroFuncionario().setVisible(true);
-			}
-		});
-		menuCadastro.add(itemMenuCadastroDeFuncionários);
-
-		JSeparator separator = new JSeparator();
-		menuCadastro.add(separator);
-
-		JMenuItem itemMenuCadastroSair = new JMenuItem("Sair...");
-		itemMenuCadastroSair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);// matando o programa!
-			}
-		});
-		menuCadastro.add(itemMenuCadastroSair);
-
-		JMenu menuSetores = new JMenu("Setores");
-		menuBar.add(menuSetores);
-
-		JMenuItem itemMenuSetoresAtendimento = new JMenuItem("Atendimento");
-		itemMenuSetoresAtendimento.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new TelaAtendimento().setVisible(true);
-
-			}
-		});
-		menuSetores.add(itemMenuSetoresAtendimento);
-
-		JMenuItem itemMenuSetoresCriacao = new JMenuItem("Cria\u00E7\u00E3o");
-		itemMenuSetoresCriacao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new TelaCriação().setVisible(true);
-			}
-		});
-		menuSetores.add(itemMenuSetoresCriacao);
-
-		JMenuItem itemMenuSetoresProducao = new JMenuItem("Produ\u00E7\u00E3o");
-		itemMenuSetoresProducao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new TelaProducao().setVisible(true);
-			}
-		});
-		menuSetores.add(itemMenuSetoresProducao);
-
-		JMenuItem itemMenuSetoresMidia = new JMenuItem("M\u00EDdia");
-		itemMenuSetoresMidia.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new TelaMidia().setVisible(true);
-			}
-		});
-		menuSetores.add(itemMenuSetoresMidia);
-
-		JMenuItem itemMenuSetoresFinanceiro = new JMenuItem("Financeiro");
-		itemMenuSetoresFinanceiro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new TelaFinanceiro().setVisible(true);
-			}
-		});
-		menuSetores.add(itemMenuSetoresFinanceiro);
-
-		JMenu menuConsulta = new JMenu("Consultas");
-		menuBar.add(menuConsulta);
-
-		JMenuItem itemMenuSolicitacao = new JMenuItem("Solicita\u00E7\u00E3o");
-		menuConsulta.add(itemMenuSolicitacao);
-
-		JMenu menuOpcoes = new JMenu("Op\u00E7\u00F5es");
-		menuBar.add(menuOpcoes);
-
-		JMenuItem itemSuporteMenuOpcoes = new JMenuItem("Suporte");
-		menuOpcoes.add(itemSuporteMenuOpcoes);
-
-		JMenuItem itemAjudaMenuOpcoes = new JMenuItem("Ajuda");
-		menuOpcoes.add(itemAjudaMenuOpcoes);
-
-		JSeparator separator_1 = new JSeparator();
-		menuOpcoes.add(separator_1);
-
-		JMenuItem itemSobreMenuOpcoes = new JMenuItem("Sobre");
-		menuOpcoes.add(itemSobreMenuOpcoes);
 	}
 
 	public void liberaSetor() {

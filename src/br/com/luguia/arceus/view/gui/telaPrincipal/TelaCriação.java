@@ -37,6 +37,8 @@ import br.com.luguia.arceus.model.Requisicao;
 import br.com.luguia.arceus.model.dao.array.CriacaoDAO;
 import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
 import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class TelaCriação extends JFrame implements ItemListener {
 
@@ -72,6 +74,7 @@ public class TelaCriação extends JFrame implements ItemListener {
 	private JTable tabelaProjetoConcluido;
 
 	public TelaCriação() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCriação.class.getResource("/Images16x16/favorite.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -98,8 +101,9 @@ public class TelaCriação extends JFrame implements ItemListener {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("C r i a \u00E7 \u00E3 o");
+		lblNewLabel.setIcon(new ImageIcon(TelaCriação.class.getResource("/images/favorite.png")));
 		lblNewLabel.setFont(new Font("OCR A Extended", Font.BOLD, 20));
-		lblNewLabel.setBounds(10, 11, 195, 34);
+		lblNewLabel.setBounds(10, 11, 258, 34);
 		panel.add(lblNewLabel);
 
 		JPanel panel_3 = new JPanel();
@@ -114,11 +118,12 @@ public class TelaCriação extends JFrame implements ItemListener {
 		panel_3.add(lblNome);
 
 		campoNome = new JTextField();
-		campoNome.setBounds(55, 18, 238, 20);
+		campoNome.setBounds(55, 18, 245, 26);
 		panel_3.add(campoNome);
 		campoNome.setColumns(10);
 
 		JButton btnOk = new JButton("Enviar");
+		btnOk.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/accept.png")));
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO
@@ -201,14 +206,14 @@ public class TelaCriação extends JFrame implements ItemListener {
 			}
 		});
 
-		btnOk.setBounds(308, 356, 98, 26);
+		btnOk.setBounds(291, 346, 115, 36);
 		panel_3.add(btnOk);
 
 		String prioridade[] = { "Prioridade 1", "Prioridade 2", "Prioridade 3",
 				"Prioridade 4", "Prioridade 5" };
 		comboPrioridade = new JComboBox(prioridade);
 		comboPrioridade.addItemListener(this);
-		comboPrioridade.setBounds(308, 242, 99, 25);
+		comboPrioridade.setBounds(291, 242, 116, 25);
 		panel_3.add(comboPrioridade);
 
 		campoCaracteristicasJob = new JTextArea();
@@ -221,7 +226,7 @@ public class TelaCriação extends JFrame implements ItemListener {
 		panel_3.add(lblCaracteristicasDoJob);
 
 		tabelaFuncionarioCriacao = new JTable();
-		tabelaFuncionarioCriacao.setBounds(12, 261, 281, 121);
+		tabelaFuncionarioCriacao.setBounds(12, 261, 267, 121);
 		panel_3.add(tabelaFuncionarioCriacao);
 		tabelaFuncionarioCriacao.setModel(new DefaultTableModel(
 				new Object[][] { { null, null }, }, new String[] {
@@ -232,7 +237,7 @@ public class TelaCriação extends JFrame implements ItemListener {
 		panel_3.add(lblFuncionario);
 
 		campoCodigo = new JTextField();
-		campoCodigo.setBounds(365, 15, 41, 23);
+		campoCodigo.setBounds(356, 15, 50, 29);
 		panel_3.add(campoCodigo);
 		campoCodigo.setEditable(false);
 		campoCodigo.setColumns(10);
@@ -271,10 +276,12 @@ public class TelaCriação extends JFrame implements ItemListener {
 						"New column", "New column", "New column" }));
 
 		JButton btnAbrir = new JButton("Abrir");
-		btnAbrir.setBounds(315, 309, 89, 23);
+		btnAbrir.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/accept.png")));
+		btnAbrir.setBounds(303, 298, 101, 34);
 		panel_2.add(btnAbrir);
 
-		JButton botaoAtualiza = new JButton("Atualiza");
+		JButton botaoAtualiza = new JButton("Atualizar");
+		botaoAtualiza.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/database.png")));
 		botaoAtualiza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabelaSincronizada();
@@ -283,7 +290,7 @@ public class TelaCriação extends JFrame implements ItemListener {
 				limpaCampo();
 			}
 		});
-		botaoAtualiza.setBounds(216, 309, 89, 23);
+		botaoAtualiza.setBounds(184, 298, 107, 34);
 		panel_2.add(botaoAtualiza);
 
 		JLabel lblCaracteristicas = new JLabel("Caracteristicas");
@@ -327,6 +334,7 @@ public class TelaCriação extends JFrame implements ItemListener {
 		panel_4.setLayout(null);
 
 		JButton btnSelecionar = new JButton("Abrir");
+		btnSelecionar.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/accept.png")));
 		btnSelecionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -357,7 +365,7 @@ public class TelaCriação extends JFrame implements ItemListener {
 
 			}
 		});
-		btnSelecionar.setBounds(330, 331, 99, 23);
+		btnSelecionar.setBounds(330, 324, 99, 37);
 		panel_4.add(btnSelecionar);
 
 		campoCaracteristicaJobPendente = new JTextArea();
@@ -381,6 +389,7 @@ public class TelaCriação extends JFrame implements ItemListener {
 		panel_4.add(lblJobs);
 
 		JButton btnFinalizado = new JButton("Finalizado");
+		btnFinalizado.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/folder_accept.png")));
 		btnFinalizado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int porcentagem = 0;
@@ -434,10 +443,11 @@ public class TelaCriação extends JFrame implements ItemListener {
 				}
 			}
 		});
-		btnFinalizado.setBounds(10, 331, 99, 23);
+		btnFinalizado.setBounds(10, 324, 114, 37);
 		panel_4.add(btnFinalizado);
 		
-		JButton btnAtualiza = new JButton("Atualiza");
+		JButton btnAtualiza = new JButton("Atualizar");
+		btnAtualiza.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/database.png")));
 		btnAtualiza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabelaSincronizada();
@@ -445,7 +455,7 @@ public class TelaCriação extends JFrame implements ItemListener {
 				tabelaProjetoSincronizada();
 			}
 		});
-		btnAtualiza.setBounds(231, 331, 89, 23);
+		btnAtualiza.setBounds(211, 324, 107, 37);
 		panel_4.add(btnAtualiza);
 		
 		JPanel panel_5 = new JPanel();
@@ -468,7 +478,8 @@ public class TelaCriação extends JFrame implements ItemListener {
 		lblProjetosConcluidos.setBounds(10, 11, 419, 16);
 		panel_5.add(lblProjetosConcluidos);
 		
-		JButton btnMidia = new JButton("midia");
+		JButton btnMidia = new JButton("M\u00EDdia");
+		btnMidia.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/movie_track.png")));
 		btnMidia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -511,11 +522,12 @@ public class TelaCriação extends JFrame implements ItemListener {
 				
 			}
 		});
-		btnMidia.setBounds(340, 331, 89, 23);
+		btnMidia.setBounds(340, 324, 89, 39);
 		panel_5.add(btnMidia);
 		
-		JButton button = new JButton("Atualiza");
-		button.addActionListener(new ActionListener() {
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/database.png")));
+		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabelaSincronizada();
 				tabelaJobSincronizada();
@@ -524,8 +536,8 @@ public class TelaCriação extends JFrame implements ItemListener {
 				
 			}
 		});
-		button.setBounds(241, 331, 89, 23);
-		panel_5.add(button);
+		btnAtualizar.setBounds(213, 324, 115, 39);
+		panel_5.add(btnAtualizar);
 		tabelaFuncionarioCriacao.getColumnModel().getColumn(1)
 				.setPreferredWidth(274);
 

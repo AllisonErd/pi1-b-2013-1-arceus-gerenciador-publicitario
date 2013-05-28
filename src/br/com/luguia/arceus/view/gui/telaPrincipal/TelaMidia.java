@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import br.com.luguia.arceus.model.Requisicao;
 import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
 import javax.swing.JTabbedPane;
+import java.awt.Toolkit;
 
 public class TelaMidia extends JFrame {
 
@@ -39,6 +40,7 @@ public class TelaMidia extends JFrame {
 	private JTable tabelaProjetosConcluidos;
 
 	public TelaMidia() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaMidia.class.getResource("/Images24x24/movie_track.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -98,6 +100,7 @@ public class TelaMidia extends JFrame {
 		panel_3.add(campoMapaMidia);
 
 		JButton btnGravarMapa = new JButton("Gravar Mapa");
+		btnGravarMapa.setIcon(new ImageIcon(TelaMidia.class.getResource("/Images16x16/accept.png")));
 		btnGravarMapa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (campoMapaMidia.getText().toString().trim()
@@ -122,7 +125,7 @@ public class TelaMidia extends JFrame {
 				
 			}
 		});
-		btnGravarMapa.setBounds(362, 178, 118, 23);
+		btnGravarMapa.setBounds(349, 173, 131, 28);
 		panel_3.add(btnGravarMapa);
 
 		JScrollBar scrollBar_1 = new JScrollBar();
@@ -196,7 +199,7 @@ public class TelaMidia extends JFrame {
 						btnAbrir.setIcon(new ImageIcon(TelaMidia.class
 								.getResource("/Images16x16/accept.png")));
 						
-								btnAbrir.setBounds(242, 328, 113, 23);
+								btnAbrir.setBounds(242, 323, 113, 28);
 								panel_1.add(btnAbrir);
 								
 										tabelaProjetosProntos = new JTable();
@@ -210,13 +213,14 @@ public class TelaMidia extends JFrame {
 												scrollBar.setBounds(338, 25, 17, 291);
 												panel_1.add(scrollBar);
 												
-														JButton btnAtualiza = new JButton("Atualiza ");
+														JButton btnAtualiza = new JButton("Atualizar");
+														btnAtualiza.setIcon(new ImageIcon(TelaMidia.class.getResource("/Images16x16/database.png")));
 														btnAtualiza.addActionListener(new ActionListener() {
 															public void actionPerformed(ActionEvent e) {
 																tabelaSincronizada();
 															}
 														});
-														btnAtualiza.setBounds(143, 328, 89, 23);
+														btnAtualiza.setBounds(119, 323, 113, 28);
 														panel_1.add(btnAtualiza);
 		
 		JPanel panel_5 = new JPanel();
@@ -231,6 +235,7 @@ public class TelaMidia extends JFrame {
 		panel_5.add(panel_6);
 		
 		JButton button = new JButton("Abrir");
+		button.setIcon(new ImageIcon(TelaMidia.class.getResource("/Images16x16/accept.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -281,7 +286,7 @@ public class TelaMidia extends JFrame {
 				}
 			}
 		});
-		button.setBounds(242, 328, 113, 23);
+		button.setBounds(242, 323, 113, 28);
 		panel_6.add(button);
 		
 		tabelaProjetosConcluidos = new JTable();
@@ -300,14 +305,15 @@ public class TelaMidia extends JFrame {
 		scrollBar_3.setBounds(338, 25, 17, 291);
 		panel_6.add(scrollBar_3);
 		
-		JButton button_1 = new JButton("Atualiza ");
-		button_1.addActionListener(new ActionListener() {
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setIcon(new ImageIcon(TelaMidia.class.getResource("/Images16x16/database.png")));
+		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabelaSincronizadaProjetosConcluidos();
 			}
 		});
-		button_1.setBounds(143, 328, 89, 23);
-		panel_6.add(button_1);
+		btnAtualizar.setBounds(131, 323, 101, 28);
+		panel_6.add(btnAtualizar);
 	}
 
 	public void tabelaSincronizada() {

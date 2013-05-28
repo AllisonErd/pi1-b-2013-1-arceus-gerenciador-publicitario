@@ -32,6 +32,7 @@ import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
+import java.awt.Toolkit;
 
 public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 
@@ -53,6 +54,7 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 	private JComboBox campoSetor ;
 	
 	public TelaCadastroFuncionario() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCadastroFuncionario.class.getResource("/Images16x16/users.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -98,7 +100,7 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 		painelDeComponentes.add(labelNome);
 
 		campoNome = new JTextField();
-		campoNome.setBounds(57, 27, 272, 20);
+		campoNome.setBounds(57, 27, 272, 28);
 		painelDeComponentes.add(campoNome);
 		campoNome.setColumns(10);
 
@@ -109,36 +111,37 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 
 		JLabel Setor = new JLabel("Setor");
 		Setor.setHorizontalAlignment(SwingConstants.RIGHT);
-		Setor.setBounds(324, 30, 46, 14);
+		Setor.setBounds(325, 30, 46, 14);
 		painelDeComponentes.add(Setor);
 
 		final String[] setores = { "Atendimento", "Criação", "Financeiro",
 				"Produção", "Midia" };
 		campoSetor = new JComboBox(setores);
+		campoSetor.setModel(new DefaultComboBoxModel(new String[] {"Atendimento", "Cria\u00E7\u00E3o", "Financeiro", "Produ\u00E7\u00E3o", "Midia"}));
 		campoSetor.addItemListener(this);
 	
-		campoSetor.setBounds(380, 27, 100, 20);
+		campoSetor.setBounds(380, 27, 114, 28);
 		painelDeComponentes.add(campoSetor);
 
 		campoSenha = new JTextField();
 		campoSenha.setColumns(10);
-		campoSenha.setBounds(232, 55, 97, 20);
+		campoSenha.setBounds(232, 55, 97, 28);
 		painelDeComponentes.add(campoSenha);
 
 		JLabel lblCodigo = new JLabel("Codigo");
 		lblCodigo.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCodigo.setBounds(476, 29, 46, 14);
+		lblCodigo.setBounds(502, 30, 46, 14);
 		painelDeComponentes.add(lblCodigo);
 
 		campoCodigo = new JTextField("");
 		campoCodigo.setEditable(false);
 		campoCodigo.setColumns(10);
-		campoCodigo.setBounds(527, 27, 70, 20);
+		campoCodigo.setBounds(550, 27, 47, 28);
 		painelDeComponentes.add(campoCodigo);
 
 		campoLogin = new JTextField();
 		campoLogin.setColumns(10);
-		campoLogin.setBounds(57, 55, 114, 20);
+		campoLogin.setBounds(57, 55, 114, 28);
 		painelDeComponentes.add(campoLogin);
 
 		JLabel lblLogin = new JLabel("Login");
@@ -154,7 +157,7 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 
 			}
 		});
-		btnLimpar.setBounds(380, 57, 100, 23);
+		btnLimpar.setBounds(380, 57, 114, 26);
 		painelDeComponentes.add(btnLimpar);
 
 		JButton botaoCadastrar = new JButton("Salvar");
@@ -200,7 +203,7 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 				}
 			}
 		});
-		botaoCadastrar.setBounds(497, 57, 100, 23);
+		botaoCadastrar.setBounds(497, 57, 100, 26);
 		painelDeComponentes.add(botaoCadastrar);
 
 		JPanel panel_2 = new JPanel();
@@ -234,13 +237,13 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 		panel_3.add(scrollBar);
 
 		campoPesquisa = new JTextField();
-		campoPesquisa.setBounds(121, 20, 355, 20);
+		campoPesquisa.setBounds(119, 19, 355, 30);
 		panel_2.add(campoPesquisa);
 		campoPesquisa.setColumns(10);
 
 		final String modelo[] = { "Nome", "Codigo" };
 		boxTipoPesquisa = new JComboBox(modelo);
-		boxTipoPesquisa.setBounds(10, 20, 101, 20);
+		boxTipoPesquisa.setBounds(10, 20, 101, 25);
 		panel_2.add(boxTipoPesquisa);
 
 		JButton botaoPesquisar = new JButton("Pesquisar");
@@ -271,7 +274,7 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 
 			}
 		});
-		botaoPesquisar.setBounds(486, 17, 112, 23);
+		botaoPesquisar.setBounds(486, 17, 112, 28);
 		panel_2.add(botaoPesquisar);
 
 		JButton botaoAtualizar = new JButton("Alterar");
@@ -315,7 +318,7 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 				}
 			}
 		});
-		botaoAtualizar.setBounds(372, 249, 107, 23);
+		botaoAtualizar.setBounds(372, 243, 107, 29);
 		panel_2.add(botaoAtualizar);
 
 		JButton boatoExcluir = new JButton("Excluir");
@@ -340,7 +343,7 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 				limpaTabela();
 			}
 		});
-		boatoExcluir.setBounds(497, 249, 101, 23);
+		boatoExcluir.setBounds(497, 243, 101, 29);
 		panel_2.add(boatoExcluir);
 
 		JButton botaoVoltar = new JButton("Voltar");
@@ -350,16 +353,17 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 				dispose();
 			}
 		});
-		botaoVoltar.setBounds(12, 249, 99, 23);
+		botaoVoltar.setBounds(12, 243, 99, 29);
 		panel_2.add(botaoVoltar);
 		
 		JButton btnAtualizarTabela = new JButton("Atualizar tabela");
+		btnAtualizarTabela.setIcon(new ImageIcon(TelaCadastroFuncionario.class.getResource("/Images16x16/database_process.png")));
 		btnAtualizarTabela.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				posicaoCorreta();
 			}
 		});
-		btnAtualizarTabela.setBounds(121, 249, 112, 23);
+		btnAtualizarTabela.setBounds(121, 243, 132, 29);
 		panel_2.add(btnAtualizarTabela);
 
 	}

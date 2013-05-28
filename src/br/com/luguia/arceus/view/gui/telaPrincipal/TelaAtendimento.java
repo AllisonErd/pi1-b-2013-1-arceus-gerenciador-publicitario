@@ -39,6 +39,7 @@ import javax.swing.UIManager;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 
 
@@ -74,6 +75,7 @@ public class TelaAtendimento extends JFrame {
 	private int idPessoa = 0;
 	private int chaveDeControle = 0;
 	public TelaAtendimento() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaAtendimento.class.getResource("/Images24x24/notes_edit.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -189,7 +191,7 @@ public class TelaAtendimento extends JFrame {
 			}
 		});
 
-		btnNovo.setBounds(255, 66, 168, 23);
+		btnNovo.setBounds(255, 59, 168, 31);
 		contentPane.add(btnNovo);
 
 		JSeparator separator = new JSeparator();
@@ -209,7 +211,7 @@ public class TelaAtendimento extends JFrame {
 		panel_3.add(lblNomeDoProjeto);
 
 		campoNomeProjeto = new JTextField();
-		campoNomeProjeto.setBounds(126, 26, 377, 20);
+		campoNomeProjeto.setBounds(141, 26, 362, 28);
 		panel_3.add(campoNomeProjeto);
 		campoNomeProjeto.setColumns(10);
 
@@ -218,16 +220,16 @@ public class TelaAtendimento extends JFrame {
 		panel_3.add(lblTermino);
 
 		campoDataEntrega = new JTextField();
-		campoDataEntrega.setBounds(417, 58, 86, 20);
+		campoDataEntrega.setBounds(417, 58, 86, 28);
 		panel_3.add(campoDataEntrega);
 		campoDataEntrega.setColumns(10);
 
-		JLabel lblDataDaEmisso = new JLabel("Data da Emiss\u00E3o:");
-		lblDataDaEmisso.setBounds(20, 61, 98, 14);
+		JLabel lblDataDaEmisso = new JLabel("Data da Emiss\u00E3o");
+		lblDataDaEmisso.setBounds(20, 61, 106, 14);
 		panel_3.add(lblDataDaEmisso);
 
 		campoDataEmissao = new JTextField();
-		campoDataEmissao.setBounds(126, 58, 86, 20);
+		campoDataEmissao.setBounds(141, 58, 86, 28);
 		panel_3.add(campoDataEmissao);
 		campoDataEmissao.setColumns(10);
 		
@@ -241,7 +243,7 @@ public class TelaAtendimento extends JFrame {
 				
 						campoDescricaoProjeto = new JTextArea();
 						campoDescricaoProjeto.setLineWrap(true);
-						campoDescricaoProjeto.setBounds(12, 23, 449, 79);
+						campoDescricaoProjeto.setBounds(12, 23, 458, 79);
 						panel_6.add(campoDescricaoProjeto);
 						
 						JScrollBar scrollBar_1 = new JScrollBar();
@@ -283,10 +285,11 @@ public class TelaAtendimento extends JFrame {
 		contentPane.add(lblNewLabel_1);
 
 		campoCodigoProjeto = new JTextField();
+		campoCodigoProjeto.setEnabled(false);
 		campoCodigoProjeto.setFont(new Font("Dialog", Font.BOLD, 16));
 		campoCodigoProjeto.setHorizontalAlignment(SwingConstants.CENTER);
 		campoCodigoProjeto.setEditable(false);
-		campoCodigoProjeto.setBounds(911, 62, 43, 31);
+		campoCodigoProjeto.setBounds(904, 62, 50, 31);
 		contentPane.add(campoCodigoProjeto);
 		campoCodigoProjeto.setColumns(10);
 
@@ -294,12 +297,12 @@ public class TelaAtendimento extends JFrame {
 		campoCpfCnpj.setFont(new Font("Dialog", Font.BOLD, 14));
 		campoCpfCnpj.setHorizontalAlignment(SwingConstants.CENTER);
 		campoCpfCnpj.setColumns(10);
-		campoCpfCnpj.setBounds(76, 66, 168, 23);
+		campoCpfCnpj.setBounds(76, 59, 168, 30);
 		contentPane.add(campoCpfCnpj);
 
 		JLabel lblCpfcnpj = new JLabel("CPF/CNPJ");
 		lblCpfcnpj.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCpfcnpj.setBounds(10, 72, 56, 14);
+		lblCpfcnpj.setBounds(0, 70, 72, 14);
 		contentPane.add(lblCpfcnpj);
 
 		JRadioButton rdbtnFisico = new JRadioButton("Fisico", true);
@@ -333,16 +336,16 @@ public class TelaAtendimento extends JFrame {
 				new TelaCadastroCliente().setVisible(true);
 			}
 		});
-		novoCliente.setBounds(300, 436, 123, 23);
+		novoCliente.setBounds(300, 428, 123, 31);
 		contentPane.add(novoCliente);
 		
-				JButton btnExcluir = new JButton("");
+				JButton btnExcluir = new JButton("Excluir");
 				btnExcluir.setToolTipText("Excluir");
-				btnExcluir.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/remove.png")));
-				btnExcluir.setBounds(920, 436, 34, 23);
+				btnExcluir.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/database_remove.png")));
+				btnExcluir.setBounds(853, 427, 101, 33);
 				contentPane.add(btnExcluir);
 				
-						JButton botaoOrcamento = new JButton("");
+						JButton botaoOrcamento = new JButton("Or\u00E7amento");
 						botaoOrcamento.setToolTipText("Solicita Or\u00E7amento");
 						botaoOrcamento.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/calculator.png")));
 						botaoOrcamento.addActionListener(new ActionListener() {
@@ -391,15 +394,15 @@ public class TelaAtendimento extends JFrame {
 								limpaTela();
 							}
 						});
-						botaoOrcamento.setBounds(812, 437, 34, 23);
+						botaoOrcamento.setBounds(644, 427, 109, 33);
 						contentPane.add(botaoOrcamento);
 						
 								JButton botaoVoltar = new JButton("Voltar");
 								botaoVoltar.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/back.png")));
-								botaoVoltar.setBounds(10, 436, 117, 23);
+								botaoVoltar.setBounds(10, 428, 117, 31);
 								contentPane.add(botaoVoltar);
 								
-								JButton btnAlterar = new JButton("");
+								JButton btnAlterar = new JButton("Alterar");
 								btnAlterar.setToolTipText("Alterar");
 								btnAlterar.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/page_edit.png")));
 								btnAlterar.addActionListener(new ActionListener() {
@@ -443,12 +446,12 @@ public class TelaAtendimento extends JFrame {
 										
 									}
 								});
-								btnAlterar.setBounds(867, 437, 34, 23);
+								btnAlterar.setBounds(755, 427, 96, 33);
 								contentPane.add(btnAlterar);
 								
-								JButton btnCriao = new JButton("");
+								JButton btnCriao = new JButton("Cria\u00E7\u00E3o");
 								btnCriao.setToolTipText("Envia Cria\u00E7\u00E3o");
-								btnCriao.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/image.png")));
+								btnCriao.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/favorite.png")));
 								btnCriao.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 										try {
@@ -487,11 +490,12 @@ public class TelaAtendimento extends JFrame {
 										
 										}
 								});
-								btnCriao.setBounds(755, 437, 34, 23);
+								btnCriao.setBounds(539, 427, 103, 33);
 								contentPane.add(btnCriao);
 								
-								JButton button = new JButton("");
-								button.addActionListener(new ActionListener() {
+								JButton btnVisualizar = new JButton("Visualizar");
+								btnVisualizar.setIcon(new ImageIcon(TelaAtendimento.class.getResource("/Images16x16/image.png")));
+								btnVisualizar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 										try {
 
@@ -540,9 +544,9 @@ public class TelaAtendimento extends JFrame {
 										
 									}
 								});
-								button.setToolTipText("Visualiza informa\u00E7\u00F5es ");
-								button.setBounds(700, 437, 34, 23);
-								contentPane.add(button);
+								btnVisualizar.setToolTipText("Visualiza informa\u00E7\u00F5es ");
+								btnVisualizar.setBounds(435, 428, 102, 33);
+								contentPane.add(btnVisualizar);
 								botaoVoltar.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {
 

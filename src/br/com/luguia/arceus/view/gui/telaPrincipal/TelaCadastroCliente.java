@@ -43,6 +43,7 @@ import br.com.luguia.arceus.model.PessoaJuridica;
 import br.com.luguia.arceus.model.Telefone;
 import br.com.luguia.arceus.model.dao.array.PessoaFisicaDAO;
 import br.com.luguia.arceus.model.dao.array.PessoaJuridicaDAO;
+import java.awt.Toolkit;
 
 public class TelaCadastroCliente extends JFrame implements ItemListener {
 
@@ -89,6 +90,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 	private JTable tableJuridica;
 
 	public TelaCadastroCliente() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCadastroCliente.class.getResource("/Images16x16/community_users.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -133,13 +135,13 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		painelDeComponentes.add(labelNome);
 
 		campoNome = new JTextField();
-		campoNome.setBounds(55, 28, 438, 20);
+		campoNome.setBounds(55, 28, 438, 28);
 		painelDeComponentes.add(campoNome);
 		campoNome.setColumns(10);
 
 		JLabel labelCodigo = new JLabel("N\u00BA");
 		labelCodigo.setFont(new Font("Dialog", Font.BOLD, 20));
-		labelCodigo.setBounds(500, 34, 27, 33);
+		labelCodigo.setBounds(505, 22, 27, 33);
 		painelDeComponentes.add(labelCodigo);
 
 		campoCodigo = new JTextField();
@@ -156,7 +158,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 		boxTipoCliente.addItemListener(this);
 
-		boxTipoCliente.setBounds(111, 60, 63, 20);
+		boxTipoCliente.setBounds(100, 56, 80, 28);
 		painelDeComponentes.add(boxTipoCliente);
 
 		JLabel lblTipoDeCliente = new JLabel("Tipo de Cliente");
@@ -164,7 +166,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		painelDeComponentes.add(lblTipoDeCliente);
 
 		campoCpfCnpj = new JTextField();
-		campoCpfCnpj.setBounds(264, 60, 106, 20);
+		campoCpfCnpj.setBounds(264, 60, 115, 28);
 		painelDeComponentes.add(campoCpfCnpj);
 		campoCpfCnpj.setColumns(10);
 
@@ -191,12 +193,12 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel_1.add(lblBairro);
 
 		campoRua = new JTextField();
-		campoRua.setBounds(59, 11, 484, 20);
+		campoRua.setBounds(59, 11, 484, 28);
 		panel_1.add(campoRua);
 		campoRua.setColumns(10);
 
 		campoBairro = new JTextField();
-		campoBairro.setBounds(59, 42, 246, 20);
+		campoBairro.setBounds(59, 42, 246, 28);
 		panel_1.add(campoBairro);
 		campoBairro.setColumns(10);
 
@@ -206,7 +208,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel_1.add(lblCidade);
 
 		campoCidade = new JTextField();
-		campoCidade.setBounds(59, 71, 246, 20);
+		campoCidade.setBounds(59, 71, 246, 28);
 		panel_1.add(campoCidade);
 		campoCidade.setColumns(10);
 
@@ -215,13 +217,13 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel_1.add(lblCep);
 
 		campoCep = new JTextField();
-		campoCep.setBounds(364, 42, 70, 20);
+		campoCep.setBounds(364, 42, 179, 28);
 		panel_1.add(campoCep);
 		campoCep.setColumns(10);
 
 		campoEstado = new JTextField();
 		campoEstado.setColumns(10);
-		campoEstado.setBounds(364, 71, 179, 20);
+		campoEstado.setBounds(364, 71, 179, 28);
 		panel_1.add(campoEstado);
 
 		JLabel lblEstado = new JLabel("Estado");
@@ -247,7 +249,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		fichaContatoCliente.add(lblTelefone);
 
 		campoTelefonefixo = new JTextField();
-		campoTelefonefixo.setBounds(96, 35, 121, 20);
+		campoTelefonefixo.setBounds(96, 35, 121, 28);
 		fichaContatoCliente.add(campoTelefonefixo);
 		campoTelefonefixo.setColumns(10);
 
@@ -257,7 +259,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 		campoTelefoneCelular = new JTextField();
 		campoTelefoneCelular.setColumns(10);
-		campoTelefoneCelular.setBounds(96, 66, 121, 20);
+		campoTelefoneCelular.setBounds(96, 66, 121, 28);
 		fichaContatoCliente.add(campoTelefoneCelular);
 
 		JLabel lblEmail = new JLabel("E-mail");
@@ -266,7 +268,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 		campoEmail = new JTextField();
 		campoEmail.setText(null);
-		campoEmail.setBounds(96, 97, 345, 20);
+		campoEmail.setBounds(96, 97, 345, 28);
 		fichaContatoCliente.add(campoEmail);
 		campoEmail.setColumns(10);
 
@@ -280,11 +282,11 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoRg.setEditable(false);
 		campoRg.setEnabled(false);
 		campoRg.setColumns(10);
-		campoRg.setBounds(413, 59, 80, 20);
+		campoRg.setBounds(413, 59, 80, 28);
 		painelDeComponentes.add(campoRg);
 
 		JLabel lblRg = new JLabel("RG");
-		lblRg.setBounds(382, 62, 27, 14);
+		lblRg.setBounds(391, 66, 27, 14);
 		painelDeComponentes.add(lblRg);
 
 		JSeparator separator_1 = new JSeparator();
@@ -353,7 +355,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel_3.add(scrollBar_1);
 
 		campoPesquisa = new JTextField();
-		campoPesquisa.setBounds(88, 23, 290, 20);
+		campoPesquisa.setBounds(114, 23, 264, 30);
 		panel_2.add(campoPesquisa);
 		campoPesquisa.setColumns(10);
 		final String items[] = { "Nome", "Codigo" };
@@ -376,12 +378,12 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 			}
 		});
 
-		boxTipoPesquisa.setBounds(10, 23, 66, 20);
+		boxTipoPesquisa.setBounds(10, 23, 92, 27);
 		panel_2.add(boxTipoPesquisa);
 		JButton botaoPesquisar = new JButton("Pesquisar");
 		botaoPesquisar.setIcon(new ImageIcon(TelaCadastroCliente.class
 				.getResource("/Images16x16/page_search.png")));
-		botaoPesquisar.setBounds(388, 22, 130, 23);
+		botaoPesquisar.setBounds(388, 22, 130, 28);
 		panel_2.add(botaoPesquisar);
 		botaoPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -499,7 +501,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 				dispose();
 			}
 		});
-		botaoVoltar.setBounds(238, 437, 113, 23);
+		botaoVoltar.setBounds(238, 426, 113, 34);
 		contentPane.add(botaoVoltar);
 
 		JButton botaoCadastrar = new JButton("Salvar");
@@ -588,7 +590,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 			}
 		});
 
-		botaoCadastrar.setBounds(504, 437, 113, 23);
+		botaoCadastrar.setBounds(504, 426, 113, 34);
 		contentPane.add(botaoCadastrar);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -601,7 +603,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 			}
 		});
-		btnLimpar.setBounds(376, 437, 105, 23);
+		btnLimpar.setBounds(376, 426, 105, 34);
 		contentPane.add(btnLimpar);
 
 		JButton botaoAlterar = new JButton("Alterar");
@@ -629,7 +631,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 			}
 		});
-		botaoAlterar.setBounds(953, 434, 105, 23);
+		botaoAlterar.setBounds(953, 426, 105, 31);
 		contentPane.add(botaoAlterar);
 
 		JButton botaoCancelar = new JButton("Excluir");
@@ -673,16 +675,17 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 			}
 		});
-		botaoCancelar.setBounds(1068, 434, 105, 23);
+		botaoCancelar.setBounds(1068, 426, 105, 31);
 		contentPane.add(botaoCancelar);
 		
 		JButton btnNewButton = new JButton("Atualizar Tabelas");
+		btnNewButton.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/database_process.png")));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				posicaoCorreta();
 			}
 		});
-		btnNewButton.setBounds(656, 434, 126, 23);
+		btnNewButton.setBounds(656, 426, 143, 31);
 		contentPane.add(btnNewButton);
 	}
 

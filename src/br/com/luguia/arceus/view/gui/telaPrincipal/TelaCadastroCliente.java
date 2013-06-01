@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -35,6 +36,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 import br.com.luguia.arceus.model.Contato;
 import br.com.luguia.arceus.model.Endereco;
@@ -50,13 +53,13 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 	private JPanel contentPane;
 	private JTextField campoNome;
 	private JTextField campoCodigo;
-	private JTextField campoCpfCnpj;
+	private JFormattedTextField campoCpfCnpj;
 	private JTextField campoRua;
 	private JTextField campoBairro;
 	private JTextField campoCidade;
-	private JTextField campoCep;
-	private JTextField campoTelefonefixo;
-	private JTextField campoTelefoneCelular;
+	private JFormattedTextField campoCep;
+	private JFormattedTextField campoTelefonefixo;
+	private JFormattedTextField campoTelefoneCelular;
 	private JTextField campoEmail;
 	private JTextField campoPesquisa;
 	private JComboBox boxTipoCliente;
@@ -64,7 +67,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 	private JComboBox boxTipoPesquisa;
 	private JTextArea campoComplemento;
 
-	private JTextField campoRg;
+	private JFormattedTextField campoRg;
 	private JTextField campoEstado;
 
 	private PessoaJuridicaDAO pessoaJuridicaDAO = new PessoaJuridicaDAO();
@@ -88,9 +91,14 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 	private int idFisic = 0;
 	private int id = 0;
 	private JTable tableJuridica;
+	
+	private MaskFormatter mascaraCNPJ;  
+	private MaskFormatter mascaraCPF;  
 
 	public TelaCadastroCliente() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaCadastroCliente.class.getResource("/Images16x16/community_users.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(
+				TelaCadastroCliente.class
+						.getResource("/Images16x16/community_users.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -151,13 +159,38 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoCodigo.setBounds(528, 28, 69, 52);
 		painelDeComponentes.add(campoCodigo);
 		campoCodigo.setColumns(10);
+		
+
+		try  
+	    {  
+	        mascaraCNPJ = new MaskFormatter("###.###.###/####-##");  
+	        mascaraCPF = new MaskFormatter("###.###.###-##");  
+	    }catch(Exception e){e.printStackTrace();}  
+		
+		
 
 		boxTipoCliente = new JComboBox();
+
 		boxTipoCliente.setModel(new DefaultComboBoxModel(new String[] { "---",
 				"F\u00EDsico", "Jur\u00EDdico" }));
 
 		boxTipoCliente.addItemListener(this);
 
+		boxTipoCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			int index =	boxTipoCliente.getSelectedIndex(); 
+			
+			if (index == 1){
+				boolean cnpj = false;
+				mudarMascara(cnpj);
+			}
+			
+			else if(index == 2){
+				boolean cnpj = true;
+				mudarMascara(cnpj);
+			}
+			}
+		});
 		boxTipoCliente.setBounds(100, 56, 80, 28);
 		painelDeComponentes.add(boxTipoCliente);
 
@@ -165,7 +198,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		lblTipoDeCliente.setBounds(10, 63, 83, 14);
 		painelDeComponentes.add(lblTipoDeCliente);
 
-		campoCpfCnpj = new JTextField();
+		campoCpfCnpj = new JFormattedTextField();
 		campoCpfCnpj.setBounds(264, 60, 115, 28);
 		painelDeComponentes.add(campoCpfCnpj);
 		campoCpfCnpj.setColumns(10);
@@ -216,7 +249,13 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		lblCep.setBounds(315, 48, 28, 14);
 		panel_1.add(lblCep);
 
-		campoCep = new JTextField();
+		try {
+			campoCep = new JFormattedTextField(new MaskFormatter("#####-###"));
+			campoCep.setHorizontalAlignment(SwingConstants.CENTER);
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		campoCep.setBounds(364, 42, 179, 28);
 		panel_1.add(campoCep);
 		campoCep.setColumns(10);
@@ -248,7 +287,13 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		lblTelefone.setBounds(44, 41, 57, 14);
 		fichaContatoCliente.add(lblTelefone);
 
-		campoTelefonefixo = new JTextField();
+		try {
+			campoTelefonefixo = new JFormattedTextField(new MaskFormatter("(##)####-####"));
+			campoTelefonefixo.setHorizontalAlignment(SwingConstants.LEFT);
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		campoTelefonefixo.setBounds(96, 35, 121, 28);
 		fichaContatoCliente.add(campoTelefonefixo);
 		campoTelefonefixo.setColumns(10);
@@ -257,7 +302,12 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		lblCelular.setBounds(44, 72, 57, 14);
 		fichaContatoCliente.add(lblCelular);
 
-		campoTelefoneCelular = new JTextField();
+		try {
+			campoTelefoneCelular = new JFormattedTextField(new MaskFormatter("(##)####-####"));
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		campoTelefoneCelular.setColumns(10);
 		campoTelefoneCelular.setBounds(96, 66, 121, 28);
 		fichaContatoCliente.add(campoTelefoneCelular);
@@ -272,13 +322,17 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		fichaContatoCliente.add(campoEmail);
 		campoEmail.setColumns(10);
 
-		JFormattedTextField formattedTextField = null;
 
 		JLabel lblCpfcnpj = new JLabel("CPF/CNPJ");
 		lblCpfcnpj.setBounds(192, 63, 62, 14);
 		painelDeComponentes.add(lblCpfcnpj);
 
-		campoRg = new JTextField();
+		try {
+			campoRg = new JFormattedTextField(new MaskFormatter("#.###.###"));
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		campoRg.setEditable(false);
 		campoRg.setEnabled(false);
 		campoRg.setColumns(10);
@@ -677,9 +731,10 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		});
 		botaoCancelar.setBounds(1068, 426, 105, 31);
 		contentPane.add(botaoCancelar);
-		
+
 		JButton btnNewButton = new JButton("Atualizar Tabelas");
-		btnNewButton.setIcon(new ImageIcon(TelaCadastroCliente.class.getResource("/Images16x16/database_process.png")));
+		btnNewButton.setIcon(new ImageIcon(TelaCadastroCliente.class
+				.getResource("/Images16x16/database_process.png")));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				posicaoCorreta();
@@ -1017,4 +1072,24 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		System.out.println(valida);
 		return valida;
 	}
+	
+	private void mudarMascara(boolean cnpj)  
+	{  
+	    try{  
+	  
+	       this.campoCpfCnpj.setValue(null);  
+	        if(cnpj)  
+	        {  
+	            this.campoCpfCnpj.setFormatterFactory(new DefaultFormatterFactory(mascaraCNPJ));  
+	        }  
+	        else  
+	        {  
+	            this.campoCpfCnpj.setFormatterFactory(new DefaultFormatterFactory(mascaraCPF));  
+	        }  
+	  
+	    }catch(Exception pe)  
+	    {  
+	        pe.printStackTrace();  
+	    }  
+	}  
 }

@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -27,23 +28,26 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import br.com.luguia.arceus.model.Funcionario;
 import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
 import java.awt.Toolkit;
+import javax.swing.JPasswordField;
+import javax.swing.JFormattedTextField;
 
 public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 
 	private JPanel contentPane;
 	private JTextField campoNome;
 	private JTextField campoPesquisa;
-	private JTextField campoSenha;
+	private JPasswordField campoSenha;
 	private JTable table;
 	private JTextField campoCodigo;
 	private JComboBox boxTipoPesquisa;
-	private JTextField campoLogin;
+	private JFormattedTextField campoLogin;
 
 	private FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 	private ArrayList<Funcionario> manipulaFuncionario;
@@ -123,7 +127,7 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 		campoSetor.setBounds(380, 27, 114, 28);
 		painelDeComponentes.add(campoSetor);
 
-		campoSenha = new JTextField();
+		campoSenha = new JPasswordField();
 		campoSenha.setColumns(10);
 		campoSenha.setBounds(232, 55, 97, 28);
 		painelDeComponentes.add(campoSenha);
@@ -139,7 +143,12 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 		campoCodigo.setBounds(550, 27, 47, 28);
 		painelDeComponentes.add(campoCodigo);
 
-		campoLogin = new JTextField();
+		try {
+			campoLogin = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAA"));
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		campoLogin.setColumns(10);
 		campoLogin.setBounds(57, 55, 114, 28);
 		painelDeComponentes.add(campoLogin);

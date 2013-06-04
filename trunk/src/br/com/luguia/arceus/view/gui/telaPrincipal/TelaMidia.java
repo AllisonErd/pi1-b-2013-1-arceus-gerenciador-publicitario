@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
@@ -25,11 +26,12 @@ import br.com.luguia.arceus.model.Requisicao;
 import br.com.luguia.arceus.model.dao.array.ProjetoDAO;
 import javax.swing.JTabbedPane;
 import java.awt.Toolkit;
+import javax.swing.JTextArea;
 
 public class TelaMidia extends JFrame {
 
-	private JTextPane campoMapaMidia;
-	private JTextPane campoInformacoesProjeto;
+	private JTextArea campoMapaMidia;
+	private JTextArea campoInformacoesProjeto;
 	private JPanel contentPane;
 	private JTable tabelaProjetosProntos;
 	private ProjetoDAO projetoDao = new ProjetoDAO();
@@ -77,9 +79,12 @@ public class TelaMidia extends JFrame {
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 
-		campoInformacoesProjeto = new JTextPane();
-		campoInformacoesProjeto.setBounds(10, 23, 470, 130);
-		panel_2.add(campoInformacoesProjeto);
+		campoInformacoesProjeto = new JTextArea();
+		campoInformacoesProjeto.setLineWrap(true);
+		
+		JScrollPane scrollInformacoesProjeto = new JScrollPane(campoInformacoesProjeto);
+		scrollInformacoesProjeto.setBounds(10, 23, 470, 130);
+		panel_2.add(scrollInformacoesProjeto);
 
 		JScrollBar scrollBar_2 = new JScrollBar();
 		scrollBar_2.setBounds(523, 23, 17, 130);
@@ -95,9 +100,12 @@ public class TelaMidia extends JFrame {
 		panel_3.setBounds(394, 248, 490, 212);
 		contentPane.add(panel_3);
 
-		campoMapaMidia = new JTextPane();
-		campoMapaMidia.setBounds(10, 23, 470, 144);
-		panel_3.add(campoMapaMidia);
+		campoMapaMidia = new JTextArea();
+		campoMapaMidia.setLineWrap(true);
+		
+		JScrollPane scrollMapaMidia = new JScrollPane(campoMapaMidia);
+		scrollMapaMidia.setBounds(10, 23, 470, 144);
+		panel_3.add(scrollMapaMidia);
 
 		JButton btnGravarMapa = new JButton("Gravar Mapa");
 		btnGravarMapa.setIcon(new ImageIcon(TelaMidia.class.getResource("/Images16x16/accept.png")));
@@ -204,15 +212,13 @@ public class TelaMidia extends JFrame {
 								
 										tabelaProjetosProntos = new JTable();
 										tabelaProjetosProntos.setModel(new DefaultTableModel(new Object[][] { {
-												null, null, null }, }, new String[] { "New column",
-												"New column", "New column" }));
-										tabelaProjetosProntos.setBounds(10, 25, 329, 291);
-										panel_1.add(tabelaProjetosProntos);
+												null, null, null }, }, new String[] { "Código",
+												"Nome", "Percentual Conclusão" }));
 										
-												JScrollBar scrollBar = new JScrollBar();
-												scrollBar.setBounds(338, 25, 17, 291);
-												panel_1.add(scrollBar);
 												
+										JScrollPane scrollProjetosProntos = new JScrollPane(tabelaProjetosProntos);
+										scrollProjetosProntos.setBounds(10, 25, 345, 291);
+										panel_1.add(scrollProjetosProntos);
 														JButton btnAtualiza = new JButton("Atualizar");
 														btnAtualiza.setIcon(new ImageIcon(TelaMidia.class.getResource("/Images16x16/database.png")));
 														btnAtualiza.addActionListener(new ActionListener() {
@@ -220,6 +226,8 @@ public class TelaMidia extends JFrame {
 																tabelaSincronizada();
 															}
 														});
+														
+														
 														btnAtualiza.setBounds(119, 323, 113, 28);
 														panel_1.add(btnAtualiza);
 		
@@ -295,15 +303,14 @@ public class TelaMidia extends JFrame {
 				{null, null, null},
 			},
 			new String[] {
-				"New column", "New column", "New column"
+				"Código", "Nome", "Percentual Conclusão"
 			}
 		));
-		tabelaProjetosConcluidos.setBounds(10, 25, 329, 291);
-		panel_6.add(tabelaProjetosConcluidos);
 		
-		JScrollBar scrollBar_3 = new JScrollBar();
-		scrollBar_3.setBounds(338, 25, 17, 291);
-		panel_6.add(scrollBar_3);
+		
+		JScrollPane scrollProjetosConcluidos = new JScrollPane(tabelaProjetosConcluidos);
+		scrollProjetosConcluidos.setBounds(10, 25, 345, 291);
+		panel_6.add(scrollProjetosConcluidos);
 		
 		JButton btnAtualizar = new JButton("Atualizar");
 		btnAtualizar.setIcon(new ImageIcon(TelaMidia.class.getResource("/Images16x16/database.png")));

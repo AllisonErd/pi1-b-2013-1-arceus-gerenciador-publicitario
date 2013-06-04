@@ -63,9 +63,9 @@ public class TelaProducao extends JFrame {
 
 		setTitle("Setor de Produ\u00E7\u00E3o");
 		setResizable(false);
-		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1200, 500);
+		setSize(1200, 500);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -136,8 +136,16 @@ public class TelaProducao extends JFrame {
 
 		tabelaSolicitacoesFinanceiro = new JTable();
 		tabelaSolicitacoesFinanceiro.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null }, }, new String[] {
-						"Código", "Nome Projeto", "Conclusão" }));
+			new Object[][] {
+				{null, null, null},
+			},
+			new String[] {
+				"C\u00F3digo", "Nome Projeto", "Conclus\u00E3o"
+			}
+		));
+		tabelaSolicitacoesFinanceiro.getColumnModel().getColumn(0).setPreferredWidth(60);
+		tabelaSolicitacoesFinanceiro.getColumnModel().getColumn(1).setPreferredWidth(130);
+		tabelaSolicitacoesFinanceiro.getColumnModel().getColumn(2).setPreferredWidth(87);
 	
 		
 		JScrollPane scrollSolicitacoesFinanceiro = new JScrollPane(tabelaSolicitacoesFinanceiro);
@@ -224,8 +232,6 @@ public class TelaProducao extends JFrame {
 
 		JLabel lblNewLabel_1 = new JLabel(
 				"Relatorio do valor que ser\u00E1 gasto em equipamentos e servis\u00E7os para esse projeto");
-		
-		JLabel lblOCampoTotal = new JLabel("o campo total gasto deve apenas acc ,");
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
@@ -240,9 +246,9 @@ public class TelaProducao extends JFrame {
 									.addGap(39)
 									.addComponent(label, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
 								.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
-									.addComponent(button, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblOCampoTotal))))
+								.addGroup(gl_panel_3.createSequentialGroup()
+									.addGap(84)
+									.addComponent(button, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))))
 						.addComponent(lblNewLabel_1))
 					.addContainerGap())
 		);
@@ -253,8 +259,6 @@ public class TelaProducao extends JFrame {
 					.addGap(11)
 					.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel_3.createSequentialGroup()
-							.addComponent(lblOCampoTotal)
-							.addGap(33)
 							.addComponent(label, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 							.addGap(11)
 							.addComponent(campoValorTotal, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)

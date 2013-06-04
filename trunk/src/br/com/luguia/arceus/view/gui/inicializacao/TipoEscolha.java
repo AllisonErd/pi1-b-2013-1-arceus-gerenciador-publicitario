@@ -41,7 +41,8 @@ public class TipoEscolha extends JFrame {
 	public TipoEscolha() {
 		setTitle("Tipo de Teste");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 300, 300);
+		setSize(300, 300);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

@@ -32,10 +32,10 @@ public class TelaLogin extends JFrame {
 
 	public TelaLogin() {
 		setResizable(false);
-		setLocationRelativeTo(null);
 		setTitle("Arceus Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setSize(450, 300);
+		setLocationRelativeTo(null);
 		painelPrincipal = new JPanel();
 		painelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(painelPrincipal);

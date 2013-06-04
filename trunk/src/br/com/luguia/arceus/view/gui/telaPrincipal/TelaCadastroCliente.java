@@ -113,7 +113,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		setTitle("Cadastro de Cliente");
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1200, 500);
+		setSize(1200, 500);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -238,7 +239,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 		JLabel lblCidade = new JLabel("Cidade");
 		lblCidade.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCidade.setBounds(10, 74, 39, 14);
+		lblCidade.setBounds(10, 74, 46, 14);
 		panel_1.add(lblCidade);
 
 		campoCidade = new JTextField();
@@ -703,7 +704,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 			}
 		});
-		botaoAlterar.setBounds(953, 426, 105, 31);
+		botaoAlterar.setBounds(953, 426, 105, 34);
 		contentPane.add(botaoAlterar);
 
 		JButton botaoCancelar = new JButton("Excluir");
@@ -747,7 +748,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 			}
 		});
-		botaoCancelar.setBounds(1068, 426, 105, 31);
+		botaoCancelar.setBounds(1068, 426, 105, 34);
 		contentPane.add(botaoCancelar);
 
 		JButton btnNewButton = new JButton("Atualizar Tabelas");
@@ -758,7 +759,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 				posicaoCorreta();
 			}
 		});
-		btnNewButton.setBounds(656, 426, 143, 31);
+		btnNewButton.setBounds(656, 426, 143, 34);
 		contentPane.add(btnNewButton);
 	}
 

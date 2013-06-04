@@ -40,7 +40,8 @@ public class ConfigSql extends JFrame {
 		setTitle("Setings");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 300, 300);
+		setSize(300, 300);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

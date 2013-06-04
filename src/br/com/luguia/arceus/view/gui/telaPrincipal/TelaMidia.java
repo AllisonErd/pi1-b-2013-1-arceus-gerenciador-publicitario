@@ -51,9 +51,10 @@ public class TelaMidia extends JFrame {
 			}
 		});
 		setResizable(false);
-		setLocationRelativeTo(null);
+		setTitle("Setor de Mídia");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 900, 500);
+		setSize(900, 500);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -211,9 +212,17 @@ public class TelaMidia extends JFrame {
 								panel_1.add(btnAbrir);
 								
 										tabelaProjetosProntos = new JTable();
-										tabelaProjetosProntos.setModel(new DefaultTableModel(new Object[][] { {
-												null, null, null }, }, new String[] { "Código",
-												"Nome", "Percentual Conclusão" }));
+										tabelaProjetosProntos.setModel(new DefaultTableModel(
+											new Object[][] {
+												{null, null, null},
+											},
+											new String[] {
+												"C\u00F3digo", "Nome", "Percentual Conclus\u00E3o"
+											}
+										));
+										tabelaProjetosProntos.getColumnModel().getColumn(0).setPreferredWidth(60);
+										tabelaProjetosProntos.getColumnModel().getColumn(1).setPreferredWidth(100);
+										tabelaProjetosProntos.getColumnModel().getColumn(2).setPreferredWidth(134);
 										
 												
 										JScrollPane scrollProjetosProntos = new JScrollPane(tabelaProjetosProntos);
@@ -303,9 +312,12 @@ public class TelaMidia extends JFrame {
 				{null, null, null},
 			},
 			new String[] {
-				"Código", "Nome", "Percentual Conclusão"
+				"C\u00F3digo", "Nome", "Percentual Conclus\u00E3o"
 			}
 		));
+		tabelaProjetosConcluidos.getColumnModel().getColumn(0).setPreferredWidth(60);
+		tabelaProjetosConcluidos.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tabelaProjetosConcluidos.getColumnModel().getColumn(2).setPreferredWidth(134);
 		
 		
 		JScrollPane scrollProjetosConcluidos = new JScrollPane(tabelaProjetosConcluidos);

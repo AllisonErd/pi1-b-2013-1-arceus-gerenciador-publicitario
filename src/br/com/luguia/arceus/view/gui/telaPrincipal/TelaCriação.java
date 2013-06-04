@@ -87,9 +87,10 @@ public class TelaCriação extends JFrame implements ItemListener {
 		});
 
 		setResizable(false);
-		setLocationRelativeTo(null);
+		setTitle("Setor de Criação");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 900, 500);
+		setSize(900, 500);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -282,8 +283,16 @@ public class TelaCriação extends JFrame implements ItemListener {
 
 		tabelaSolicitacoesAprovadas = new JTable();
 		tabelaSolicitacoesAprovadas.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null }, }, new String[] {
-						"Código", "Nome", "Percentual de Conclusão" }));
+			new Object[][] {
+				{null, null, null},
+			},
+			new String[] {
+				"C\u00F3digo", "Nome", "Percentual de Conclus\u00E3o"
+			}
+		));
+		tabelaSolicitacoesAprovadas.getColumnModel().getColumn(0).setPreferredWidth(57);
+		tabelaSolicitacoesAprovadas.getColumnModel().getColumn(1).setPreferredWidth(100);
+		tabelaSolicitacoesAprovadas.getColumnModel().getColumn(2).setPreferredWidth(150);
 		
 		JScrollPane scrollSolicitacoesAprovadas = new JScrollPane(tabelaSolicitacoesAprovadas);
 		scrollSolicitacoesAprovadas.setBounds(10, 22, 394, 124);

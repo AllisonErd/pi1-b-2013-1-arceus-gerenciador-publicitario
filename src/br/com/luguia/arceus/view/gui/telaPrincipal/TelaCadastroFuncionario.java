@@ -73,7 +73,8 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 		setTitle("Cadastro de Funcion\u00E1rios");
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 640, 500);
+		setSize(640, 500);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

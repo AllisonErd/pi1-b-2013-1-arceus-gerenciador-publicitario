@@ -45,13 +45,16 @@ public class TelaPrincipal extends JFrame {
 	public TelaPrincipal() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipal.class.getResource("/arceus1024x768.png")));
 		getContentPane().setBackground(Color.WHITE);
-		setExtendedState(Frame.MAXIMIZED_BOTH);
+		setExtendedState(TelaPrincipal.MAXIMIZED_BOTH);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
 				liberaSetor();
 			}
 		});
+		
+		
+		
 		
 				JToolBar toolBar = new JToolBar();
 				toolBar.setRollover(true);
@@ -133,21 +136,21 @@ public class TelaPrincipal extends JFrame {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(394)
-					.addComponent(lblKk, GroupLayout.PREFERRED_SIZE, 620, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(356, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(532, Short.MAX_VALUE)
+					.addContainerGap(186, Short.MAX_VALUE)
 					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
 					.addGap(519))
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(394)
+					.addComponent(lblKk, GroupLayout.PREFERRED_SIZE, 620, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-					.addComponent(lblKk, GroupLayout.PREFERRED_SIZE, 574, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+					.addComponent(lblKk, GroupLayout.PREFERRED_SIZE, 501, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		getContentPane().setLayout(groupLayout);

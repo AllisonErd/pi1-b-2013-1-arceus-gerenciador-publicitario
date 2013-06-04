@@ -96,9 +96,9 @@ public class TelaAtendimento extends JFrame {
 		});
 		setTitle("Setor de Atendimento");
 		setResizable(false);
-		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 970, 500);
+		setSize(970, 500);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

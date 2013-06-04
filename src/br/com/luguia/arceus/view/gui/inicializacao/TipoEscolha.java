@@ -15,14 +15,26 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.luguia.arceus.control.MySqlController;
 import br.com.luguia.arceus.model.Funcionario;
+import br.com.luguia.arceus.model.PessoaFisica;
+import br.com.luguia.arceus.model.PessoaJuridica;
 import br.com.luguia.arceus.model.dao.array.FuncionarioDAO;
+import br.com.luguia.arceus.model.dao.array.PessoaFisicaDAO;
+import br.com.luguia.arceus.model.dao.array.PessoaJuridicaDAO;
 
 public class TipoEscolha extends JFrame {
 
 	private FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 	private ArrayList<Funcionario> manipulaFuncionario;
-	//private Funcionario funcionario;
 	private	MySqlController mc = new MySqlController();
+	
+	private PessoaFisicaDAO pessoaFisicaDAO = new PessoaFisicaDAO();
+	private ArrayList<PessoaFisica> manipulaPessoaFisica;
+	
+	
+	private PessoaJuridicaDAO pessoaJuridicaDAO = new PessoaJuridicaDAO();
+	private ArrayList<PessoaJuridica> manipulaPessoaJuridica;
+	
+	
 	
 		private JPanel contentPane;
 
@@ -98,7 +110,12 @@ public class TipoEscolha extends JFrame {
 		manipulaFuncionario = (ArrayList<Funcionario>) funcionarioDAO
 				.listeTodos();
 		
-		if(manipulaFuncionario.size()>=1){
+		manipulaPessoaFisica = (ArrayList<PessoaFisica>) pessoaFisicaDAO
+				.listeTodos();
+		
+		manipulaPessoaJuridica = (ArrayList<PessoaJuridica>) pessoaJuridicaDAO
+				.listeTodos();
+		if(manipulaFuncionario.size()>=1 || manipulaPessoaFisica.size() >=1 || manipulaPessoaJuridica.size() >=1){
 			new TelaLogin().setVisible(true);
 		}else{
 			mc.alterar("insert into funcionario(id_func, nome, login, senha, tipo) values ('0', 'admin', 'arceus', 'pepeka', 'admin')");

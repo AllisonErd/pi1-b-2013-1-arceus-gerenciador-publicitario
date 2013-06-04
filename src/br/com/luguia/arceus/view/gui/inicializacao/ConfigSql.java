@@ -51,7 +51,7 @@ public class ConfigSql extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		campoHost = new JTextField("jdbc:mysql://localhost:3306/arceus1.1");
+		campoHost = new JTextField("jdbc:mysql://localhost:3306/arceus");
 		campoHost.setForeground(new Color(0, 0, 0));
 		campoHost.setBackground(new Color(255, 255, 255));
 		campoHost.setBounds(10, 36, 274, 28);

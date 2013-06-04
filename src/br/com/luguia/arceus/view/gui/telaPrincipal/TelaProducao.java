@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -136,9 +137,13 @@ public class TelaProducao extends JFrame {
 		tabelaSolicitacoesFinanceiro = new JTable();
 		tabelaSolicitacoesFinanceiro.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null }, }, new String[] {
-						"New column", "New column", "New column" }));
-		tabelaSolicitacoesFinanceiro.setBounds(10, 26, 267, 168);
-		panel_1.add(tabelaSolicitacoesFinanceiro);
+						"Código", "Nome Projeto", "Conclusão" }));
+	
+		
+		JScrollPane scrollSolicitacoesFinanceiro = new JScrollPane(tabelaSolicitacoesFinanceiro);
+		scrollSolicitacoesFinanceiro.setBounds(10, 26, 294, 168);
+		panel_1.add(scrollSolicitacoesFinanceiro);
+		
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 205, 430, 2);
@@ -160,16 +165,11 @@ public class TelaProducao extends JFrame {
 		panel_1.add(btnAtualizar);
 
 		campoDescricaoPedido = new JTextArea();
-		campoDescricaoPedido.setBounds(10, 237, 404, 145);
-		panel_1.add(campoDescricaoPedido);
+		campoDescricaoPedido.setLineWrap(true);
 		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(287, 26, 17, 168);
-		panel_1.add(scrollBar);
-		
-		JScrollBar scrollBar_1 = new JScrollBar();
-		scrollBar_1.setBounds(423, 237, 17, 145);
-		panel_1.add(scrollBar_1);
+		JScrollPane scrollDescricaoPedido = new JScrollPane(campoDescricaoPedido);
+		scrollDescricaoPedido.setBounds(10, 237, 428, 145);
+		panel_1.add(scrollDescricaoPedido);
 
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);

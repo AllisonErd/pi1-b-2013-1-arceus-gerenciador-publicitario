@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -308,17 +309,11 @@ public class TelaAtendimento extends JFrame {
 				"Informa\u00E7\u00F5es de Produ\u00E7\u00E3o",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_6.setLayout(null);
-
 		campoDescricaoProjeto = new JTextArea();
 		campoDescricaoProjeto.setLineWrap(true);
-		campoDescricaoProjeto.setBounds(12, 23, 458, 79);
-		panel_6.add(campoDescricaoProjeto);
-
-		JScrollBar scrollBar_1 = new JScrollBar();
-		scrollBar_1.setBounds(471, 23, 17, 79);
-		panel_6.add(scrollBar_1);
-		// TODO concatenar a frase Projetos relacionados a : com o nome da
-		// pessoa selecionada!!
+		JScrollPane scroll = new JScrollPane(campoDescricaoProjeto);  
+		scroll.setBounds(10, 24, 478, 80);
+		panel_6.add(scroll);
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(10, 212, 498, 107);
 		panel_3.add(panel_5);

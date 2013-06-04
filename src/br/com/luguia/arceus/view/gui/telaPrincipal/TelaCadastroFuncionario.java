@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -237,13 +238,12 @@ public class TelaCadastroFuncionario extends JFrame implements ItemListener{
 		table.getColumnModel().getColumn(0).setPreferredWidth(50);
 		table.getColumnModel().getColumn(1).setPreferredWidth(250);
 		table.getColumnModel().getColumn(2).setPreferredWidth(250);
-		table.setBounds(12, 12, 550, 162);
-
-		panel_3.add(table);
 		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(561, 12, 17, 162);
-		panel_3.add(scrollBar);
+		
+		JScrollPane scrollTable = new JScrollPane(table);
+		scrollTable.setBounds(12, 12, 566, 162);
+
+		panel_3.add(scrollTable);
 
 		campoPesquisa = new JTextField();
 		campoPesquisa.setBounds(119, 19, 355, 30);

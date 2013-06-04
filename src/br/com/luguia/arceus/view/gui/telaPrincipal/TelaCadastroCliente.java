@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -91,9 +92,9 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 	private int idFisic = 0;
 	private int id = 0;
 	private JTable tableJuridica;
-	
-	private MaskFormatter mascaraCNPJ;  
-	private MaskFormatter mascaraCPF;  
+
+	private MaskFormatter mascaraCNPJ;
+	private MaskFormatter mascaraCPF;
 
 	public TelaCadastroCliente() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
@@ -159,15 +160,13 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoCodigo.setBounds(528, 28, 69, 52);
 		painelDeComponentes.add(campoCodigo);
 		campoCodigo.setColumns(10);
-		
 
-		try  
-	    {  
-	        mascaraCNPJ = new MaskFormatter("###.###.###/####-##");  
-	        mascaraCPF = new MaskFormatter("###.###.###-##");  
-	    }catch(Exception e){e.printStackTrace();}  
-		
-		
+		try {
+			mascaraCNPJ = new MaskFormatter("###.###.###/####-##");
+			mascaraCPF = new MaskFormatter("###.###.###-##");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		boxTipoCliente = new JComboBox();
 
@@ -178,17 +177,17 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 		boxTipoCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			int index =	boxTipoCliente.getSelectedIndex(); 
-			
-			if (index == 1){
-				boolean cnpj = false;
-				mudarMascara(cnpj);
-			}
-			
-			else if(index == 2){
-				boolean cnpj = true;
-				mudarMascara(cnpj);
-			}
+				int index = boxTipoCliente.getSelectedIndex();
+
+				if (index == 1) {
+					boolean cnpj = false;
+					mudarMascara(cnpj);
+				}
+
+				else if (index == 2) {
+					boolean cnpj = true;
+					mudarMascara(cnpj);
+				}
 			}
 		});
 		boxTipoCliente.setBounds(100, 56, 80, 28);
@@ -275,9 +274,13 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel_1.add(lblComplemento);
 
 		campoComplemento = new JTextArea();
-		campoComplemento.setText(" ");
-		campoComplemento.setBounds(99, 102, 444, 50);
-		panel_1.add(campoComplemento);
+		campoComplemento.setLineWrap(true);
+		
+	
+		
+		JScrollPane scrollComplemento = new JScrollPane(campoComplemento);
+		scrollComplemento.setBounds(99, 102, 444, 50);
+		panel_1.add(scrollComplemento);
 
 		JPanel fichaContatoCliente = new JPanel();
 		tabbedPane.addTab("Contato", null, fichaContatoCliente, null);
@@ -288,7 +291,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		fichaContatoCliente.add(lblTelefone);
 
 		try {
-			campoTelefonefixo = new JFormattedTextField(new MaskFormatter("(##)####-####"));
+			campoTelefonefixo = new JFormattedTextField(new MaskFormatter(
+					"(##)####-####"));
 			campoTelefonefixo.setHorizontalAlignment(SwingConstants.LEFT);
 		} catch (ParseException e2) {
 			// TODO Auto-generated catch block
@@ -303,7 +307,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		fichaContatoCliente.add(lblCelular);
 
 		try {
-			campoTelefoneCelular = new JFormattedTextField(new MaskFormatter("(##)####-####"));
+			campoTelefoneCelular = new JFormattedTextField(new MaskFormatter(
+					"(##)####-####"));
 		} catch (ParseException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -321,7 +326,6 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoEmail.setBounds(96, 97, 345, 28);
 		fichaContatoCliente.add(campoEmail);
 		campoEmail.setColumns(10);
-
 
 		JLabel lblCpfcnpj = new JLabel("CPF/CNPJ");
 		lblCpfcnpj.setBounds(192, 63, 62, 14);
@@ -365,19 +369,24 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel_3.setLayout(null);
 
 		tableFisica = new JTable();
-		tableFisica.setModel(new DefaultTableModel(new Object[][] { { null,
-				null, null }, }, new String[] { "New column", "New column",
-				"New column" }));
-		tableFisica.setBounds(12, 30, 468, 107);
-		panel_3.add(tableFisica);
+		tableFisica
+				.setModel(new DefaultTableModel(new Object[][] { { null, null,
+						null }, },
+						new String[] { "Código", "Nome", "Telefone" }));
+
+		JScrollPane scrollFisico = new JScrollPane(tableFisica);
+		scrollFisico.setBounds(12, 29, 487, 107);
+		panel_3.add(scrollFisico);
 
 		tableJuridica = new JTable();
 		tableJuridica.setModel(new DefaultTableModel(new Object[][] { { null,
-				null, null }, }, new String[] { "New column", "New column",
-				"New column" }));
-		tableJuridica.setBounds(12, 171, 468, 107);
-		panel_3.add(tableJuridica);
-		// TODO
+				null, null }, }, new String[] { "Código", "Nome",
+				"Telefone" }));
+
+		JScrollPane scrollJuridico = new JScrollPane(tableJuridica);
+
+		scrollJuridico.setBounds(12, 171, 487, 107);
+		panel_3.add(scrollJuridico);
 		JRadioButton radioJuridica = new JRadioButton("Juridica", false);
 		radioJuridica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -399,14 +408,6 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		ButtonGroup grupRadio = new ButtonGroup();
 		grupRadio.add(radioJuridica);
 		grupRadio.add(radioFisica);
-
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(482, 30, 17, 107);
-		panel_3.add(scrollBar);
-
-		JScrollBar scrollBar_1 = new JScrollBar();
-		scrollBar_1.setBounds(482, 171, 17, 107);
-		panel_3.add(scrollBar_1);
 
 		campoPesquisa = new JTextField();
 		campoPesquisa.setBounds(114, 23, 264, 30);
@@ -1072,24 +1073,23 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		System.out.println(valida);
 		return valida;
 	}
-	
-	private void mudarMascara(boolean cnpj)  
-	{  
-	    try{  
-	  
-	       this.campoCpfCnpj.setValue(null);  
-	        if(cnpj)  
-	        {  
-	            this.campoCpfCnpj.setFormatterFactory(new DefaultFormatterFactory(mascaraCNPJ));  
-	        }  
-	        else  
-	        {  
-	            this.campoCpfCnpj.setFormatterFactory(new DefaultFormatterFactory(mascaraCPF));  
-	        }  
-	  
-	    }catch(Exception pe)  
-	    {  
-	        pe.printStackTrace();  
-	    }  
-	}  
+
+	private void mudarMascara(boolean cnpj) {
+		try {
+
+			this.campoCpfCnpj.setValue(null);
+			if (cnpj) {
+				this.campoCpfCnpj
+						.setFormatterFactory(new DefaultFormatterFactory(
+								mascaraCNPJ));
+			} else {
+				this.campoCpfCnpj
+						.setFormatterFactory(new DefaultFormatterFactory(
+								mascaraCPF));
+			}
+
+		} catch (Exception pe) {
+			pe.printStackTrace();
+		}
+	}
 }

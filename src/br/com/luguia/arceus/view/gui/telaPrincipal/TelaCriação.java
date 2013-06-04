@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -218,19 +219,29 @@ public class TelaCriação extends JFrame implements ItemListener {
 
 		campoCaracteristicasJob = new JTextArea();
 		campoCaracteristicasJob.setLineWrap(true);
-		campoCaracteristicasJob.setBounds(12, 74, 394, 155);
-		panel_3.add(campoCaracteristicasJob);
+	
+		JScrollPane scrollCaracteristicasJob = new JScrollPane(campoCaracteristicasJob);
+		scrollCaracteristicasJob.setBounds(12, 74, 394, 155);
+		panel_3.add(scrollCaracteristicasJob);
 
 		JLabel lblCaracteristicasDoJob = new JLabel("Caracteristicas do Job");
 		lblCaracteristicasDoJob.setBounds(12, 47, 138, 16);
 		panel_3.add(lblCaracteristicasDoJob);
 
 		tabelaFuncionarioCriacao = new JTable();
-		tabelaFuncionarioCriacao.setBounds(12, 261, 267, 121);
-		panel_3.add(tabelaFuncionarioCriacao);
 		tabelaFuncionarioCriacao.setModel(new DefaultTableModel(
-				new Object[][] { { null, null }, }, new String[] {
-						"New column", "New column" }));
+			new Object[][] {
+				{null, null},
+			},
+			new String[] {
+				"Código", "Nome"
+			}
+		));
+		tabelaFuncionarioCriacao.getColumnModel().getColumn(1).setPreferredWidth(274);
+		
+		JScrollPane scrollFuncionarioCriacao = new JScrollPane(tabelaFuncionarioCriacao);
+		scrollFuncionarioCriacao.setBounds(12, 261, 267, 121);
+		panel_3.add(scrollFuncionarioCriacao);
 
 		JLabel lblFuncionario = new JLabel("Funcionario:");
 		lblFuncionario.setBounds(12, 240, 82, 16);
@@ -265,16 +276,19 @@ public class TelaCriação extends JFrame implements ItemListener {
 
 		campoInformacoes = new JTextArea();
 		campoInformacoes.setLineWrap(true);
-		campoInformacoes.setBounds(10, 174, 394, 124);
-		panel_2.add(campoInformacoes);
+		JScrollPane scrollInformacoes = new JScrollPane(campoInformacoes);
+		scrollInformacoes.setBounds(10, 174, 394, 124);
+		panel_2.add(scrollInformacoes);
 
 		tabelaSolicitacoesAprovadas = new JTable();
-		tabelaSolicitacoesAprovadas.setBounds(10, 22, 394, 124);
-		panel_2.add(tabelaSolicitacoesAprovadas);
 		tabelaSolicitacoesAprovadas.setModel(new DefaultTableModel(
 				new Object[][] { { null, null, null }, }, new String[] {
-						"New column", "New column", "New column" }));
-
+						"Código", "Nome", "Percentual de Conclusão" }));
+		
+		JScrollPane scrollSolicitacoesAprovadas = new JScrollPane(tabelaSolicitacoesAprovadas);
+		scrollSolicitacoesAprovadas.setBounds(10, 22, 394, 124);
+		panel_2.add(scrollSolicitacoesAprovadas);
+		
 		JButton btnAbrir = new JButton("Abrir");
 		btnAbrir.setIcon(new ImageIcon(TelaCriação.class.getResource("/Images16x16/accept.png")));
 		btnAbrir.setBounds(303, 298, 101, 34);
@@ -538,8 +552,6 @@ public class TelaCriação extends JFrame implements ItemListener {
 		});
 		btnAtualizar.setBounds(213, 324, 115, 39);
 		panel_5.add(btnAtualizar);
-		tabelaFuncionarioCriacao.getColumnModel().getColumn(1)
-				.setPreferredWidth(274);
 
 		ButtonGroup bt = new ButtonGroup();
 

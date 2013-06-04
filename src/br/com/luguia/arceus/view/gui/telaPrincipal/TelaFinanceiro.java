@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -95,8 +96,12 @@ public class TelaFinanceiro extends JFrame {
 		contentPane.add(lblDescrioDoPedido);
 
 		final JTextArea campoDescricao = new JTextArea();
-		campoDescricao.setBounds(10, 283, 467, 132);
-		contentPane.add(campoDescricao);
+		campoDescricao.setLineWrap(true);
+		
+		JScrollPane scrollDescricao = new JScrollPane(campoDescricao);
+		scrollDescricao.setBounds(10, 283, 490, 132);
+		contentPane.add(scrollDescricao);
+		
 
 		JButton btnSolicitaCusto = new JButton("Solicita Custo");
 		btnSolicitaCusto.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/calculator_add.png")));
@@ -257,13 +262,16 @@ public class TelaFinanceiro extends JFrame {
 				{null, null, null, null},
 			},
 			new String[] {
-				"New column", "New column", "New column", "New column"
+				"Código", "Nome Projeto", "Data Soliciação", "Data Entrega"
 			}
 		));
 		tabelaSolicitacoes.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tabelaSolicitacoes.getColumnModel().getColumn(1).setPreferredWidth(150);
-		tabelaSolicitacoes.setBounds(20, 96, 457, 132);
-		contentPane.add(tabelaSolicitacoes);
+		
+		
+		JScrollPane scrollSolicitacoes = new JScrollPane(tabelaSolicitacoes);
+		scrollSolicitacoes.setBounds(20, 96, 480, 132);
+		contentPane.add(scrollSolicitacoes);
 
 		JButton btnAtualizar = new JButton("Atualizar");
 		btnAtualizar.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/database.png")));
@@ -282,11 +290,14 @@ public class TelaFinanceiro extends JFrame {
 				{null, null, null},
 			},
 			new String[] {
-				"New column", "New column", "New column"
+				"Código", "Nome Projeto", "Custo de Produção"
 			}
 		));
-		tabelaPedidosAvaliados.setBounds(536, 95, 457, 216);
-		contentPane.add(tabelaPedidosAvaliados);
+		
+		
+		JScrollPane scrollPedidosAvaliados = new JScrollPane(tabelaPedidosAvaliados);
+		scrollPedidosAvaliados.setBounds(536, 95, 478, 216);
+		contentPane.add(scrollPedidosAvaliados);
 		
 		JButton btnVisualizar = new JButton("Ver Caracteristicas");
 		btnVisualizar.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/page_search.png")));
@@ -342,18 +353,6 @@ public class TelaFinanceiro extends JFrame {
 		lblDesconto.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDesconto.setBounds(770, 364, 112, 16);
 		contentPane.add(lblDesconto);
-		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(483, 96, 17, 133);
-		contentPane.add(scrollBar);
-		
-		JScrollBar scrollBar_1 = new JScrollBar();
-		scrollBar_1.setBounds(483, 283, 17, 132);
-		contentPane.add(scrollBar_1);
-		
-		JScrollBar scrollBar_2 = new JScrollBar();
-		scrollBar_2.setBounds(1003, 95, 17, 215);
-		contentPane.add(scrollBar_2);
 		
 		JButton btnCadastraFuncionario = new JButton("Cadastrar funcionario");
 		btnCadastraFuncionario.setIcon(new ImageIcon(TelaFinanceiro.class.getResource("/Images16x16/user_add.png")));

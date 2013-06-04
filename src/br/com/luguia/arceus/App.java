@@ -17,6 +17,7 @@ public class App {
 		            UIManager.setLookAndFeel(info.getClassName());
 		            break;
 		        }
+		       
 		    }
 		} catch (UnsupportedLookAndFeelException e) {
 		    // handle exception
@@ -27,7 +28,7 @@ public class App {
 		} catch (IllegalAccessException e) {
 		    // handle exception
 		}
-		// Utiliza esta classe para testar a aplicação a medida que formos construíndo.
+		// Classe utilizada para testa da aplicacao
 		
 		InterfaceController control = new ControllerGui();
 		control.inicializar();

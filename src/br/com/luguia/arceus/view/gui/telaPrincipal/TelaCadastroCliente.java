@@ -51,6 +51,8 @@ import java.awt.Toolkit;
 
 public class TelaCadastroCliente extends JFrame implements ItemListener {
 
+	private int pfisico = 1;
+	
 	private JPanel contentPane;
 	private JTextField campoNome;
 	private JTextField campoCodigo;
@@ -275,9 +277,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 
 		campoComplemento = new JTextArea();
 		campoComplemento.setLineWrap(true);
-		
-	
-		
+
 		JScrollPane scrollComplemento = new JScrollPane(campoComplemento);
 		scrollComplemento.setBounds(99, 102, 444, 50);
 		panel_1.add(scrollComplemento);
@@ -379,9 +379,10 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		panel_3.add(scrollFisico);
 
 		tableJuridica = new JTable();
-		tableJuridica.setModel(new DefaultTableModel(new Object[][] { { null,
-				null, null }, }, new String[] { "Código", "Nome",
-				"Telefone" }));
+		tableJuridica
+				.setModel(new DefaultTableModel(new Object[][] { { null, null,
+						null }, },
+						new String[] { "Código", "Nome", "Telefone" }));
 
 		JScrollPane scrollJuridico = new JScrollPane(tableJuridica);
 
@@ -391,6 +392,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		radioJuridica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pesquisaFisico = false;
+				pfisico = 0;
 			}
 		});
 		radioJuridica.setBounds(12, 145, 81, 14);
@@ -399,7 +401,9 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		JRadioButton radioFisica = new JRadioButton("Fisica", true);
 		radioFisica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			
 				pesquisaFisico = true;
+				pfisico = 1;
 			}
 		});
 		radioFisica.setBounds(12, 8, 66, 14);
@@ -667,21 +671,34 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		botaoAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				try {
-					chaveDeControle = 1;
-					String codigo, nome;
+				chaveDeControle = 1;
+				String codigo, nome;
 
-					codigo = (String) tableFisica.getModel().getValueAt(
-							tableFisica.getSelectedRow(), 0);
-					nome = (String) tableFisica.getModel().getValueAt(
-							tableFisica.getSelectedRow(), 1);
+				if (pfisico == 1) {
+					try {
 
-					alteraPessoaJuridica(nome, codigo);
-					alteraPessoaFisica(nome, codigo);
+						codigo = (String) tableFisica.getModel().getValueAt(
+								tableFisica.getSelectedRow(), 0);
+						nome = (String) tableFisica.getModel().getValueAt(
+								tableFisica.getSelectedRow(), 1);
 
-				} catch (ArrayIndexOutOfBoundsException e1) {
-					JOptionPane.showMessageDialog(null,
-							"Ninguém foi selecionado !");
+						alteraPessoaFisica(nome, codigo);
+					} catch (ArrayIndexOutOfBoundsException e1) {
+						JOptionPane.showMessageDialog(null,
+								"Ninguém foi selecionado !");
+					}
+				} else {
+					try {
+						codigo = (String) tableJuridica.getModel().getValueAt(
+								tableJuridica.getSelectedRow(), 0);
+						nome = (String) tableJuridica.getModel().getValueAt(
+								tableJuridica.getSelectedRow(), 1);
+
+						alteraPessoaJuridica(nome, codigo);
+					} catch (ArrayIndexOutOfBoundsException e1) {
+						JOptionPane.showMessageDialog(null,
+								"Ninguém foi selecionado !");
+					}
 				}
 
 			}
@@ -779,7 +796,7 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 		campoEstado.setText("");
 		campoTelefonefixo.setText("");
 		campoComplemento.setText("");
-
+		boxTipoCliente.setSelectedIndex(0);
 		posicaoCorreta();
 	}
 
@@ -905,6 +922,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 					&& manipulaPessoaJuridica.get(i).getId() == Integer
 							.parseInt(codigo)) {
 
+				boxTipoCliente.setSelectedIndex(2);
+
 				campoCodigo.setText("" + manipulaPessoaJuridica.get(i).getId());
 				campoNome.setText("" + manipulaPessoaJuridica.get(i).getNome());
 				campoBairro.setText(""
@@ -951,6 +970,8 @@ public class TelaCadastroCliente extends JFrame implements ItemListener {
 					.equalsIgnoreCase(nome.toString().trim())
 					&& manipulaPessoaFisicas.get(i).getId() == Integer
 							.parseInt(codigo)) {
+
+				boxTipoCliente.setSelectedIndex(1);
 
 				campoCodigo.setText("" + manipulaPessoaFisicas.get(i).getId());
 				campoNome.setText("" + manipulaPessoaFisicas.get(i).getNome());

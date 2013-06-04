@@ -125,22 +125,22 @@ public class ConfigSql extends JFrame {
 									//break;
 								//}
 							
-							if(manipulaFuncionario.size()==0){
-								insereAdm = true;
-								
-							}
-
-							if (insereAdm == true) {
-								adm = new Funcionario();
-
-								adm.setId(0);
-								adm.setLogin("arceus");
-								adm.setNome("admin");
-								adm.setSenha("pepeka");
-								adm.setTipo("admin");
-
-								fDao.insira(adm);
-							}
+//							if(manipulaFuncionario.size()==0){
+//								insereAdm = true;
+//								
+//							}
+//
+//							if (insereAdm == true) {
+//								adm = new Funcionario();
+//
+//								adm.setId(0);
+//								adm.setLogin("arceus");
+//								adm.setNome("admin");
+//								adm.setSenha("pepeka");
+//								adm.setTipo("admin");
+//
+//								fDao.insira(adm);
+//							}
 
 							new TipoEscolha().setVisible(true);
 							dispose();

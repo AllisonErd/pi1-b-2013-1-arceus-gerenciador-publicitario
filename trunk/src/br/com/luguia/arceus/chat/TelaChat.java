@@ -51,7 +51,7 @@ public class TelaChat extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
-				// FIcar online!
+				// Ficar online!
 				}
 
 			@Override
